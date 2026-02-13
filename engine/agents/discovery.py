@@ -25,6 +25,47 @@ class DiscoveryAgent:
         self.logger = logging.getLogger("whylab.agents.discovery")
         self._llm_client = None  # 추후 LLM 클라이언트 연동 (MCP 등)
 
+    def auto_discover(
+        self, df: pd.DataFrame, description: str = "",
+    ) -> Dict[str, Any]:
+        """CSV만 넣으면 treatment/outcome/confounder를 자동 탐색합니다.
+
+        Args:
+            df: 분석 대상 데이터프레임.
+            description: (선택) 데이터 설명 텍스트.
+
+        Returns:
+            roles dict: treatment, outcome, confounders, dag.
+        """
+        self.logger.info("🔍 Auto-Discovery 시작: %d 컬럼 분석", len(df.columns))
+
+        columns = df.columns.tolist()
+        dtypes = {col: str(df[col].dtype) for col in columns}
+        sample = df.head(3).to_dict(orient="records")
+
+        # LLM으로 역할 탐색
+        roles = self._discover_roles_with_llm(columns, dtypes, sample, description)
+
+        if roles:
+            self.logger.info("🤖 LLM 역할 탐색 완료: T=%s, Y=%s",
+                             roles.get("treatment"), roles.get("outcome"))
+        else:
+            # 폴백: 도메인 휴리스틱
+            roles = self._discover_roles_heuristic(df)
+            self.logger.info("📏 휴리스틱 역할 탐색: T=%s, Y=%s",
+                             roles.get("treatment"), roles.get("outcome"))
+
+        # DAG 발견
+        metadata = {
+            "feature_names": roles.get("confounders", []),
+            "treatment_col": roles.get("treatment"),
+            "outcome_col": roles.get("outcome"),
+        }
+        dag = self.discover(df, metadata)
+        roles["dag"] = list(dag.edges())
+
+        return roles
+
     def discover(self, df: pd.DataFrame, metadata: Dict[str, Any]) -> nx.DiGraph:
         """데이터로부터 인과 그래프를 발견합니다.
 
@@ -47,42 +88,140 @@ class DiscoveryAgent:
 
         # 1. LLM 기반 사전 지식(Prior Knowledge) 수립
         prior_dag = self._reason_with_llm(metadata)
-        
+
         # 2. 통계적 인과 발견 (PC Algorithm)
         stat_dag = self._discover_statistically(analysis_df)
 
         # 3. 하이브리드 병합 (Ensemble)
         final_dag = self._merge_graphs(prior_dag, stat_dag)
-        
+
         self.logger.info("✨ 인과 구조 발견 완료 (Nodes: %d, Edges: %d)",
                          final_dag.number_of_nodes(), final_dag.number_of_edges())
         return final_dag
 
+    def _discover_roles_with_llm(
+        self, columns, dtypes, sample, description,
+    ) -> Optional[Dict[str, Any]]:
+        """LLM으로 변수 역할을 탐색합니다."""
+        import os
+        api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+        if not api_key:
+            return None
+
+        try:
+            import google.generativeai as genai
+            import json
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel("gemini-2.0-flash")
+
+            prompt = (
+                "당신은 인과추론 전문가입니다. 아래 데이터셋의 컬럼을 분석하여 "
+                "treatment(처치), outcome(결과), confounders(교란변수)를 식별해주세요.\n\n"
+                f"컬럼: {columns}\n"
+                f"타입: {dtypes}\n"
+                f"샘플: {sample[:2]}\n"
+                f"설명: {description or '없음'}\n\n"
+                "다음 JSON 형식으로만 응답하세요:\n"
+                '{"treatment": "컬럼명", "outcome": "컬럼명", '
+                '"confounders": ["컬럼1", "컬럼2", ...], '
+                '"reasoning": "한 줄 설명"}'
+            )
+
+            response = model.generate_content(prompt)
+            text = response.text.strip()
+            # JSON 추출
+            if "```" in text:
+                text = text.split("```")[1].replace("json", "").strip()
+            return json.loads(text)
+        except Exception as e:
+            self.logger.warning("LLM 역할 탐색 실패: %s", e)
+            return None
+
+    def _discover_roles_heuristic(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """휴리스틱 기반 변수 역할 탐색 (폴백)."""
+        columns = df.select_dtypes(include=[np.number]).columns.tolist()
+
+        # 이진 변수 → outcome 후보
+        binary_cols = [c for c in columns if df[c].nunique() <= 2]
+        # 연속 변수 → treatment 후보
+        continuous_cols = [c for c in columns if df[c].nunique() > 10]
+
+        outcome = binary_cols[0] if binary_cols else columns[-1]
+        treatment = continuous_cols[0] if continuous_cols else columns[0]
+        confounders = [c for c in columns if c not in (treatment, outcome)]
+
+        return {
+            "treatment": treatment,
+            "outcome": outcome,
+            "confounders": confounders,
+            "reasoning": "휴리스틱: 이진변수→outcome, 연속변수→treatment",
+        }
+
     def _reason_with_llm(self, metadata: Dict[str, Any]) -> nx.DiGraph:
-        """LLM을 사용하여 변수 간의 상식적인 인과관계를 추론합니다."""
+        """LLM을 사용하여 변수 간의 인과관계를 추론합니다."""
         self.logger.info("   [1] LLM Reasoning: 변수 의미론적 분석 중...")
-        
-        # TODO: 실제 LLM API 호출 (OpenAI / Gemini)
-        # 현재는 메타데이터 기반의 규칙(Rule-based) 모의 추론으로 대체
-        
+
         dag = nx.DiGraph()
         nodes = metadata.get("feature_names", []) + [
             metadata.get("treatment_col"), metadata.get("outcome_col")
         ]
-        
-        # 노드 추가
         for node in nodes:
             if node:
                 dag.add_node(node)
-        
-        # Mock Logic: "나이(age)는 다른 변수의 원인이 될 수 있지만, 결과가 될 순 없다."
+
+        # Gemini LLM 호출 시도
+        import os
+        api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+        if api_key:
+            try:
+                import google.generativeai as genai
+                import json
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel("gemini-2.0-flash")
+
+                prompt = (
+                    "당신은 인과추론 전문가입니다. 아래 변수들 간의 인과관계(DAG)를 "
+                    "도메인 지식으로 추론하세요.\n\n"
+                    f"변수: {[n for n in nodes if n]}\n"
+                    f"Treatment: {metadata.get('treatment_col')}\n"
+                    f"Outcome: {metadata.get('outcome_col')}\n\n"
+                    "JSON 배열로 엣지를 반환하세요: "
+                    '[["원인", "결과"], ["원인2", "결과2"], ...]'
+                )
+
+                response = model.generate_content(prompt)
+                text = response.text.strip()
+                if "```" in text:
+                    text = text.split("```")[1].replace("json", "").strip()
+                edges = json.loads(text)
+                for u, v in edges:
+                    if u in dag.nodes and v in dag.nodes:
+                        dag.add_edge(u, v)
+                self.logger.info("       🤖 LLM 가설 수립 완료 (엣지 %d개)", dag.number_of_edges())
+                return dag
+            except Exception as e:
+                self.logger.warning("       LLM 실패 → 규칙 기반 폴백: %s", e)
+
+        # 폴백: 도메인 규칙 기반
         if "age" in nodes:
-            if "credit_limit" in nodes:
-                dag.add_edge("age", "credit_limit")
-            if "is_default" in nodes:
-                dag.add_edge("age", "is_default")
-                
-        self.logger.info("       LLM 가설 수립 완료.")
+            for target in ("credit_limit", "is_default", "income", "credit_score"):
+                if target in nodes:
+                    dag.add_edge("age", target)
+        if "income" in nodes:
+            for target in ("credit_limit", "is_default", "credit_score"):
+                if target in nodes:
+                    dag.add_edge("income", target)
+        if "credit_score" in nodes:
+            for target in ("credit_limit", "is_default"):
+                if target in nodes:
+                    dag.add_edge("credit_score", target)
+
+        treatment = metadata.get("treatment_col")
+        outcome = metadata.get("outcome_col")
+        if treatment and outcome and treatment in nodes and outcome in nodes:
+            dag.add_edge(treatment, outcome)
+
+        self.logger.info("       규칙 기반 가설 수립 완료 (엣지 %d개)", dag.number_of_edges())
         return dag
 
     def _discover_statistically(self, df: pd.DataFrame) -> nx.DiGraph:

@@ -34,6 +34,39 @@ export interface CausalAnalysisResult {
         status: string;
         placebo_test: { status: string; p_value: number; mean_effect: number };
         random_common_cause: { status: string; stability: number; mean_effect: number };
+        e_value?: { status: string; point: number; ci_bound: number; interpretation: string };
+        overlap?: {
+            status: string;
+            overlap_score: number;
+            interpretation: string;
+            ps_stats?: {
+                treated_mean: number; treated_std: number;
+                control_mean: number; control_std: number;
+            };
+            iptw_max_weight?: number;
+            pct_extreme_weights?: number;
+            ps_histogram?: {
+                bin_edges: number[];
+                treated_counts: number[];
+                control_counts: number[];
+            };
+        };
+        gates?: {
+            status: string;
+            n_groups: number;
+            f_statistic: number;
+            heterogeneity: string;
+            groups: {
+                group_id: number;
+                label: string;
+                n: number;
+                mean_cate: number;
+                std_cate: number;
+                ci_lower: number;
+                ci_upper: number;
+                clan_features: Record<string, number>;
+            }[];
+        };
     };
     explainability?: {
         feature_importance: { feature: string; importance: number }[];

@@ -435,12 +435,30 @@ class ExportCell(BaseCell):
         rcc = raw.get("random_common_cause", {
             "status": "Not Run", "stability": 0.0, "mean_effect": 0.0
         })
-        all_pass = (
-            placebo.get("status") == "Pass"
-            and rcc.get("status") == "Pass"
-        )
+        e_value = raw.get("e_value", {
+            "status": "Not Run", "point": 0.0, "ci_bound": 0.0, "interpretation": ""
+        })
+        overlap = raw.get("overlap", {
+            "status": "Not Run", "overlap_score": 0.0, "interpretation": ""
+        })
+        gates = raw.get("gates", {
+            "status": "Not Run", "n_groups": 0, "groups": [],
+            "f_statistic": 0.0, "heterogeneity": ""
+        })
+
+        # Pass 여부 계산 (Info 상태인 GATES는 Pass/Fail 판정에서 제외)
+        test_statuses = [
+            placebo.get("status"), rcc.get("status"),
+            e_value.get("status"), overlap.get("status"),
+        ]
+        graded = [s for s in test_statuses if s not in ("Not Run", "Info")]
+        all_pass = all(s == "Pass" for s in graded) if graded else False
+
         return {
             "status": "Pass" if all_pass else "Fail",
             "placebo_test": placebo,
             "random_common_cause": rcc,
+            "e_value": e_value,
+            "overlap": overlap,
+            "gates": gates,
         }

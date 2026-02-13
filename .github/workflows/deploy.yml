@@ -1,0 +1,76 @@
+name: Deploy WhyLab Dashboard
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ──────────────────────────────────────────────
+      # 1. Engine Execution (Python)
+      # ──────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install Engine Dependencies
+        run: |
+          pip install -r engine/requirements.txt
+
+      - name: Run Tests
+        run: |
+          pip install pytest
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          python -m pytest tests/test_integration.py -v --tb=short
+
+      - name: Run Causal Analysis Pipeline
+        run: |
+          # PYTHONPATH 설정하여 모듈 인식
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          # 시나리오 A 분석 실행 -> latest.json 생성
+          python -m engine.pipeline --scenario A
+
+      - name: Check JSON Artifact
+        run: ls -l dashboard/public/data/latest.json
+
+      # ──────────────────────────────────────────────
+      # 2. Dashboard Build (Next.js)
+      # ──────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install Dashboard Dependencies
+        working-directory: ./dashboard
+        run: npm ci
+
+      - name: Build Dashboard (Static Export)
+        working-directory: ./dashboard
+        run: npm run build
+
+      # ──────────────────────────────────────────────
+      # 3. Deploy to GitHub Pages
+      # ──────────────────────────────────────────────
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dashboard/out
+          publish_branch: gh-pages

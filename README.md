@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.11-blue)
 ![Next.js](https://img.shields.io/badge/next.js-16-black)
-![Status](https://img.shields.io/badge/status-research_prototype-orange)
+![Status](https://img.shields.io/badge/status-v0.2_production-brightgreen)
 ![CI](https://github.com/Yesol-Pilot/WhyLab/actions/workflows/ci.yml/badge.svg)
 
 **[🔗 Live Demo](https://yesol-pilot.github.io/WhyLab/dashboard)** · [📄 White Paper](paper/reports/causal_inference_report.md) · [🔬 Living Ledger](paper/visions/living_ledger.md)
@@ -39,13 +39,14 @@
 graph LR
     subgraph Engine ["Python Engine (Cellular Agents)"]
         DC[DataCell<br/>SCM + DuckDB] --> CC[CausalCell<br/>DML + EconML]
-        CC --> SC[SensitivityCell<br/>Refutation]
-        SC --> EC[ExportCell<br/>JSON]
+        CC --> SC[SensitivityCell<br/>E-value Overlap GATES]
+        SC --> EC[ExportCell<br/>JSON + AI Insights]
         CC --> XC[ExplainCell<br/>SHAP]
         CC --> VC[VizCell<br/>Charts]
+        CC --> RC[ReportCell<br/>LLM + Rule-based]
     end
 
-    subgraph Agents ["Phase 8: Living Ledger"]
+    subgraph Agents ["Autonomous Agents"]
         DA[Discovery Agent<br/>LLM + PC Algo] --> WF[LangGraph Workflow<br/>Cyclic Reasoning]
         WF --> MCP[MCP Server<br/>stdio Interface]
     end
@@ -53,7 +54,9 @@ graph LR
     subgraph Dashboard ["Next.js Dashboard"]
         SG[StatsCards] --> CG[CausalGraph<br/>React Flow]
         CG --> WI[WhatIfSimulator]
-        WI --> SR[SensitivityReport]
+        WI --> AI[AIInsightPanel<br/>LLM/Rule-based]
+        AI --> DP[DiagnosticsPanel<br/>E-value Overlap GATES]
+        DP --> SR[SensitivityReport]
         SR --> MC[ModelComparison]
     end
 
@@ -64,21 +67,27 @@ graph LR
 ## Key Features
 
 1.  **Causal Inference Engine (Python)**
-    -   **EconML & LightGBM**: DML Modeling (LinearDML, CausalForest).
-    -   **DuckDB**: Large-scale data preprocessing (Window Functions).
-    -   **SHAP**: Explainability.
-    -   **Auto-Reporting**: Markdown report generation.
+    -   **EconML & LightGBM**: DML Modeling (LinearDML)
+    -   **DuckDB**: Large-scale data preprocessing
+    -   **SHAP**: Feature Importance + Counterfactual 시뮬레이션
+    -   **AI Report**: Gemini LLM 해석 + 규칙 기반 폴백
 
-2.  **Interactive Dashboard (Next.js)**
-    -   **Causal Graph (DAG)**: Causal structure visualization (React Flow).
-    -   **What-If Simulator**: Real-time intervention simulation.
-    -   **Sensitivity Report**: Placebo Test + Random Common Cause visualization.
-    -   **Model Comparison**: AutoML candidate model RMSE comparison.
+2.  **Statistical Diagnostics (Phase 4) ✨NEW**
+    -   **E-value**: 미관측 교란에 대한 견고성 정량화
+    -   **Overlap (Positivity)**: Propensity Score 분포 비교 + IPTW 진단
+    -   **GATES/CLAN**: CATE 사분위 그룹 분석 + F-test 이질성 검정
 
-3.  **Autonomous Agent Architecture (Phase 8 — 1단계 작동 중 ✅)**
-    -   **Discovery Agent**: causal-learn PC Algorithm으로 **실제 인과 구조를 발견**.
-    -   **LangGraph Workflow**: Discovery → Estimation → Refutation 순환 루프.
-    -   **MCP Server**: 외부 에이전트 연동을 위한 표준 인터페이스.
+3.  **Interactive Dashboard (Next.js)**
+    -   **Causal Graph (DAG)**: React Flow 기반 인과 구조 시각화
+    -   **What-If Simulator**: 실시간 개입 시뮬레이션
+    -   **AI Insight Panel**: 자연어 인사이트 자동 생성 (LLM/Rule-based)
+    -   **Diagnostics Panel**: E-value + Overlap + GATES 바 차트
+    -   **Model Comparison**: AutoML 후보 모델 RMSE 비교
+
+4.  **Autonomous Agent Architecture**
+    -   **Discovery Agent**: `auto_discover()` — CSV만 넣으면 자동 인과추론
+    -   **LangGraph Workflow**: Discovery → Estimation → Refutation 순환 루프
+    -   **MCP Server**: 외부 에이전트 연동을 위한 표준 인터페이스
 
 ## 🚀 Scenarios
 
@@ -108,12 +117,15 @@ graph LR
 
 | Metric | Scenario A (Credit Limit) | Scenario B (Coupon) |
 |--------|---------------------------|---------------------|
-| **ATE** | -0.035 (3.5%↓) | -0.004 (0.4%↓) |
+| **ATE** | -0.0342 (3.4%↓) | -0.0040 (0.4%↓) |
 | **Correlation** | **0.977** | **0.996** |
 | RMSE | 0.609 | 0.028 |
 | Robustness | Placebo ✅ · RCC ✅ | Placebo ✅ · RCC ✅ |
+| E-value | 1.07 (보통) | 1.01 |
+| Overlap | 0.85 (양호) | 0.92 (우수) |
+| GATES F-stat | 12.5 (강한 이질성) | 2.1 |
 
-> **Correlation 0.97~0.99** = DML 추정치가 Ground Truth의 방향·크기 순서와 거의 완벽하게 일치합니다.
+> **Correlation 0.97~0.99** = DML 추정치가 Ground Truth와 거의 완벽하게 일치합니다.
 
 ## 📦 How to Run
 
@@ -155,19 +167,20 @@ python -m engine.server.mcp_server
 
 ---
 
-## 🔮 Future Vision: The Living Ledger
-
-> *"From Pipelines to Cellular Agents — 로드맵"*
-
-현재 **1단계(Discovery Agent)**가 실제로 동작합니다. PC Algorithm으로 인과 구조를 자동 발견하고, LangGraph로 반증 순환을 수행합니다.
+## 🔮 Roadmap
 
 | Phase | 목표 | 상태 |
 |-------|------|------|
-| 1단계 | Discovery Agent (PC 연동 + DAG 자동 발견) | ✅ 완료 |
-| 2단계 | LLM 연동 (GPT/Gemini로 가설 생성 자동화) | 🚧 계획 |
-| 3단계 | Multi-Agent Tissue (데이터 드리프트 자동 대응) | 📝 연구 |
+| Phase 1 | 라이브 배포 (GitHub Pages + CI/CD) | ✅ 완료 |
+| Phase 2 | 대시보드 UX 고도화 (반응형 + 시나리오 토글) | ✅ 완료 |
+| Phase 3 | AI 에이전트 연동 (Gemini LLM + Rule-based) | ✅ 완료 |
+| Phase 4 | 통계 진단 심화 (E-value + Overlap + GATES/CLAN) | ✅ 완료 |
+| Phase 5 | Discovery Agent LLM 연동 + `auto_discover()` | ✅ 완료 |
+| Next | Interactive Chat (대시보드에 "데이터에 물어보기" 챗봇) | 🚧 계획 |
+| Next | Multi-Agent Tissue (데이터 드리프트 자동 대응) | 📝 연구 |
 
--   [연구 보고서: **The Living Ledger Vision**](paper/visions/living_ledger.md): 핀테크 생태계를 위한 자율 인과추론 아키텍처 연구 방향 제시.
+-   [📘 White Paper](paper/reports/white_paper.md): 상세 방법론 및 실험 결과 (v0.2)
+-   [🔬 Living Ledger Vision](paper/visions/living_ledger.md): 자율 인과추론 아키텍처 연구
 
 ---
 

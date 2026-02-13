@@ -1,0 +1,41 @@
+# 의존성
+node_modules/
+__pycache__/
+*.pyc
+.next/
+out/
+
+# 환경
+.env
+.env.local
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 데이터 (대용량)
+*.parquet
+*.db
+!paper/data/*.db
+
+# Jupyter 체크포인트
+.ipynb_checkpoints/
+
+# 빌드
+dist/
+build/
+
+# 캐시
+.pytest_cache/
+.mypy_cache/
+
+# 에이전트 스킬 (외부 패키지 — 대용량)
+.agent/skills/
+
+# CSV 데이터 (파이프라인 생성물)
+paper/data/*.csv

@@ -12,6 +12,7 @@ import CausalCharts from "@/components/CausalCharts";
 import SensitivityReport from "@/components/SensitivityReport";
 import ModelComparison from "@/components/ModelComparison";
 import ExplainabilityPanel from "@/components/ExplainabilityPanel";
+import EstimationAccuracy from "@/components/EstimationAccuracy";
 
 function DashboardContent() {
     const searchParams = useSearchParams();
@@ -88,6 +89,9 @@ function DashboardContent() {
             <div className="h-[350px]">
                 <CausalCharts data={data} />
             </div>
+
+            {/* Estimation Accuracy (Ground Truth 검증) */}
+            <EstimationAccuracy data={data} />
 
             {/* Explainability (SHAP) */}
             <ExplainabilityPanel data={data} />

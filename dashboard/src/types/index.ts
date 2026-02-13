@@ -45,6 +45,14 @@ export interface CausalAnalysisResult {
             description: string;
         }[];
     };
+    estimation_accuracy?: {
+        rmse: number;
+        mae: number;
+        bias: number;
+        coverage_rate: number;
+        correlation: number;
+        n_samples: number;
+    };
 }
 
 export interface SegmentAnalysis {

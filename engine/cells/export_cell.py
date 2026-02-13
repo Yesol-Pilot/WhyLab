@@ -173,6 +173,72 @@ class ExportCell(BaseCell):
             }
 
         # ──────────────────────────────────────────
+        # 4-3. AI Insights (규칙 기반, 대시보드용)
+        # ──────────────────────────────────────────
+        corr = estimation_accuracy.get("correlation", 0) if estimation_accuracy else 0
+        ate_ci_lo = inputs.get("ate_ci_lower", 0.0)
+        ate_ci_hi = inputs.get("ate_ci_upper", 0.0)
+        is_significant = not (ate_ci_lo <= 0 <= ate_ci_hi)
+        abs_ate = abs(ate_value)
+        direction = "감소" if ate_value < 0 else "증가"
+
+        if abs_ate > 0.1:
+            effect_size, effect_label = "large", "큰"
+        elif abs_ate > 0.01:
+            effect_size, effect_label = "medium", "중간 수준의"
+        else:
+            effect_size, effect_label = "small", "작은"
+
+        top_features_list = sorted(
+            feature_importance.items(), key=lambda x: -x[1]
+        )[:3] if feature_importance else []
+
+        treatment_col = inputs.get("treatment_col", "treatment")
+        outcome_col = inputs.get("outcome_col", "outcome")
+        scenario_name = inputs.get("scenario_name", "Unknown")
+
+        sig_text = "통계적으로 유의합니다" if is_significant else "통계적으로 유의하지 않습니다"
+        summary_text = (
+            f"{scenario_name} 분석 결과, {treatment_col}의 변화는 {outcome_col}을(를) "
+            f"평균 {abs_ate*100:.2f}%p {direction}시키는 {effect_label} 효과를 보였습니다. "
+            f"95% 신뢰구간 [{ate_ci_lo:.4f}, {ate_ci_hi:.4f}]을 고려하면 이 결과는 {sig_text}."
+        )
+
+        top_feature_name = top_features_list[0][0] if top_features_list else ""
+        if not is_significant:
+            rec_text = f"{treatment_col}의 {outcome_col}에 대한 효과가 통계적으로 유의하지 않습니다."
+        elif top_feature_name:
+            rec_text = f"특히 {top_feature_name}에 따라 효과 이질성이 크므로, 세그먼트별 차등 전략이 유효합니다."
+        else:
+            rec_text = "정책 변경 시 효과가 기대됩니다."
+
+        json_data["ai_insights"] = {
+            "summary": summary_text,
+            "headline": f"{'✅' if is_significant else '⚠️'} {treatment_col} → {outcome_col}: ATE = {ate_value:.4f} ({direction} {abs_ate*100:.1f}%p)",
+            "significance": "유의함" if is_significant else "유의하지 않음",
+            "effect_size": effect_size,
+            "effect_direction": direction,
+            "top_drivers": [
+                {"feature": f, "importance": round(v, 4)}
+                for f, v in top_features_list
+            ],
+            "model_quality": (
+                "excellent" if corr > 0.95 else
+                "good" if corr > 0.8 else
+                "moderate" if corr > 0.5 else "poor"
+            ),
+            "model_quality_label": (
+                "우수" if corr > 0.95 else
+                "양호" if corr > 0.8 else
+                "보통" if corr > 0.5 else "미흡"
+            ),
+            "correlation": round(corr, 3),
+            "rmse": round(estimation_accuracy.get("rmse", 0), 4) if estimation_accuracy else 0,
+            "recommendation": rec_text,
+            "generated_by": "rule_based",
+        }
+
+        # ──────────────────────────────────────────
         # 5. 산점도용 샘플 데이터 (대시보드 성능 최적화)
         # ──────────────────────────────────────────
         max_pts = self.config.viz.max_scatter_points

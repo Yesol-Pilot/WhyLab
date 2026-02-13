@@ -53,6 +53,20 @@ export interface CausalAnalysisResult {
         correlation: number;
         n_samples: number;
     };
+    ai_insights?: {
+        summary: string;
+        headline: string;
+        significance: string;
+        effect_size: string;
+        effect_direction: string;
+        top_drivers: { feature: string; importance: number }[];
+        model_quality: string;
+        model_quality_label: string;
+        correlation: number;
+        rmse: number;
+        recommendation: string;
+        generated_by: string;
+    };
 }
 
 export interface SegmentAnalysis {

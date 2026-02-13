@@ -13,6 +13,7 @@ import SensitivityReport from "@/components/SensitivityReport";
 import ModelComparison from "@/components/ModelComparison";
 import ExplainabilityPanel from "@/components/ExplainabilityPanel";
 import EstimationAccuracy from "@/components/EstimationAccuracy";
+import AIInsightPanel from "@/components/AIInsightPanel";
 
 function DashboardContent() {
     const searchParams = useSearchParams();
@@ -92,6 +93,9 @@ function DashboardContent() {
 
             {/* Estimation Accuracy (Ground Truth 검증) */}
             <EstimationAccuracy data={data} />
+
+            {/* AI Interpretation */}
+            <AIInsightPanel data={data} />
 
             {/* Explainability (SHAP) */}
             <ExplainabilityPanel data={data} />

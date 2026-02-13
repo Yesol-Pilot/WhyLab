@@ -130,6 +130,10 @@ class SensitivityConfig:
     placebo_treatment: bool = True       # 처치 변수 랜덤 셔플링 검증
     random_common_cause: bool = True     # 무작위 교란 변수 추가 검증
     significance_threshold: float = 0.05 # p-value 임계값
+    e_value: bool = True                 # E-value (미관측 교란 견고성)
+    overlap: bool = True                 # Overlap(Positivity) 진단
+    gates: bool = True                   # GATES/CLAN 이질성 심화 분석
+    n_gates_groups: int = 4              # GATES 그룹 수 (사분위)
 
 
 # ──────────────────────────────────────────────

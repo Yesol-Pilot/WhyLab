@@ -14,6 +14,7 @@ import ModelComparison from "@/components/ModelComparison";
 import ExplainabilityPanel from "@/components/ExplainabilityPanel";
 import EstimationAccuracy from "@/components/EstimationAccuracy";
 import AIInsightPanel from "@/components/AIInsightPanel";
+import DiagnosticsPanel from "@/components/DiagnosticsPanel";
 
 function DashboardContent() {
     const searchParams = useSearchParams();
@@ -105,6 +106,9 @@ function DashboardContent() {
                 <SensitivityReport data={data} />
                 <ModelComparison data={data} />
             </div>
+
+            {/* Statistical Diagnostics (Phase 4) */}
+            <DiagnosticsPanel data={data} />
         </div>
     );
 }

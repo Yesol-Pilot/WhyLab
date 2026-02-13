@@ -100,6 +100,19 @@ graph LR
 | **Agent Framework** | LangGraph, MCP (Model Context Protocol) |
 | **DevOps** | GitHub Actions |
 
+## 📊 Estimation Accuracy (Ground Truth Validation)
+
+합성 데이터의 `true_cate`와 DML 추정치를 비교하여, 모델의 실제 성능을 검증합니다:
+
+| Metric | Scenario A (Credit Limit) | Scenario B (Coupon) |
+|--------|---------------------------|---------------------|
+| **ATE** | -0.035 (3.5%↓) | -0.004 (0.4%↓) |
+| **Correlation** | **0.977** | **0.996** |
+| RMSE | 0.609 | 0.028 |
+| Robustness | Placebo ✅ · RCC ✅ | Placebo ✅ · RCC ✅ |
+
+> **Correlation 0.97~0.99** = DML 추정치가 Ground Truth의 방향·크기 순서와 거의 완벽하게 일치합니다.
+
 ## 📦 How to Run
 
 ### 1. Engine (Analysis)
@@ -108,8 +121,9 @@ graph LR
 cd engine
 pip install -r requirements.txt
 
-# 파이프라인 실행 (Scenario A) -> JSON 결과 및 리포트 생성
-python -m engine.pipeline --scenario A
+# 파이프라인 실행
+python -m engine.pipeline --scenario A   # → latest.json (신용한도)
+python -m engine.pipeline --scenario B   # → scenario_b.json (쿠폰)
 ```
 
 ### 2. Dashboard (Visualization)

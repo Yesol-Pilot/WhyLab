@@ -159,6 +159,20 @@ class ExportCell(BaseCell):
             }
 
         # ──────────────────────────────────────────
+        # 4-2. Estimation Accuracy (Ground Truth 검증)
+        # ──────────────────────────────────────────
+        estimation_accuracy = inputs.get("estimation_accuracy", {})
+        if estimation_accuracy:
+            json_data["estimation_accuracy"] = {
+                "rmse": float(estimation_accuracy.get("rmse", 0)),
+                "mae": float(estimation_accuracy.get("mae", 0)),
+                "bias": float(estimation_accuracy.get("bias", 0)),
+                "coverage_rate": float(estimation_accuracy.get("coverage_rate", 0)),
+                "correlation": float(estimation_accuracy.get("correlation", 0)),
+                "n_samples": int(estimation_accuracy.get("n_samples", 0)),
+            }
+
+        # ──────────────────────────────────────────
         # 5. 산점도용 샘플 데이터 (대시보드 성능 최적화)
         # ──────────────────────────────────────────
         max_pts = self.config.viz.max_scatter_points
@@ -177,8 +191,10 @@ class ExportCell(BaseCell):
         # ──────────────────────────────────────────
         output_dir = self.config.paths.dashboard_data_dir
         output_dir.mkdir(parents=True, exist_ok=True)
-        # implementation_plan.md에 명시된 대로 latest.json으로 저장
-        json_path = output_dir / "latest.json"
+        # 시나리오별 파일 분리 (대시보드 dataLoader.ts와 동기화)
+        scenario = inputs.get("scenario", "A")
+        json_filename = "scenario_b.json" if scenario == "B" else "latest.json"
+        json_path = output_dir / json_filename
 
         with open(json_path, "w", encoding="utf-8") as f:
             json.dump(json_data, f, indent=2, ensure_ascii=False)

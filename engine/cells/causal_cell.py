@@ -90,11 +90,15 @@ class CausalCell(BaseCell):
         T_raw = df[treatment_col].values.astype(np.float64)
         X = df[feature_names].values.astype(np.float64)
 
-        # Treatment 정규화: 원본 스케일(예: 100~5000)이 매우 넓으면
-        # DML이 추정하는 "1단위당 효과"가 극미세해짐.
-        # 표준화(z-score) 후 DML에 전달하여 ATE = "σ 1단위 변화당 효과"로 해석.
-        t_mean, t_std = float(T_raw.mean()), float(T_raw.std())
-        T = (T_raw - t_mean) / t_std if t_std > 0 else T_raw
+        # Treatment 정규화: 연속형(Scenario A)만 z-score 표준화.
+        # 이산형(Scenario B, coupon_sent 0/1)은 정규화하면
+        # DML discrete_treatment 모드에서 카테고리 에러 발생.
+        if is_discrete:
+            T = T_raw
+            t_mean, t_std = 0.0, 1.0  # 역변환 불필요
+        else:
+            t_mean, t_std = float(T_raw.mean()), float(T_raw.std())
+            T = (T_raw - t_mean) / t_std if t_std > 0 else T_raw
 
         # ──────────────────────────────────────────
         # 2. DML 모델 생성 및 학습 (AutoML 지원)
@@ -189,6 +193,40 @@ class CausalCell(BaseCell):
         df["cate_ci_lower"] = cate_ci_lower
         df["cate_ci_upper"] = cate_ci_upper
 
+        # ──────────────────────────────────────────
+        # 7. Ground Truth 검증 (합성 데이터 전용)
+        #    논문 수준 포트폴리오의 핵심: 추정(Estimated) vs 실제(True) 비교
+        # ──────────────────────────────────────────
+        estimation_accuracy = {}
+        if "true_cate" in df.columns:
+            true = df["true_cate"].values
+            pred = cate_predictions
+
+            rmse = float(np.sqrt(np.mean((pred - true) ** 2)))
+            mae = float(np.mean(np.abs(pred - true)))
+            bias = float(np.mean(pred - true))
+            # Coverage Rate: true_cate가 [CI_lower, CI_upper] 안에 있는 비율
+            coverage = float(np.mean(
+                (true >= cate_ci_lower) & (true <= cate_ci_upper)
+            ))
+            # 상관계수 (방향성 일치도)
+            corr = float(np.corrcoef(pred, true)[0, 1]) if np.std(true) > 0 else 0.0
+
+            estimation_accuracy = {
+                "rmse": rmse,
+                "mae": mae,
+                "bias": bias,
+                "coverage_rate": coverage,
+                "correlation": corr,
+                "n_samples": len(true),
+            }
+
+            self.logger.info(
+                "📊 Ground Truth 검증: RMSE=%.4f, MAE=%.4f, Bias=%.4f, "
+                "Coverage=%.1f%%, Corr=%.3f",
+                rmse, mae, bias, coverage * 100, corr,
+            )
+
         return {
             "ate": ate,
             "ate_ci_lower": ate_ci_lower,
@@ -202,6 +240,7 @@ class CausalCell(BaseCell):
             "feature_names": feature_names,
             "treatment_col": treatment_col,
             "outcome_col": outcome_col,
+            "estimation_accuracy": estimation_accuracy,
         }
 
     def _create_model_by_name(self, model_type: str, cfg: Any, discrete_treatment: bool) -> Any:

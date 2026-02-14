@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { getCausalData } from "@/lib/dataLoader";
 import { CausalAnalysisResult } from "@/types";
 import CausalGraph from "@/components/CausalGraph";
-import WhatIfSimulator from "@/components/WhatIfSimulator";
+import PolicySimulator from "@/components/PolicySimulator";
 import StatsCards from "@/components/StatsCards";
 import CausalCharts from "@/components/CausalCharts";
 import SensitivityReport from "@/components/SensitivityReport";
@@ -95,33 +95,34 @@ function DashboardContent() {
                 </div>
             </div>
 
-            {/* 1. Executive Summary (KPIs & Verdict) */}
+            {/* 1. HERO: Policy Simulator (Business Impact First) */}
+            <div className="h-[600px] w-full">
+                <PolicySimulator
+                    baseLimit={scenario === 'A' ? 1000 : 50}
+                    baseDefaultRate={scenario === 'A' ? 0.02 : 0.4}
+                />
+            </div>
+
+            {/* 2. Executive Summary (Supporting Metrics) */}
             <div className="space-y-6">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                    <span className="w-2 h-6 bg-slate-600 rounded-full"></span>
+                    Detailed Metrics & Diagnostics
+                </h2>
                 <StatsCards data={data} />
                 <DebateVerdict data={data} />
             </div>
 
-            {/* 2. Visual Insight (Graph & Simulator) */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[500px]">
-                <div className="lg:col-span-2 h-full flex flex-col glass-card border-white/5 overflow-hidden">
-                    <div className="p-4 border-b border-white/5 bg-slate-900/30 flex justify-between items-center">
-                        <h3 className="font-semibold text-white">Causal Structure (DAG)</h3>
-                        <Link href={`/dashboard/causal-graph?scenario=${scenario}`} className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
-                            Full Screen ↗
-                        </Link>
-                    </div>
-                    <div className="flex-1 relative">
-                        <CausalGraph nodes={data.dag.nodes} edges={data.dag.edges} />
-                    </div>
+            {/* 3. Visual Insight (Causal Graph) */}
+            <div className="h-[500px] w-full glass-card border-white/5 overflow-hidden flex flex-col">
+                <div className="p-4 border-b border-white/5 bg-slate-900/30 flex justify-between items-center">
+                    <h3 className="font-semibold text-white">Causal Structure (DAG)</h3>
+                    <Link href={`/dashboard/causal-graph?scenario=${scenario}`} className="text-xs text-brand-400 hover:text-brand-300 flex items-center gap-1">
+                        Full Screen ↗
+                    </Link>
                 </div>
-                <div className="lg:col-span-1 h-full">
-                    <WhatIfSimulator
-                        baseValue={scenario === 'A' ? 200 : 0.5}
-                        coefficient={scenario === 'A' ? -0.05 : 0.2}
-                        intercept={scenario === 'A' ? 5 : 0.1}
-                        treatmentName={scenario === 'A' ? "Credit Limit (만원)" : "Coupon Sent (Prob)"}
-                        outcomeName={scenario === 'A' ? "Default Rate (%)" : "Join Prob (%)"}
-                    />
+                <div className="flex-1 relative">
+                    <CausalGraph nodes={data.dag.nodes} edges={data.dag.edges} />
                 </div>
             </div>
 

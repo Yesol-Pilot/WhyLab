@@ -37,12 +37,14 @@ class Evidence:
         strength: 증거 강도 (0.0 ~ 1.0)
         source: 증거 출처 (예: "meta_learner_consensus")
         data: 수치 근거 데이터
+        business_impact: 비즈니스 영향 분석 (예: "Revenue +5%", "Risk High")
     """
     claim: str
     evidence_type: str
     strength: float
     source: str
     data: Dict[str, Any] = field(default_factory=dict)
+    business_impact: Optional[str] = None
 
 
 @dataclass
@@ -114,11 +116,26 @@ class AdvocateAgent:
         # 10. SHAP-CATE 정합성
         evidence.append(self._shap_cate_coherence(results))
 
-        # None 필터링
-        valid = [e for e in evidence if e is not None]
-        logger.info("📗 Advocate: %d개 증거 수집 (강도 합계: %.2f)",
+        # None 필터링 및 비즈니스 임팩트 주입
+        valid = []
+        for e in evidence:
+            if e is not None:
+                e.business_impact = self._generate_impact(e)
+                valid.append(e)
+
+        logger.info("📗 Advocate (Growth Hacker): %d개 증거 수집 (강도 합계: %.2f)",
                      len(valid), sum(e.strength for e in valid))
         return valid
+
+    def _generate_impact(self, e: Evidence) -> str:
+        """증거를 비즈니스 기회로 번역 (Growth Hacker Persona)."""
+        if e.source == "meta_learner_consensus":
+            return "모델 간 합의로 예측 신뢰도 확보 → 과감한 마케팅 집행 가능"
+        if e.source == "bootstrap_ci" or e.source == "ate_significance":
+            return "통계적 유의성 확보 → KPI 개선 가능성 높음"
+        if e.source == "gates_heterogeneity":
+            return "타겟팅 효율화 기회 발견 (상위 20% 유저 집중 공략)"
+        return "안정적인 성과 기대"
 
     def _meta_learner_consensus(self, r: Dict) -> Optional[Evidence]:
         """메타러너 합의율."""
@@ -313,10 +330,28 @@ class CriticAgent:
         attacks.append(self._subset_instability(results))
         attacks.append(self._small_sample(results))
 
-        valid = [a for a in attacks if a is not None]
-        logger.info("📕 Critic: %d개 공격 수집 (강도 합계: %.2f)",
+        # None 필터링 및 비즈니스 리스크 주입
+        valid = []
+        for a in attacks:
+            if a is not None:
+                a.business_impact = self._generate_risk(a)
+                valid.append(a)
+
+        logger.info("📕 Critic (Risk Manager): %d개 공격 수집 (강도 합계: %.2f)",
                      len(valid), sum(e.strength for e in valid))
         return valid
+
+    def _generate_risk(self, e: Evidence) -> str:
+        """증거를 비즈니스 리스크로 번역 (Risk Manager Persona)."""
+        if e.source == "e_value_weak":
+            return "미관측 외부 변수(경기 침체 등)에 취약 → 예상치 못한 손실 위험"
+        if e.source == "overlap_violation":
+            return "특정 유저군에 편향된 결과 → 일반화 시 성과 하락 우려"
+        if e.source == "placebo_failure":
+            return "가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고"
+        if e.source == "ci_too_wide":
+            return "성과 변동폭이 너무 큼 → KPI 달성 불확실성 증대"
+        return "운영 리스크 존재"
 
     def _e_value_weak(self, r: Dict) -> Optional[Evidence]:
         """E-value 취약."""
@@ -508,22 +543,21 @@ class JudgeAgent:
         total = pro_score + con_score + 1e-10
         confidence = pro_score / total
 
+        verdict_str = "UNCERTAIN"
         if confidence >= threshold:
-            verdict = "CAUSAL"
+            verdict_str = "CAUSAL"
         elif confidence <= (1.0 - threshold):
-            verdict = "NOT_CAUSAL"
-        else:
-            verdict = "UNCERTAIN"
+            verdict_str = "NOT_CAUSAL"
 
-        recommendation = self._generate_recommendation(verdict, pro, con)
+        recommendation = self._generate_recommendation(verdict_str, pro, con, confidence)
 
         logger.info(
-            "⚖️ Judge 판결: %s (확신도=%.2f, 옹호=%.2f, 비판=%.2f)",
-            verdict, confidence, pro_score, con_score,
+            "⚖️ Judge (Product Owner): %s (확신도=%.2f) → %s",
+            verdict_str, confidence, recommendation,
         )
 
         return Verdict(
-            verdict=verdict,
+            verdict=verdict_str,
             confidence=confidence,
             pro_score=pro_score,
             con_score=con_score,
@@ -537,25 +571,26 @@ class JudgeAgent:
         verdict: str,
         pro: List[Evidence],
         con: List[Evidence],
+        confidence: float,
     ) -> str:
-        """판결에 따른 추가 분석 제안."""
+        """비즈니스 액션 아이템 도출 (Product Owner Persona)."""
         if verdict == "CAUSAL":
-            # 가장 약한 옹호 증거 식별
-            weakest = min(pro, key=lambda e: e.strength) if pro else None
-            if weakest and weakest.strength < 0.5:
-                return f"인과 관계 지지, 단 '{weakest.source}' 보강 필요"
-            return "인과 관계 강하게 지지. 추가 분석 불필요."
+            # Growth 신호 강함
+            impacts = [e.business_impact for e in pro if e.business_impact]
+            main_impact = impacts[0] if impacts else "성과 개선 기대"
+            
+            if confidence > 0.9:
+                return f"🚀 [승인] 전면 배포 (Rollout 100%). {main_impact}."
+            return f"📈 [조건부 승인] 단계적 배포 (Rollout 20% → 50%). {main_impact}."
 
         elif verdict == "NOT_CAUSAL":
-            strongest_con = max(con, key=lambda e: e.strength) if con else None
-            if strongest_con:
-                return f"인과 관계 미지지. 주요 원인: {strongest_con.claim}"
-            return "인과 관계 미지지."
+            # Risk 신호 강함
+            risks = [e.business_impact for e in con if e.business_impact]
+            main_risk = risks[0] if risks else "효과 미미"
+            
+            return f"🛑 [기각] 배포 중단. 리소스 회수 권장. 사유: {main_risk}"
 
         else:  # UNCERTAIN
-            # 가장 강한 비판 증거로 추가 분석 방향 제시
-            if con:
-                top_con = sorted(con, key=lambda e: e.strength, reverse=True)[:2]
-                issues = ", ".join(e.source for e in top_con)
-                return f"판단 불확실. 추가 분석 권장: {issues}"
-            return "판단 불확실. 추가 교란변수 탐색 또는 표본 확대 권장."
+            # Trade-off 상황
+            risks = [e.business_impact for e in con if e.business_impact]
+            return f"⚖️ [보류] 5% 트래픽 A/B 테스트 제안. 주요 리스크 검증 필요: {risks[0] if risks else '불확실성 해소 필요'}"

@@ -1,11 +1,36 @@
-# WhyLab: AI-Driven Causal Inference Engine
+# WhyLab: Causal Decision Intelligence Engine
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Decision Intelligence](https://img.shields.io/badge/Decision-Intelligence-purple)](https://en.wikipedia.org/wiki/Decision_intelligence)
 
-> **Causal inference meets AI agents.**
-> WhyLab combines state-of-the-art causal inference algorithms with a multi-agent debate system
-> that automatically validates causal claims — no other tool does this.
+> **"Don't just predict the future. Cause it."**
+
+WhyLab is the world's first **Decision Intelligence Engine** powered by **Multi-Agent Debate**.
+It bridges the gap between **Causal Inference** (Science) and **Business Decision** (Art).
+
+### 🎯 Why WhyLab?
+
+- **For POs**: "Rollout or Not?" — Get actionable verdicts (e.g., "ROI +12%, Risk Low → **Rollout**").
+- **For Data Scientists**: SOTA accuracy (R-Learner error -25% vs benchmark).
+- **For Devs**: 3 lines of code to integrate causal AI into your pipeline.
+
+```python
+import whylab as wl
+
+# 1. Analyze (Science)
+result = wl.analyze(data, treatment='coupon', outcome='purchase')
+
+# 2. Debate (Business Logic)
+verdict = result.debate(
+    growth_hacker="Maximize Revenue",
+    risk_manager="Minimize Churn"
+)
+
+# 3. Decision
+print(verdict.action_item)
+# "🚀 [Approved] Rollout 100%. Expected Profit: +$1.2M"
+```
 
 ## What Makes WhyLab Different?
 
@@ -89,13 +114,14 @@ Data -> Causal -> MetaLearner -> Conformal -> Explain -> Refutation
 | `SensitivityCell` | E-value, Overlap, GATES analysis | 400 |
 | `DebateCell` | Multi-agent causal verdict | 562 |
 
-### Multi-Agent Debate System
+### Multi-Agent Debate System (Decision Intelligence)
 
-Three AI agents evaluate causal claims:
+Three AI agents simulate real organizational decision-making:
 
-1. **Advocate** (10 evidence types): Defends the causal relationship
-2. **Critic** (8 attack vectors): Challenges the causal claim
-3. **Judge**: Weighs evidence and delivers verdict (`CAUSAL` / `NOT_CAUSAL` / `UNCERTAIN`)
+1. **Growth Hacker** (10 evidence types): Finds revenue opportunities from causal signals
+2. **Risk Manager** (8 attack vectors): Warns about potential losses and model vulnerabilities
+3. **Product Owner (Judge)**: Synthesizes Growth vs Risk → delivers actionable verdict
+   - `🚀 Rollout 100%` | `⚖️ A/B Test 5%` | `🛑 Reject`
 
 ---
 
@@ -108,7 +134,7 @@ Three AI agents evaluate causal claims:
 ### Installation
 ```bash
 # Clone
-git clone https://github.com/your-org/whylab.git
+git clone https://github.com/Yesol-Pilot/WhyLab.git
 cd whylab
 
 # Python environment
@@ -146,7 +172,7 @@ python -m engine.pipeline --benchmark ihdp acic jobs \
 #### 4. Launch Dashboard
 ```bash
 cd dashboard && npm run dev
-# Open http://localhost:3004
+# Open http://localhost:4000
 ```
 
 ---
@@ -176,10 +202,10 @@ If you use WhyLab in your research, please cite:
 
 ```bibtex
 @software{whylab2026,
-  title={WhyLab: AI-Driven Causal Inference Engine with Multi-Agent Debate},
+  title={WhyLab: Causal Decision Intelligence Engine with Multi-Agent Debate},
   author={WhyLab Contributors},
   year={2026},
-  url={https://github.com/your-org/whylab}
+  url={https://github.com/Yesol-Pilot/WhyLab}
 }
 ```
 

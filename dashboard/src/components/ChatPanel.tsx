@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Sparkles, BookOpen, BarChart3 } from "lucide-react";
 import { CausalAnalysisResult } from "@/types";
+import { searchKnowledge, PROJECT_SUGGESTIONS } from "@/lib/knowledgeBase";
 
 interface Props {
     data: CausalAnalysisResult;
@@ -16,10 +17,18 @@ interface ChatMessage {
 }
 
 /* ────────────────────────────────────────────
- * 규칙 기반 Q&A 엔진
- * 데이터 컨텍스트를 기반으로 자연어 질문에 응답
+ * 하이브리드 Q&A 엔진
+ * 1차: 프로젝트 지식 베이스 검색
+ * 2차: 분석 데이터 기반 규칙 응답
  * ──────────────────────────────────────────── */
 function answerFromData(question: string, data: CausalAnalysisResult): string {
+    // 1차: 프로젝트 지식 베이스 검색
+    const knowledgeHit = searchKnowledge(question);
+    if (knowledgeHit) {
+        return knowledgeHit.answer;
+    }
+
+    // 2차: 분석 데이터 기반 규칙 응답
     const q = question.toLowerCase();
     const m = data.metadata;
     const ate = data.ate;
@@ -168,29 +177,34 @@ function answerFromData(question: string, data: CausalAnalysisResult): string {
         return "벤치마크 수행 결과가 없습니다.";
     }
 
-    // 기본 응답
-    return `제가 답할 수 있는 질문 유형:\n\n` +
+    // 기본 응답 — 데이터 Q&A + 프로젝트 지식 안내
+    return `🤖 저는 **두 가지 영역**에 대해 답할 수 있습니다:\n\n` +
+        `**📊 분석 결과 질의:**\n` +
         `- "ATE가 뭐야?" / "인과 효과 알려줘"\n` +
-        `- "유의한가?" / "통계적으로 유의해?"\n` +
-        `- "견고성 검증 결과는?"\n` +
-        `- "E-value 알려줘"\n` +
-        `- "GATES 분석 결과"\n` +
-        `- "Overlap 진단"\n` +
-        `- "피처 중요도" / "SHAP"\n` +
-        `- "추천 전략"\n` +
-        `- "모델 정확도"\n` +
-        `- "시나리오 정보"\n\n` +
-        `위 키워드를 포함하여 질문해 주세요! 🤖`;
+        `- "유의한가?" / "견고성 검증 결과는?"\n` +
+        `- "E-value" / "GATES" / "Overlap"\n` +
+        `- "피처 중요도" / "추천 전략" / "모델 정확도"\n\n` +
+        `**📚 프로젝트 지식:**\n` +
+        `- "WhyLab이 뭐야?" / "다른 도구와 뭐가 달라?"\n` +
+        `- "아키텍처" / "메타러너" / "CATE"\n` +
+        `- "토론 시스템" / "모니터링" / "MCP"\n` +
+        `- "어떻게 시작해?" / "CLI 사용법" / "Python API"\n\n` +
+        `무엇이든 물어보세요! 💡`;
 }
 
 /* ────────────────────────────────────────────
  * 추천 질문 목록
  * ──────────────────────────────────────────── */
-const SUGGESTIONS = [
+const DATA_SUGGESTIONS = [
     "인과 효과가 유의한가요?",
     "E-value는 얼마인가요?",
     "세그먼트별 효과 차이는?",
     "어떤 전략을 추천하나요?",
+];
+
+const ALL_SUGGESTIONS = [
+    ...PROJECT_SUGGESTIONS.slice(0, 3),
+    ...DATA_SUGGESTIONS.slice(0, 3),
 ];
 
 /* ────────────────────────────────────────────
@@ -201,7 +215,11 @@ export default function ChatPanel({ data }: Props) {
     const [messages, setMessages] = useState<ChatMessage[]>([
         {
             role: "assistant",
-            content: `안녕하세요! WhyLab 인과추론 결과에 대해 물어보세요. 🧠\n\n현재 분석: **${data.metadata.treatment_col} → ${data.metadata.outcome_col}**`,
+            content: `안녕하세요! 👋 WhyLab에 대한 **모든 것**을 알려드리겠습니다.\n\n` +
+                `📊 **분석 결과** (ATE, 견고성, 피처 등)\n` +
+                `📚 **프로젝트 지식** (아키텍처, 방법론, 사용법)\n\n` +
+                `현재 분석: **${data.metadata.treatment_col} → ${data.metadata.outcome_col}**\n\n` +
+                `무엇이든 물어보세요! 🧠`,
             timestamp: new Date(),
         },
     ]);
@@ -263,8 +281,8 @@ export default function ChatPanel({ data }: Props) {
                                 <Sparkles className="w-4 h-4 text-brand-400" />
                             </div>
                             <div className="flex-1">
-                                <h3 className="text-sm font-bold text-white">WhyLab Chat</h3>
-                                <p className="text-[10px] text-slate-500">인과추론 결과에 대해 물어보세요</p>
+                                <h3 className="text-sm font-bold text-white">WhyLab AI</h3>
+                                <p className="text-[10px] text-slate-500">프로젝트 & 분석 결과 전문 어시스턴트</p>
                             </div>
                             <span className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/20">
                                 온라인
@@ -318,7 +336,7 @@ export default function ChatPanel({ data }: Props) {
                         {/* 추천 질문 */}
                         {messages.length <= 2 && (
                             <div className="px-4 py-2 flex flex-wrap gap-1.5">
-                                {SUGGESTIONS.map((s) => (
+                                {ALL_SUGGESTIONS.map((s) => (
                                     <button
                                         key={s}
                                         onClick={() => handleSend(s)}

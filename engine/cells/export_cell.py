@@ -243,7 +243,7 @@ class ExportCell(BaseCell):
         # ──────────────────────────────────────────
         debate_summary = inputs.get("debate_summary")
         if debate_summary:
-            json_data["debate"] = {
+            debate_export = {
                 "verdict": debate_summary.get("verdict", "UNKNOWN"),
                 "confidence": debate_summary.get("confidence", 0),
                 "pro_score": debate_summary.get("pro_score", 0),
@@ -253,6 +253,24 @@ class ExportCell(BaseCell):
                 "pro_evidence": debate_summary.get("pro_evidence", []),
                 "con_evidence": debate_summary.get("con_evidence", []),
             }
+            # LLM 토론 결과 포함 (Phase 9)
+            llm_debate = debate_summary.get("llm_debate", {})
+            if llm_debate:
+                debate_export["llm_debate"] = {
+                    "llm_active": llm_debate.get("llm_active", False),
+                    "model": llm_debate.get("model", "rule_based"),
+                    "advocate_argument": llm_debate.get("advocate_argument", ""),
+                    "critic_argument": llm_debate.get("critic_argument", ""),
+                    "judge_verdict": llm_debate.get("judge_verdict", ""),
+                }
+                # ai_insights의 generated_by도 LLM 상태 반영
+                if "ai_insights" in json_data:
+                    json_data["ai_insights"]["generated_by"] = (
+                        f"llm:{llm_debate.get('model', 'unknown')}"
+                        if llm_debate.get("llm_active")
+                        else "rule_based"
+                    )
+            json_data["debate"] = debate_export
 
         # ──────────────────────────────────────────
         # 4-5. Conformal CI (Phase 2)

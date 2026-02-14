@@ -253,6 +253,9 @@ class DebateConfig:
         "robustness": 1.2,
         "domain": 0.8,
     })
+    # LLM 연동 설정 (Phase 9)
+    use_llm: bool = True              # LLM 자연어 토론 활성화
+    llm_model: str = "gemini-2.0-flash"  # LLM 모델 (환경 변수 WHYLAB_LLM_MODEL로 오버라이드 가능)
 
 
 # ──────────────────────────────────────────────

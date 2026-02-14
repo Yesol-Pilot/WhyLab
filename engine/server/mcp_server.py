@@ -219,6 +219,44 @@ def compare_scenarios() -> str:
         ensure_ascii=False,
     )
 
+@mcp.tool()
+def run_drift_check() -> str:
+    """Causal Drift 탐지를 1회 실행합니다.
+
+    파이프라인을 실행하고, 이전 결과 대비 ATE/CATE 변동을 감지합니다.
+    """
+    try:
+        from engine.monitoring import MonitoringScheduler
+
+        scheduler = MonitoringScheduler(config=config, scenario="A")
+        result = scheduler.run_once()
+
+        output = {
+            "drifted": result.drifted,
+            "metric": result.metric,
+            "score": round(result.score, 4),
+            "threshold": result.threshold,
+            "recommendation": (
+                "🚨 드리프트 감지! 원인 분석 필요." if result.drifted
+                else "✅ 안정 상태."
+            ),
+        }
+        return json.dumps(output, indent=2, ensure_ascii=False)
+    except Exception as e:
+        return f"드리프트 체크 실패: {str(e)}"
+
+
+@mcp.tool()
+def get_monitoring_status() -> str:
+    """현재 모니터링 시스템 상태를 반환합니다."""
+    try:
+        from engine.monitoring import MonitoringScheduler
+
+        scheduler = MonitoringScheduler(config=config)
+        return json.dumps(scheduler.status, indent=2, ensure_ascii=False)
+    except Exception as e:
+        return f"상태 조회 실패: {str(e)}"
+
 
 if __name__ == "__main__":
     # stdio 모드로 서버 실행

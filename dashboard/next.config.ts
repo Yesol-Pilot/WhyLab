@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
+const isVercel = process.env.VERCEL === "1";
+
 const nextConfig: NextConfig = {
-  output: "export",
+  // Vercel: SSR 모드, GitHub Pages: static export
+  ...(isVercel ? {} : { output: "export", basePath: "/WhyLab" }),
   images: { unoptimized: true },
-  basePath: process.env.NODE_ENV === "production" ? "/WhyLab" : "",
   eslint: {
     ignoreDuringBuilds: true,
   },

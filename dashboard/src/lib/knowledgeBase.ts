@@ -1,61 +1,61 @@
 /**
- * WhyLab 프로젝트 종합 지식 베이스 (Knowledge Base)
+ * WhyLab Project Comprehensive Knowledge Base
  *
- * 프로젝트의 아키텍처, 방법론, 사용법, 철학에 대한
- * 모든 지식을 구조화하여 챗봇이 접근할 수 있게 합니다.
+ * Structures all knowledge about the project's architecture,
+ * methodology, usage, and philosophy for chatbot access.
  */
 
 /* ──────────────────────────────────────
- * 1. 지식 항목 타입
+ * 1. Knowledge Entry Type
  * ────────────────────────────────────── */
 export interface KnowledgeEntry {
-    keywords: string[];        // 매칭 키워드 (소문자)
-    question: string;          // 대표 질문
-    answer: string;            // 답변 (마크다운)
+    keywords: string[];        // matching keywords (lowercase)
+    question: string;          // representative question
+    answer: string;            // answer (markdown)
     category: "architecture" | "methodology" | "usage" | "philosophy" | "feature" | "team" | "comparison";
 }
 
 /* ──────────────────────────────────────
- * 2. 전체 지식 베이스
+ * 2. Full Knowledge Base
  * ────────────────────────────────────── */
 export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
-    // ── 프로젝트 개요 ──
+    // ── Project Overview ──
     {
-        keywords: ["whylab", "프로젝트", "소개", "개요", "뭐야", "뭔가요", "무엇", "what is"],
-        question: "WhyLab이 뭔가요?",
-        answer: `🧬 **WhyLab**은 인과추론(Causal Inference) 기반 의사결정 지능 엔진입니다.\n\n` +
-            `**핵심 가치:** "상관관계가 아닌 인과관계"로 비즈니스 의사결정을 지원합니다.\n\n` +
-            `**주요 특징:**\n` +
-            `- 11-Cell 모듈러 파이프라인 (데이터 → 추론 → 토론 → 판결)\n` +
-            `- 멀티 에이전트 토론 시스템 (Growth Hacker vs Risk Manager)\n` +
-            `- 7가지 메타러너 (S/T/X/DR/R-Learner + LinearDML + Oracle)\n` +
-            `- 실시간 인과 드리프트 모니터링\n` +
-            `- Next.js 인터랙티브 대시보드\n\n` +
-            `MIT 라이선스 오픈소스이며, 학술 벤치마크(IHDP, ACIC, Jobs)에서 검증되었습니다.`,
+        keywords: ["whylab", "project", "introduction", "overview", "what is"],
+        question: "What is WhyLab?",
+        answer: `🧬 **WhyLab** is a causal inference-based decision intelligence engine.\n\n` +
+            `**Core Value:** Supports business decision-making through "causation, not just correlation."\n\n` +
+            `**Key Features:**\n` +
+            `- 11-Cell Modular Pipeline (Data → Inference → Debate → Verdict)\n` +
+            `- Multi-Agent Debate System (Growth Hacker vs Risk Manager)\n` +
+            `- 7 Meta-Learners (S/T/X/DR/R-Learner + LinearDML + Oracle)\n` +
+            `- Real-time Causal Drift Monitoring\n` +
+            `- Next.js Interactive Dashboard\n\n` +
+            `MIT licensed open source, validated on academic benchmarks (IHDP, ACIC, Jobs).`,
         category: "philosophy",
     },
     {
-        keywords: ["차별점", "차이", "다른", "unique", "경쟁", "비교", "vs", "causalml", "dowhy", "econml"],
-        question: "다른 인과추론 도구와 무엇이 다른가요?",
-        answer: `⚡ **WhyLab vs 기존 도구 비교:**\n\n` +
-            `| 기능 | CausalML | DoWhy | EconML | **WhyLab** |\n` +
+        keywords: ["difference", "unique", "compare", "comparison", "vs", "causalml", "dowhy", "econml"],
+        question: "How is WhyLab different from other causal inference tools?",
+        answer: `⚡ **WhyLab vs Existing Tools:**\n\n` +
+            `| Feature | CausalML | DoWhy | EconML | **WhyLab** |\n` +
             `|---|:---:|:---:|:---:|:---:|\n` +
-            `| Meta-Learner | 4종 | ✗ | 3종 | **7종** |\n` +
+            `| Meta-Learner | 4 types | ✗ | 3 types | **7 types** |\n` +
             `| AI Debate | ✗ | ✗ | ✗ | **✅ 3-Agent** |\n` +
             `| Conformal CI | ✗ | ✗ | ✗ | **✅** |\n` +
             `| Dashboard | ✗ | ✗ | ✗ | **✅ Next.js** |\n` +
             `| DB Connectors | ✗ | ✗ | ✗ | **CSV/SQL/BQ** |\n` +
-            `| Drift Monitor | ✗ | ✗ | ✗ | **✅ 실시간** |\n\n` +
-            `WhyLab의 핵심 차별점은 **"분석 → 해석 → 판단 → 모니터링"** 전체 사이클을 하나의 플랫폼에서 제공한다는 것입니다.`,
+            `| Drift Monitor | ✗ | ✗ | ✗ | **✅ Real-time** |\n\n` +
+            `WhyLab's key differentiator is providing the entire **"Analysis → Interpretation → Judgment → Monitoring"** cycle in a single platform.`,
         category: "comparison",
     },
 
-    // ── 아키텍처 ──
+    // ── Architecture ──
     {
-        keywords: ["아키텍처", "구조", "architecture", "설계", "cell", "셀", "파이프라인", "pipeline"],
-        question: "WhyLab의 아키텍처는 어떻게 되어 있나요?",
-        answer: `🏗️ **11-Cell 모듈러 아키텍처**\n\n` +
-            `WhyLab은 각 분석 단계를 독립적인 "셀(Cell)"로 분리합니다:\n\n` +
+        keywords: ["architecture", "structure", "design", "cell", "pipeline"],
+        question: "What is WhyLab's architecture?",
+        answer: `🏗️ **11-Cell Modular Architecture**\n\n` +
+            `WhyLab separates each analysis stage into independent "Cells":\n\n` +
             `\`\`\`\n` +
             `DataCell → CausalCell → MetaLearnerCell → ConformalCell\n` +
             `    ↓                                           ↓\n` +
@@ -63,132 +63,132 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
             `    ↓                                           ↓\n` +
             `VizCell → ExportCell → ReportCell → DebateCell\n` +
             `\`\`\`\n\n` +
-            `**각 셀의 역할:**\n` +
-            `- **DataCell**: 합성 데이터 생성 또는 외부 데이터(CSV/SQL/BigQuery) 로드\n` +
-            `- **CausalCell**: Double ML 기반 ATE 추정 (Linear/Forest/Auto)\n` +
-            `- **MetaLearnerCell**: 7종 메타러너로 CATE 추정\n` +
-            `- **ConformalCell**: 분포 무관(Distribution-free) 개인별 신뢰구간\n` +
-            `- **DebateCell**: Growth Hacker vs Risk Manager 토론 → 판결\n\n` +
-            `모든 셀은 **Orchestrator**가 순서대로 조율합니다.`,
+            `**Role of each Cell:**\n` +
+            `- **DataCell**: Synthetic data generation or external data (CSV/SQL/BigQuery) loading\n` +
+            `- **CausalCell**: Double ML-based ATE estimation (Linear/Forest/Auto)\n` +
+            `- **MetaLearnerCell**: CATE estimation with 7 meta-learners\n` +
+            `- **ConformalCell**: Distribution-free individual confidence intervals\n` +
+            `- **DebateCell**: Growth Hacker vs Risk Manager debate → verdict\n\n` +
+            `All cells are orchestrated sequentially by the **Orchestrator**.`,
         category: "architecture",
     },
     {
-        keywords: ["orchestrator", "오케스트레이터", "조율", "실행순서", "흐름"],
-        question: "Orchestrator가 뭔가요?",
-        answer: `🎼 **Orchestrator**는 파이프라인의 지휘자입니다.\n\n` +
-            `11개 셀을 정해진 순서대로 실행하며, 각 셀의 출력을 다음 셀의 입력으로 전달합니다.\n\n` +
-            `**핵심 기능:**\n` +
-            `- 셀 간 의존성 자동 해결\n` +
-            `- 실패 시 에러 로그 + 부분 결과 반환\n` +
-            `- 시나리오 A/B 분기 처리\n\n` +
-            `\`orchestrator.run_pipeline(scenario="A")\` 한 줄로 전체 파이프라인이 실행됩니다.`,
+        keywords: ["orchestrator", "orchestration", "execution order", "flow"],
+        question: "What is the Orchestrator?",
+        answer: `🎼 **Orchestrator** is the conductor of the pipeline.\n\n` +
+            `It executes 11 cells in a prescribed order, passing each cell's output as input to the next.\n\n` +
+            `**Key Features:**\n` +
+            `- Automatic dependency resolution between cells\n` +
+            `- Error logging + partial result return on failure\n` +
+            `- Scenario A/B branching support\n\n` +
+            `A single call to \`orchestrator.run_pipeline(scenario="A")\` runs the entire pipeline.`,
         category: "architecture",
     },
 
-    // ── 핵심 방법론 ──
+    // ── Core Methodology ──
     {
-        keywords: ["dml", "double machine learning", "이중기계학습", "causal", "추정방법"],
-        question: "Double Machine Learning(DML)이 뭔가요?",
+        keywords: ["dml", "double machine learning", "causal", "estimation method"],
+        question: "What is Double Machine Learning (DML)?",
         answer: `📐 **Double Machine Learning (DML)**\n\n` +
-            `DML은 Chernozhukov et al. (2018)이 제안한 인과 효과 추정 방법입니다.\n\n` +
-            `**핵심 아이디어:**\n` +
-            `1. **1단계**: ML로 처치(T)를 예측 → 잔차(residual) 추출\n` +
-            `2. **2단계**: ML로 결과(Y)를 예측 → 잔차 추출\n` +
-            `3. **3단계**: 두 잔차의 관계로 인과 효과 추정\n\n` +
-            `**장점:**\n` +
-            `- 고차원 교란변수 처리 가능\n` +
-            `- 비선형 관계 포착\n` +
-            `- √n-consistent (표본 크기에 따라 정확도 향상)\n\n` +
-            `WhyLab은 Linear DML, Causal Forest DML, Auto DML 세 가지 변형을 지원합니다.`,
+            `DML is a causal effect estimation method proposed by Chernozhukov et al. (2018).\n\n` +
+            `**Core Idea:**\n` +
+            `1. **Stage 1**: Predict treatment (T) with ML → extract residual\n` +
+            `2. **Stage 2**: Predict outcome (Y) with ML → extract residual\n` +
+            `3. **Stage 3**: Estimate causal effect from the relationship between the two residuals\n\n` +
+            `**Advantages:**\n` +
+            `- Handles high-dimensional confounders\n` +
+            `- Captures non-linear relationships\n` +
+            `- √n-consistent (accuracy improves with sample size)\n\n` +
+            `WhyLab supports three variants: Linear DML, Causal Forest DML, and Auto DML.`,
         category: "methodology",
     },
     {
-        keywords: ["meta", "learner", "메타러너", "s-learner", "t-learner", "x-learner", "dr-learner", "r-learner"],
-        question: "메타러너가 뭔가요?",
-        answer: `🧠 **7종 메타러너 (Meta-Learner)**\n\n` +
-            `메타러너는 기존 ML 모델을 "재활용"하여 개인별 처치 효과(CATE)를 추정합니다:\n\n` +
-            `| 러너 | 전략 | 장점 |\n` +
+        keywords: ["meta", "learner", "meta-learner", "s-learner", "t-learner", "x-learner", "dr-learner", "r-learner"],
+        question: "What are Meta-Learners?",
+        answer: `🧠 **7 Meta-Learners**\n\n` +
+            `Meta-learners "repurpose" existing ML models to estimate individual treatment effects (CATE):\n\n` +
+            `| Learner | Strategy | Advantage |\n` +
             `|---|---|---|\n` +
-            `| **S-Learner** | 하나의 모델로 전체 | 단순, 빠름 |\n` +
-            `| **T-Learner** | 처치/통제 각각 모델 | 그룹별 최적화 |\n` +
-            `| **X-Learner** | 교차 추정 | 표본 불균형에 강함 |\n` +
-            `| **DR-Learner** | Doubly Robust | 이중 보호 |\n` +
-            `| **R-Learner** | Robinson 분해 | 정규화 내장 |\n` +
-            `| **LinearDML** | Double ML 기반 | 해석 가능 |\n` +
-            `| **Oracle** | 앙상블 가중 평균 | 최고 성능 |\n\n` +
-            `Oracle은 각 러너의 성능을 평가 후 가중 평균하는 WhyLab 고유 앙상블입니다.`,
+            `| **S-Learner** | Single model for all | Simple, fast |\n` +
+            `| **T-Learner** | Separate models for treated/control | Group-optimal |\n` +
+            `| **X-Learner** | Cross estimation | Robust to sample imbalance |\n` +
+            `| **DR-Learner** | Doubly Robust | Double protection |\n` +
+            `| **R-Learner** | Robinson decomposition | Built-in regularization |\n` +
+            `| **LinearDML** | Double ML-based | Interpretable |\n` +
+            `| **Oracle** | Ensemble weighted average | Best performance |\n\n` +
+            `Oracle is a WhyLab-specific ensemble that evaluates each learner's performance and computes a weighted average.`,
         category: "methodology",
     },
     {
-        keywords: ["cate", "개인", "이질", "heterogeneous", "개인화", "누구"],
-        question: "CATE가 뭔가요?",
+        keywords: ["cate", "individual", "heterogeneous", "personalized", "who"],
+        question: "What is CATE?",
         answer: `🎯 **CATE (Conditional Average Treatment Effect)**\n\n` +
-            `ATE가 "평균적으로 효과가 있는가?"라면, CATE는 **"누구에게 더 효과가 큰가?"**를 답합니다.\n\n` +
-            `**예시:**\n` +
-            `- 전체 평균(ATE): 쿠폰 효과 +5%\n` +
-            `- 20대 남성(CATE): +12% (높음)\n` +
-            `- 50대 여성(CATE): -2% (오히려 역효과)\n\n` +
-            `WhyLab의 **CATE Explorer**에서 세그먼트별 효과를 시각화하고, 타겟팅 추천을 받을 수 있습니다.`,
+            `If ATE answers "Is there an effect on average?", CATE answers **"Who benefits more?"**\n\n` +
+            `**Example:**\n` +
+            `- Overall average (ATE): Coupon effect +5%\n` +
+            `- Males in 20s (CATE): +12% (high)\n` +
+            `- Females in 50s (CATE): -2% (adverse effect)\n\n` +
+            `WhyLab's **CATE Explorer** visualizes effects by segment and provides targeting recommendations.`,
         category: "methodology",
     },
     {
-        keywords: ["conformal", "신뢰구간", "prediction", "ci", "confidence"],
-        question: "Conformal Prediction이 뭔가요?",
-        answer: `📏 **Conformal Prediction (적합 예측)**\n\n` +
-            `분포 가정 없이 개인별 신뢰구간을 제공하는 방법입니다.\n\n` +
-            `**기존 방법 vs Conformal:**\n` +
-            `- 기존: "정규분포 가정 하에 95% CI"\n` +
-            `- Conformal: "어떤 분포든, 95% 보장"\n\n` +
-            `**WhyLab 적용:**\n` +
-            `- ConformalCell이 각 개인의 CATE에 대해 신뢰구간을 생성\n` +
-            `- Coverage Rate: 실제로 CI가 진짜 값을 포함하는 비율\n` +
-            `- 목표: Coverage ≥ 95% (보통 97~99% 달성)`,
+        keywords: ["conformal", "confidence interval", "prediction", "ci", "confidence"],
+        question: "What is Conformal Prediction?",
+        answer: `📏 **Conformal Prediction**\n\n` +
+            `A method that provides individual confidence intervals without distribution assumptions.\n\n` +
+            `**Traditional vs Conformal:**\n` +
+            `- Traditional: "95% CI under normal distribution assumption"\n` +
+            `- Conformal: "95% guaranteed regardless of distribution"\n\n` +
+            `**WhyLab Application:**\n` +
+            `- ConformalCell generates confidence intervals for each individual's CATE\n` +
+            `- Coverage Rate: the proportion of CIs that contain the true value\n` +
+            `- Target: Coverage ≥ 95% (typically achieves 97~99%)`,
         category: "methodology",
     },
 
-    // ── 토론 시스템 ──
+    // ── Debate System ──
     {
-        keywords: ["토론", "debate", "에이전트", "agent", "growth", "risk", "판결", "verdict"],
-        question: "멀티 에이전트 토론 시스템은 뭔가요?",
-        answer: `⚖️ **3-Agent 인과 토론 시스템**\n\n` +
-            `세 명의 AI 에이전트가 분석 결과를 두고 실제 조직의 의사결정을 시뮬레이션합니다:\n\n` +
-            `1. **🚀 Growth Hacker** — 매출 기회를 극대화하는 관점\n` +
-            `   - "ATE가 양수이고, ROI 시뮬레이션에서 수익이 나므로 전면 확대!"\n\n` +
-            `2. **🛡️ Risk Manager** — 리스크를 최소화하는 관점\n` +
-            `   - "E-value가 낮고, 특정 세그먼트에서 역효과가 우려됩니다"\n\n` +
-            `3. **⚖️ Product Owner (Judge)** — 최종 판결\n` +
-            `   - 🚀 **Rollout 100%**: 견고한 효과, 전면 시행\n` +
-            `   - ⚖️ **A/B Test 5%**: 추가 검증 필요\n` +
-            `   - 🛑 **Reject**: 효과 불확실 또는 역효과\n\n` +
-            `이 구조는 단순 수치 보고를 넘어 **비즈니스 언어로 전환된 판단**을 제공합니다.`,
+        keywords: ["debate", "agent", "growth", "risk", "verdict", "multi-agent"],
+        question: "What is the Multi-Agent Debate System?",
+        answer: `⚖️ **3-Agent Causal Debate System**\n\n` +
+            `Three AI agents simulate real organizational decision-making over analysis results:\n\n` +
+            `1. **🚀 Growth Hacker** — Maximizes revenue opportunities\n` +
+            `   - "ATE is positive and ROI simulation shows profit — full rollout!"\n\n` +
+            `2. **🛡️ Risk Manager** — Minimizes risk\n` +
+            `   - "E-value is low and adverse effects are a concern in certain segments"\n\n` +
+            `3. **⚖️ Product Owner (Judge)** — Final verdict\n` +
+            `   - 🚀 **Rollout 100%**: Robust effect, full deployment\n` +
+            `   - ⚖️ **A/B Test 5%**: Additional validation needed\n` +
+            `   - 🛑 **Reject**: Uncertain effect or adverse impact\n\n` +
+            `This structure goes beyond simple numerical reporting to provide **judgment translated into business language**.`,
         category: "feature",
     },
 
-    // ── 모니터링 ──
+    // ── Monitoring ──
     {
-        keywords: ["모니터링", "monitoring", "drift", "드리프트", "실시간", "alerter", "scheduler", "알림"],
-        question: "실시간 모니터링은 어떻게 작동하나요?",
-        answer: `📡 **실시간 인과 드리프트 모니터링**\n\n` +
-            `인과 효과는 시간이 지나며 변할 수 있습니다. WhyLab은 이를 자동으로 감지합니다:\n\n` +
-            `**3가지 감지 메트릭:**\n` +
-            `1. **ATE 변화율**: 기준 대비 ±30% 이상 변동\n` +
-            `2. **KL-Divergence**: CATE 분포의 변화\n` +
-            `3. **부호 반전**: ATE가 양→음 또는 음→양\n\n` +
-            `**작동 방식:**\n` +
+        keywords: ["monitoring", "drift", "real-time", "alerter", "scheduler", "alert"],
+        question: "How does real-time monitoring work?",
+        answer: `📡 **Real-time Causal Drift Monitoring**\n\n` +
+            `Causal effects can change over time. WhyLab automatically detects such changes:\n\n` +
+            `**3 Detection Metrics:**\n` +
+            `1. **ATE Change Rate**: ±30% or more deviation from baseline\n` +
+            `2. **KL-Divergence**: Changes in CATE distribution\n` +
+            `3. **Sign Reversal**: ATE flipping from positive→negative or vice versa\n\n` +
+            `**How It Works:**\n` +
             `\`\`\`\n` +
-            `Scheduler → Pipeline 실행 → DriftDetector → Alerter\n` +
-            `   (주기적)      (ATE/CATE)     (드리프트?)    (Slack/Console)\n` +
+            `Scheduler → Pipeline Run → DriftDetector → Alerter\n` +
+            `   (periodic)    (ATE/CATE)     (drift?)     (Slack/Console)\n` +
             `\`\`\`\n\n` +
-            `CLI에서 \`--monitor --interval 30 --slack-webhook $URL\`로 바로 시작할 수 있습니다.`,
+            `Start from CLI with \`--monitor --interval 30 --slack-webhook $URL\`.`,
         category: "feature",
     },
 
-    // ── 커넥터 ──
+    // ── Connectors ──
     {
-        keywords: ["커넥터", "connector", "데이터소스", "csv", "sql", "bigquery", "parquet", "excel", "db", "데이터베이스"],
-        question: "어떤 데이터 소스를 지원하나요?",
-        answer: `🔌 **10가지 데이터 소스 지원:**\n\n` +
-            `| 타입 | 설정 예시 |\n` +
+        keywords: ["connector", "data source", "csv", "sql", "bigquery", "parquet", "excel", "db", "database"],
+        question: "What data sources are supported?",
+        answer: `🔌 **10 Data Sources Supported:**\n\n` +
+            `| Type | Configuration Example |\n` +
             `|---|---|\n` +
             `| CSV | \`--data sales.csv\` |\n` +
             `| Parquet | \`--data data.parquet\` |\n` +
@@ -198,90 +198,90 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
             `| MySQL | \`--data "mysql://user:pw@host/db"\` |\n` +
             `| SQLite | \`--data "sqlite:///path.db"\` |\n` +
             `| BigQuery | \`--source-type bigquery --db-query "..."\` |\n\n` +
-            `URI 패턴으로 자동 감지하며, \`--source-type\`으로 명시할 수도 있습니다.\n` +
-            `팩토리 패턴으로 설계되어 새 커넥터 추가가 용이합니다.`,
+            `Auto-detected via URI pattern; can also be specified explicitly with \`--source-type\`.\n` +
+            `Designed with the factory pattern for easy addition of new connectors.`,
         category: "feature",
     },
 
     // ── MCP ──
     {
-        keywords: ["mcp", "서버", "server", "tool", "resource", "claude", "프로토콜"],
-        question: "MCP 서버가 뭔가요?",
-        answer: `🌐 **MCP (Model Context Protocol) 서버**\n\n` +
-            `Claude 같은 외부 AI 에이전트가 WhyLab을 도구로 사용할 수 있게 하는 표준 프로토콜 서버입니다.\n\n` +
-            `**제공 Tool (7개):**\n` +
-            `1. \`run_analysis\` — 전체 파이프라인 실행\n` +
-            `2. \`get_debate_verdict\` — AI 판결 조회\n` +
-            `3. \`simulate_intervention\` — What-if 시뮬레이션\n` +
-            `4. \`ask_rag\` — RAG 질의\n` +
-            `5. \`compare_scenarios\` — 시나리오 비교\n` +
-            `6. \`run_drift_check\` — 드리프트 체크\n` +
-            `7. \`get_monitoring_status\` — 모니터링 상태\n\n` +
-            `**제공 Resource (3개):**\n` +
-            `- 데이터 메타데이터, 분석 리포트, 벤치마크 결과`,
+        keywords: ["mcp", "server", "tool", "resource", "claude", "protocol"],
+        question: "What is the MCP Server?",
+        answer: `🌐 **MCP (Model Context Protocol) Server**\n\n` +
+            `A standard protocol server that enables external AI agents like Claude to use WhyLab as a tool.\n\n` +
+            `**Available Tools (7):**\n` +
+            `1. \`run_analysis\` — Run full pipeline\n` +
+            `2. \`get_debate_verdict\` — Retrieve AI verdict\n` +
+            `3. \`simulate_intervention\` — What-if simulation\n` +
+            `4. \`ask_rag\` — RAG query\n` +
+            `5. \`compare_scenarios\` — Scenario comparison\n` +
+            `6. \`run_drift_check\` — Drift check\n` +
+            `7. \`get_monitoring_status\` — Monitoring status\n\n` +
+            `**Available Resources (3):**\n` +
+            `- Data metadata, Analysis reports, Benchmark results`,
         category: "feature",
     },
 
     // ── RAG ──
     {
-        keywords: ["rag", "검색", "질의", "qa", "질문답변", "자연어", "에이전트", "페르소나", "persona"],
-        question: "RAG 에이전트는 뭔가요?",
-        answer: `💬 **RAG (Retrieval-Augmented Generation) 에이전트**\n\n` +
-            `분석 결과를 자연어로 질문하고 답변받는 시스템입니다.\n\n` +
-            `**3가지 페르소나:**\n` +
-            `- 🚀 **Growth Hacker**: 매출 기회 중심 답변\n` +
-            `- 🛡️ **Risk Manager**: 리스크 중심 답변\n` +
-            `- ⚖️ **Product Owner**: 균형잡힌 종합 답변\n\n` +
-            `**사용법:**\n` +
+        keywords: ["rag", "search", "query", "qa", "natural language", "agent", "persona"],
+        question: "What is the RAG Agent?",
+        answer: `💬 **RAG (Retrieval-Augmented Generation) Agent**\n\n` +
+            `A system for asking natural language questions about analysis results and receiving answers.\n\n` +
+            `**3 Personas:**\n` +
+            `- 🚀 **Growth Hacker**: Revenue opportunity-focused answers\n` +
+            `- 🛡️ **Risk Manager**: Risk-focused answers\n` +
+            `- ⚖️ **Product Owner**: Balanced comprehensive answers\n\n` +
+            `**Usage:**\n` +
             `\`\`\`bash\n` +
-            `python -m engine.cli --query "쿠폰 효과가 있어?" --persona growth_hacker\n` +
+            `python -m engine.cli --query "Is the coupon effective?" --persona growth_hacker\n` +
             `\`\`\`\n\n` +
-            `멀티턴 대화를 지원하며, 분석 결과가 없으면 자동으로 파이프라인을 실행합니다.`,
+            `Supports multi-turn conversations; automatically runs the pipeline if no analysis results exist.`,
         category: "feature",
     },
 
-    // ── 사용법 ──
+    // ── Usage ──
     {
-        keywords: ["설치", "install", "시작", "start", "quickstart", "setup"],
-        question: "어떻게 시작하나요?",
+        keywords: ["install", "start", "quickstart", "setup", "getting started"],
+        question: "How do I get started?",
         answer: `🚀 **Quick Start:**\n\n` +
             `\`\`\`bash\n` +
-            `# 1. 클론\n` +
+            `# 1. Clone\n` +
             `git clone https://github.com/Yesol-Pilot/WhyLab.git\n` +
             `cd whylab\n\n` +
-            `# 2. Python 환경\n` +
+            `# 2. Python environment\n` +
             `conda create -n whylab python=3.10\n` +
             `conda activate whylab\n` +
             `pip install -e .\n\n` +
-            `# 3. 파이프라인 실행\n` +
+            `# 3. Run pipeline\n` +
             `python -m engine.cli --scenario A\n\n` +
-            `# 4. 대시보드\n` +
-            `cd dashboard && npm install && npm run dev\n` +
+            `# 4. Dashboard\n` +
+            `cd dashboard; npm install; npm run dev\n` +
             `\`\`\`\n\n` +
-            `선택적 DB 의존성: \`pip install "whylab[sql]"\` 또는 \`pip install "whylab[bigquery]"\``,
+            `Optional DB dependencies: \`pip install "whylab[sql]"\` or \`pip install "whylab[bigquery]"\``,
         category: "usage",
     },
     {
-        keywords: ["cli", "명령어", "command", "플래그", "flag", "옵션"],
-        question: "CLI 사용법을 알려주세요.",
-        answer: `⌨️ **CLI v3 주요 플래그:**\n\n` +
+        keywords: ["cli", "command", "flag", "option"],
+        question: "How do I use the CLI?",
+        answer: `⌨️ **CLI v3 Key Flags:**\n\n` +
             `\`\`\`bash\n` +
-            `# 합성 데이터\n` +
+            `# Synthetic data\n` +
             `python -m engine.cli --scenario A|B\n\n` +
-            `# 외부 데이터\n` +
+            `# External data\n` +
             `python -m engine.cli --data "file.csv" --treatment T --outcome Y\n\n` +
-            `# DB 연결\n` +
+            `# DB connection\n` +
             `python -m engine.cli --data "postgresql://..." --db-query "SELECT ..."\n\n` +
-            `# RAG 질의\n` +
-            `python -m engine.cli --query "쿠폰 효과?" --persona growth_hacker\n\n` +
-            `# 모니터링\n` +
+            `# RAG query\n` +
+            `python -m engine.cli --query "Coupon effect?" --persona growth_hacker\n\n` +
+            `# Monitoring\n` +
             `python -m engine.cli --monitor --interval 30 --slack-webhook $URL\n` +
             `\`\`\``,
         category: "usage",
     },
     {
-        keywords: ["api", "3줄", "코드", "python", "사용예시", "예제", "analyze"],
-        question: "Python API 사용법을 알려주세요.",
+        keywords: ["api", "3-line", "code", "python", "example", "analyze"],
+        question: "How do I use the Python API?",
         answer: `🐍 **3-Line Python API:**\n\n` +
             `\`\`\`python\n` +
             `import whylab\n\n` +
@@ -290,166 +290,166 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
             `    treatment="coupon",\n` +
             `    outcome="purchase"\n` +
             `)\n\n` +
-            `print(results.ate)      # 평균 처치 효과\n` +
-            `print(results.verdict)  # AI 토론 판결\n` +
-            `print(results.cate)     # 개인별 효과\n` +
+            `print(results.ate)      # Average Treatment Effect\n` +
+            `print(results.verdict)  # AI Debate Verdict\n` +
+            `print(results.cate)     # Individual Treatment Effects\n` +
             `\`\`\`\n\n` +
-            `\`whylab.analyze()\`는 전체 11-Cell 파이프라인을 자동 실행하고, 결과를 구조화된 객체로 반환합니다.`,
+            `\`whylab.analyze()\` automatically runs the full 11-Cell pipeline and returns results as a structured object.`,
         category: "usage",
     },
 
-    // ── 시나리오 ──
+    // ── Scenarios ──
     {
-        keywords: ["시나리오a", "scenario a", "신용", "credit", "한도"],
-        question: "시나리오 A는 뭔가요?",
-        answer: `💳 **시나리오 A: 신용한도 인상 → 연체율**\n\n` +
-            `- **처치(Treatment)**: 신용한도 인상 여부\n` +
-            `- **결과(Outcome)**: 연체(default) 여부\n` +
-            `- **질문**: "한도를 올리면 연체가 늘까?"\n\n` +
-            `100명의 합성 데이터로 DML 추정. ATE가 음수이면 한도 인상이 연체를 줄이는 효과입니다.`,
+        keywords: ["scenario a", "credit", "limit"],
+        question: "What is Scenario A?",
+        answer: `💳 **Scenario A: Credit Limit Increase → Default Rate**\n\n` +
+            `- **Treatment**: Whether credit limit was increased\n` +
+            `- **Outcome**: Whether default occurred\n` +
+            `- **Question**: "Does increasing the limit reduce defaults?"\n\n` +
+            `DML estimation with 100 synthetic samples. A negative ATE indicates that limit increases reduce defaults.`,
         category: "usage",
     },
     {
-        keywords: ["시나리오b", "scenario b", "쿠폰", "coupon", "마케팅"],
-        question: "시나리오 B는 뭔가요?",
-        answer: `🎟️ **시나리오 B: 쿠폰 발송 → 가입 전환**\n\n` +
-            `- **처치(Treatment)**: 쿠폰 발송 여부\n` +
-            `- **결과(Outcome)**: 가입 전환 여부\n` +
-            `- **질문**: "쿠폰을 보내면 가입이 늘까?"\n\n` +
-            `마케팅 캠페인 효과 측정 시나리오입니다. ATE가 양수이면 쿠폰이 전환을 높이는 효과입니다.`,
+        keywords: ["scenario b", "coupon", "marketing"],
+        question: "What is Scenario B?",
+        answer: `🎟️ **Scenario B: Coupon Distribution → Signup Conversion**\n\n` +
+            `- **Treatment**: Whether a coupon was sent\n` +
+            `- **Outcome**: Whether signup conversion occurred\n` +
+            `- **Question**: "Does sending coupons increase signups?"\n\n` +
+            `A marketing campaign effectiveness measurement scenario. A positive ATE indicates coupons increase conversion.`,
         category: "usage",
     },
 
-    // ── 벤치마크 ──
+    // ── Benchmarks ──
     {
-        keywords: ["ihdp", "acic", "jobs", "벤치마크", "benchmark", "학술", "성능", "pehe"],
-        question: "벤치마크 결과가 어떻게 되나요?",
-        answer: `🏆 **학술 벤치마크 검증 (3종 x 10 반복)**\n\n` +
-            `| 데이터셋 | 최고 모델 | PEHE |\n` +
+        keywords: ["ihdp", "acic", "jobs", "benchmark", "academic", "performance", "pehe"],
+        question: "What are the benchmark results?",
+        answer: `🏆 **Academic Benchmark Validation (3 datasets × 10 iterations)**\n\n` +
+            `| Dataset | Best Model | PEHE |\n` +
             `|---|---|---|\n` +
             `| **IHDP** | Oracle Ensemble | ~ 0.5 |\n` +
-            `| **ACIC** | DR-Learner | 경쟁 수준 |\n` +
-            `| **Jobs** | X-Learner | 안정적 |\n\n` +
-            `IHDP(747 samples), ACIC(4802 samples), Jobs(722 samples) 3종 표준 벤치마크에서\n` +
-            `CausalML, EconML 등과 동등 이상의 성능을 달성했습니다.`,
+            `| **ACIC** | DR-Learner | Competitive |\n` +
+            `| **Jobs** | X-Learner | Stable |\n\n` +
+            `Achieved comparable or superior performance to CausalML, EconML, etc. on 3 standard benchmarks:\n` +
+            `IHDP (747 samples), ACIC (4802 samples), Jobs (722 samples).`,
         category: "methodology",
     },
 
-    // ── 철학 & 비전 ──
+    // ── Philosophy & Vision ──
     {
-        keywords: ["왜", "why", "철학", "vision", "비전", "목표", "목적"],
-        question: "WhyLab의 비전은 무엇인가요?",
-        answer: `🌟 **WhyLab의 비전: "Why"에 답하는 AI**\n\n` +
-            `기존 데이터 분석은 "무엇이 일어났는가(What)"에 머뭅니다.\n` +
-            `WhyLab은 **"왜 일어났는가(Why)"**에 답합니다.\n\n` +
-            `**핵심 원칙:**\n` +
-            `1. 🎯 **인과 > 상관**: 결정은 인과관계에 기반해야 합니다\n` +
-            `2. 🤖 **AI + 인간**: AI는 분석하고, 인간은 판단합니다\n` +
-            `3. 📊 **투명성**: 모든 결과는 검증 가능하고 설명 가능해야 합니다\n` +
-            `4. 🔄 **연속 감시**: 인과 효과는 변하므로, 지속적으로 모니터링해야 합니다\n\n` +
-            `> *"데이터가 아닌 의사결정을 혁신한다"* — WhyLab`,
+        keywords: ["why", "philosophy", "vision", "goal", "purpose"],
+        question: "What is WhyLab's vision?",
+        answer: `🌟 **WhyLab's Vision: AI that Answers "Why"**\n\n` +
+            `Traditional data analysis stops at "What happened."\n` +
+            `WhyLab answers **"Why did it happen."**\n\n` +
+            `**Core Principles:**\n` +
+            `1. 🎯 **Causation > Correlation**: Decisions should be based on causal relationships\n` +
+            `2. 🤖 **AI + Human**: AI analyzes, humans decide\n` +
+            `3. 📊 **Transparency**: All results must be verifiable and explainable\n` +
+            `4. 🔄 **Continuous Monitoring**: Causal effects change, so they must be continuously monitored\n\n` +
+            `> *"Innovate decisions, not just data"* — WhyLab`,
         category: "philosophy",
     },
     {
-        keywords: ["living", "ledger", "리빙레저"],
-        question: "Living Ledger가 뭔가요?",
-        answer: `📖 **Living Ledger** 는 WhyLab의 연구 비전 문서입니다.\n\n` +
-            `"살아있는 장부"라는 이름처럼, 데이터가 자체적으로 인과관계를 기록하고 업데이트하는 시스템을 꿈꿉니다.\n\n` +
-            `현재는 논문 레벨의 비전 문서로 존재하며, 아키텍처 문서(\`docs/architecture.md\`)에 WhyLab과의 매핑이 기록되어 있습니다.`,
+        keywords: ["living", "ledger"],
+        question: "What is Living Ledger?",
+        answer: `📖 **Living Ledger** is WhyLab's research vision document.\n\n` +
+            `As the name "Living Ledger" suggests, it envisions a system where data autonomously records and updates causal relationships.\n\n` +
+            `Currently exists as a paper-level vision document, with WhyLab mapping documented in the architecture docs (\`docs/architecture.md\`).`,
         category: "philosophy",
     },
 
-    // ── 기술 스택 ──
+    // ── Tech Stack ──
     {
-        keywords: ["기술", "스택", "tech", "stack", "라이브러리", "의존성", "dependency"],
-        question: "기술 스택이 뭔가요?",
-        answer: `🔧 **기술 스택:**\n\n` +
+        keywords: ["tech", "stack", "library", "dependency"],
+        question: "What is the tech stack?",
+        answer: `🔧 **Tech Stack:**\n\n` +
             `**Engine (Python):**\n` +
-            `- EconML, CausalML — 인과추론 핵심\n` +
-            `- LightGBM (GPU 지원) — 메타러너 백본\n` +
-            `- DuckDB — 제로카피 데이터 전처리\n` +
-            `- SQLAlchemy — DB 커넥터\n` +
-            `- ChromaDB — RAG 벡터 스토어\n\n` +
+            `- EconML, CausalML — Causal inference core\n` +
+            `- LightGBM (GPU support) — Meta-learner backbone\n` +
+            `- DuckDB — Zero-copy data preprocessing\n` +
+            `- SQLAlchemy — DB connectors\n` +
+            `- ChromaDB — RAG vector store\n\n` +
             `**Dashboard (TypeScript):**\n` +
             `- Next.js 16 + React 19\n` +
             `- Tailwind CSS v4\n` +
-            `- Recharts — 데이터 시각화\n` +
-            `- ReactFlow — DAG 시각화\n` +
-            `- Framer Motion — 애니메이션\n\n` +
-            `Python 3.9~3.13 호환, MIT 라이선스.`,
+            `- Recharts — Data visualization\n` +
+            `- ReactFlow — DAG visualization\n` +
+            `- Framer Motion — Animations\n\n` +
+            `Compatible with Python 3.9~3.13, MIT License.`,
         category: "architecture",
     },
 
-    // ── 대시보드 ──
+    // ── Dashboard ──
     {
-        keywords: ["대시보드", "dashboard", "ui", "프론트", "시각화", "visualization"],
-        question: "대시보드에서 뭘 볼 수 있나요?",
-        answer: `🖥️ **대시보드 구성 요소:**\n\n` +
-            `1. **ROI Simulator** — 정책 강도 조절 → 이익/부실률 실시간 예측\n` +
-            `2. **CATE Explorer** — 세그먼트별 개인 효과 분포\n` +
-            `3. **Causal Graph (DAG)** — 인과 구조 시각화\n` +
-            `4. **Stats Cards** — ATE, 샘플 수, 모델 타입 등 핵심 지표\n` +
-            `5. **Conformal Band** — 개인별 신뢰구간 차트\n` +
-            `6. **AI Debate Verdict** — Growth vs Risk 토론 결과\n` +
+        keywords: ["dashboard", "ui", "frontend", "visualization"],
+        question: "What can I see on the dashboard?",
+        answer: `🖥️ **Dashboard Components:**\n\n` +
+            `1. **ROI Simulator** — Adjust policy intensity → Real-time profit/default rate prediction\n` +
+            `2. **CATE Explorer** — Individual effect distribution by segment\n` +
+            `3. **Causal Graph (DAG)** — Causal structure visualization\n` +
+            `4. **Stats Cards** — Key metrics: ATE, sample size, model type, etc.\n` +
+            `5. **Conformal Band** — Individual confidence interval chart\n` +
+            `6. **AI Debate Verdict** — Growth vs Risk debate results\n` +
             `7. **Sensitivity Report** — E-value, Overlap, GATES\n` +
-            `8. **Model Comparison** — 메타러너 성능 비교\n` +
-            `9. **Chat Panel** — 저예요! 🤖 분석 결과에 대해 물어보세요\n\n` +
+            `8. **Model Comparison** — Meta-learner performance comparison\n` +
+            `9. **Chat Panel** — That's me! 🤖 Ask me about analysis results\n\n` +
             `URL: [whylab.vercel.app](https://whylab.vercel.app/dashboard)`,
         category: "feature",
     },
 
-    // ── 견고성 관련 ──
+    // ── Robustness ──
     {
-        keywords: ["refutation", "검증", "placebo", "bootstrap", "random cause"],
-        question: "견고성 검증은 어떻게 하나요?",
-        answer: `🔬 **3가지 Refutation 검증:**\n\n` +
-            `1. **Placebo Test**: 가짜 처치 변수로 대체 → 효과가 0에 가까운지 확인\n` +
-            `   - Pass: 원래 결과가 우연이 아님\n\n` +
-            `2. **Bootstrap CI**: 부트스트랩 리샘플링으로 신뢰구간 계산\n` +
-            `   - 원래 ATE가 부트스트랩 CI 안에 있으면 안정적\n\n` +
-            `3. **Random Common Cause**: 랜덤 교란 변수 추가\n` +
-            `   - ATE가 크게 변하지 않으면 견고함\n\n` +
-            `모든 검증은 RefutationCell에서 자동 실행되며, Status Cards에 Pass/Fail이 표시됩니다.`,
+        keywords: ["refutation", "validation", "placebo", "bootstrap", "random cause"],
+        question: "How is robustness validated?",
+        answer: `🔬 **3 Refutation Tests:**\n\n` +
+            `1. **Placebo Test**: Replace with a fake treatment variable → Check if effect is near 0\n` +
+            `   - Pass: Original result is not due to chance\n\n` +
+            `2. **Bootstrap CI**: Calculate confidence intervals via bootstrap resampling\n` +
+            `   - Stable if original ATE falls within bootstrap CI\n\n` +
+            `3. **Random Common Cause**: Add a random confounder variable\n` +
+            `   - Robust if ATE doesn't change significantly\n\n` +
+            `All tests run automatically in RefutationCell, with Pass/Fail displayed in Status Cards.`,
         category: "methodology",
     },
     {
-        keywords: ["evalue", "e-value", "미관측", "unobserved", "교란"],
-        question: "E-value가 뭔가요?",
+        keywords: ["evalue", "e-value", "unobserved", "confounder"],
+        question: "What is E-value?",
         answer: `🔍 **E-value (Evidence Value)**\n\n` +
-            `미관측 교란변수(Unobserved Confounder)에 대한 견고성 지표입니다.\n\n` +
-            `**해석:**\n` +
-            `- E-value = 3.0 → "관찰된 효과를 설명하려면, 미관측 교란이 처치/결과 모두에 3배 이상 영향을 미쳐야 함"\n` +
-            `- 높을수록 견고 (≥2.0: 양호, ≥3.0: 강건)\n\n` +
-            `WhyLab은 CI bound E-value도 함께 보고하여 보수적 평가를 제공합니다.`,
+            `A robustness indicator against unobserved confounders.\n\n` +
+            `**Interpretation:**\n` +
+            `- E-value = 3.0 → "To explain the observed effect, an unobserved confounder would need to have 3x or greater impact on both treatment and outcome"\n` +
+            `- Higher is more robust (≥2.0: good, ≥3.0: strong)\n\n` +
+            `WhyLab also reports the CI-bound E-value for a conservative evaluation.`,
         category: "methodology",
     },
 
     // ── ROI Simulator ──
     {
-        keywords: ["roi", "simulator", "시뮬레이터", "시뮬레이션", "what-if", "만약"],
-        question: "ROI Simulator는 뭔가요?",
+        keywords: ["roi", "simulator", "simulation", "what-if"],
+        question: "What is the ROI Simulator?",
         answer: `💰 **ROI (Policy) Simulator**\n\n` +
-            `"만약 정책 강도를 바꾸면 결과가 어떻게 될까?"를 실시간으로 시뮬레이션합니다.\n\n` +
-            `**조절 가능한 파라미터:**\n` +
-            `- 신용 한도 상향 크기 ($0 ~ $2,000)\n` +
-            `- 타겟 유저 범위 (상위 5% ~ 전체)\n\n` +
-            `**출력:**\n` +
-            `- 예상 순이익 (Net Profit)\n` +
-            `- 예상 부실률 (Default Rate)\n` +
-            `- Profit Sensitivity Curve (수익 민감도 곡선)\n` +
-            `- AI 에이전트 의견 (Growth Hacker vs Risk Manager)\n\n` +
-            `슬라이더를 움직이며 실시간으로 변화를 확인할 수 있습니다.`,
+            `Simulates in real-time: "What if we change the policy intensity?"\n\n` +
+            `**Adjustable Parameters:**\n` +
+            `- Credit limit increase amount ($0 ~ $2,000)\n` +
+            `- Target user range (top 5% ~ all users)\n\n` +
+            `**Output:**\n` +
+            `- Expected Net Profit\n` +
+            `- Expected Default Rate\n` +
+            `- Profit Sensitivity Curve\n` +
+            `- AI Agent opinions (Growth Hacker vs Risk Manager)\n\n` +
+            `Move the sliders to see changes in real-time.`,
         category: "feature",
     },
 ];
 
 /* ──────────────────────────────────────
- * 3. 지식 매칭 엔진
+ * 3. Knowledge Matching Engine
  * ────────────────────────────────────── */
 export function searchKnowledge(query: string): KnowledgeEntry | null {
     const q = query.toLowerCase();
 
-    // 1-Pass: 매칭 스코어 계산
+    // 1-Pass: Calculate matching score
     let bestMatch: KnowledgeEntry | null = null;
     let bestScore = 0;
 
@@ -457,7 +457,7 @@ export function searchKnowledge(query: string): KnowledgeEntry | null {
         let score = 0;
         for (const kw of entry.keywords) {
             if (q.includes(kw)) {
-                score += kw.length; // 긴 키워드 매치일수록 높은 점수
+                score += kw.length; // Longer keyword matches score higher
             }
         }
         if (score > bestScore) {
@@ -466,18 +466,18 @@ export function searchKnowledge(query: string): KnowledgeEntry | null {
         }
     }
 
-    // 최소 2글자 이상의 키워드가 매치되어야 반환
+    // Return only if at least 2 characters of keyword matched
     return bestScore >= 2 ? bestMatch : null;
 }
 
 /* ──────────────────────────────────────
- * 4. 추천 질문 생성
+ * 4. Suggested Questions
  * ────────────────────────────────────── */
 export const PROJECT_SUGGESTIONS = [
-    "WhyLab이 뭔가요?",
-    "다른 도구와 뭐가 달라요?",
-    "메타러너가 뭔가요?",
-    "멀티 에이전트 토론 시스템은?",
-    "어떻게 시작하나요?",
-    "모니터링은 어떻게 하나요?",
+    "What is WhyLab?",
+    "How is it different from other tools?",
+    "What are Meta-Learners?",
+    "What is the Multi-Agent Debate System?",
+    "How do I get started?",
+    "How does monitoring work?",
 ];

@@ -24,25 +24,25 @@ export default function EstimationAccuracy({ data }: { data: CausalAnalysisResul
         {
             label: "RMSE",
             value: acc.rmse.toFixed(4),
-            desc: "추정 오차 (낮을수록 정확)",
+            desc: "Estimation error (lower is better)",
             color: "text-cyan-400",
         },
         {
             label: "MAE",
             value: acc.mae.toFixed(4),
-            desc: "평균 절대 오차",
+            desc: "Mean absolute error",
             color: "text-blue-400",
         },
         {
             label: "Bias",
             value: `${acc.bias > 0 ? '+' : ''}${acc.bias.toFixed(4)}`,
-            desc: "체계적 편향 (0에 가까울수록 양호)",
+            desc: "Systematic bias (closer to 0 is better)",
             color: Math.abs(acc.bias) < 0.01 ? "text-emerald-400" : "text-amber-400",
         },
         {
             label: "Coverage",
             value: `${coveragePct}%`,
-            desc: `95% CI가 Ground Truth를 포함하는 비율`,
+            desc: `Proportion of 95% CI containing ground truth`,
             color: coverageOk ? "text-emerald-400" : "text-red-400",
             badge: coverageOk ? "Pass" : "Fail",
             badgeColor: coverageOk ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400",
@@ -50,7 +50,7 @@ export default function EstimationAccuracy({ data }: { data: CausalAnalysisResul
         {
             label: "Correlation",
             value: acc.correlation.toFixed(3),
-            desc: "추정 ↔ 실제 방향성 일치도",
+            desc: "Estimated ↔ actual directional agreement",
             color: acc.correlation > 0.8 ? "text-emerald-400" : acc.correlation > 0.5 ? "text-amber-400" : "text-red-400",
         },
     ];
@@ -65,7 +65,7 @@ export default function EstimationAccuracy({ data }: { data: CausalAnalysisResul
                 <div>
                     <h2 className="text-xl font-bold">📊 Estimation Accuracy</h2>
                     <p className="text-gray-400 text-sm mt-1">
-                        Ground Truth (합성 데이터) vs DML 추정치 비교 · N={acc.n_samples.toLocaleString()}
+                        Ground Truth (synthetic data) vs DML estimates · N={acc.n_samples.toLocaleString()}
                     </p>
                 </div>
                 <div className="text-xs text-gray-500 bg-gray-800/50 px-3 py-1 rounded-full">

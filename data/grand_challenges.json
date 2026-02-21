@@ -1,0 +1,162 @@
+[
+    {
+        "id": "GC_001",
+        "category": "AI Ethics",
+        "title": "AI Alignment & Human Values",
+        "description": "초지능 AI가 인간의 가치와 충돌하지 않도록 하는 정렬 문제에 대한 인과적 분석.",
+        "difficulty": "Hard",
+        "impact": "Critical"
+    },
+    {
+        "id": "GC_002",
+        "category": "Economy",
+        "title": "AI Impact on Labor Market",
+        "description": "AI 도입이 화이트칼라 직군(특히 개발자, 변호사)의 고용 안정성에 미치는 인과적 영향.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_003",
+        "category": "Climate",
+        "title": "Carbon Tax Effectiveness",
+        "description": "탄소세 도입이 실제 기업의 탄소 배출량 감축에 미치는 인과적 효과 분석.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_004",
+        "category": "Society",
+        "title": "Social Media & Mental Health",
+        "description": "숏폼 콘텐츠 소비 시간과 청소년 우울증 간의 인과관계 규명.",
+        "difficulty": "Easy",
+        "impact": "Medium"
+    },
+    {
+        "id": "GC_005",
+        "category": "Healthcare",
+        "title": "Telemedicine & Accessibility",
+        "description": "원격 진료 허용이 의료 소외 지역의 수명 연장에 미치는 효과.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_006",
+        "category": "Education",
+        "title": "AI Tutoring & Learning Outcomes",
+        "description": "AI 개인화 튜터링이 고등학생의 수학 성취도에 미치는 인과적 효과. 기존 과외와의 비교 분석.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_007",
+        "category": "Economy",
+        "title": "Remote Work & Productivity",
+        "description": "주 3일 이상 원격 근무가 팀 생산성과 이직률에 미치는 이중 인과 효과.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_008",
+        "category": "Healthcare",
+        "title": "Vaccine Hesitancy & Public Health",
+        "description": "가짜 뉴스 노출 빈도가 백신 접종률에 미치는 인과적 영향과 정보 리터러시의 조절 효과.",
+        "difficulty": "Hard",
+        "impact": "Critical"
+    },
+    {
+        "id": "GC_009",
+        "category": "Climate",
+        "title": "EV Subsidies & Adoption Rate",
+        "description": "전기차 보조금 규모가 소비자 구매 전환율에 미치는 인과적 효과. 소득 수준별 이질성 분석.",
+        "difficulty": "Easy",
+        "impact": "Medium"
+    },
+    {
+        "id": "GC_010",
+        "category": "AI Ethics",
+        "title": "Algorithmic Fairness in Hiring",
+        "description": "AI 채용 시스템의 편향이 소수자 집단의 채용률에 미치는 인과적 영향.",
+        "difficulty": "Hard",
+        "impact": "Critical"
+    },
+    {
+        "id": "GC_011",
+        "category": "Society",
+        "title": "Minimum Wage & Youth Employment",
+        "description": "최저임금 인상이 청년 고용률에 미치는 인과적 효과. 지역별·산업별 이질성 분석.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_012",
+        "category": "Healthcare",
+        "title": "Sleep Duration & Cognitive Performance",
+        "description": "수면 시간이 인지 수행 능력과 장기 치매 위험에 미치는 용량-반응(dose-response) 인과 관계.",
+        "difficulty": "Easy",
+        "impact": "Medium"
+    },
+    {
+        "id": "GC_013",
+        "category": "Economy",
+        "title": "UBI & Labor Force Participation",
+        "description": "기본소득(UBI) 지급이 노동시장 참여율과 창업률에 미치는 이중 인과 효과.",
+        "difficulty": "Hard",
+        "impact": "Critical"
+    },
+    {
+        "id": "GC_014",
+        "category": "Climate",
+        "title": "Deforestation & Regional Climate",
+        "description": "열대림 감소율이 지역 강수패턴 변화에 미치는 인과적 영향. 위성 데이터 기반 분석.",
+        "difficulty": "Hard",
+        "impact": "High"
+    },
+    {
+        "id": "GC_015",
+        "category": "Education",
+        "title": "Class Size & Academic Achievement",
+        "description": "학급 규모 축소가 초등학생의 학업 성취도에 미치는 인과적 효과. STAR 프로젝트 재현.",
+        "difficulty": "Easy",
+        "impact": "Medium"
+    },
+    {
+        "id": "GC_016",
+        "category": "Society",
+        "title": "Incarceration & Recidivism",
+        "description": "대안적 처벌(사회봉사, 전자감독)이 재범률에 미치는 인과적 효과. 기존 구금형과 비교.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_017",
+        "category": "AI Ethics",
+        "title": "Deepfake Detection & Trust",
+        "description": "딥페이크 탐지 시스템 성능이 미디어 신뢰도에 미치는 인과적 영향. 정보 환경의 피드백 루프 분석.",
+        "difficulty": "Hard",
+        "impact": "High"
+    },
+    {
+        "id": "GC_018",
+        "category": "Economy",
+        "title": "Gig Economy & Worker Welfare",
+        "description": "플랫폼 노동(배달·라이드셰어) 비율 증가가 노동자 건강 및 소득 안정성에 미치는 인과적 영향.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_019",
+        "category": "Healthcare",
+        "title": "Air Quality & Respiratory Disease",
+        "description": "초미세먼지(PM2.5) 농도가 호흡기 질환 입원율에 미치는 단기·장기 인과 효과. 도구 변수 활용.",
+        "difficulty": "Medium",
+        "impact": "High"
+    },
+    {
+        "id": "GC_020",
+        "category": "Society",
+        "title": "Digital Divide & Economic Mobility",
+        "description": "초고속 인터넷 접근성이 농촌 지역의 경제적 이동성(소득 상승)에 미치는 인과적 효과.",
+        "difficulty": "Medium",
+        "impact": "High"
+    }
+]

@@ -10,6 +10,15 @@
 """
 
 from whylab.api import analyze, CausalResult
+from engine.cells.dose_response_cell import DoseResponseCell
+from engine.cells.fairness_audit_cell import FairnessAuditCell
+from engine.cells.deep_cate_cell import DeepCATECell
+from engine.agents.mac_discovery import MACDiscoveryAgent
 
-__version__ = "0.2.0"
-__all__ = ["analyze", "CausalResult", "__version__"]
+__version__ = "1.0.0"
+__all__ = [
+    "analyze", "CausalResult",
+    "DoseResponseCell", "FairnessAuditCell", "DeepCATECell",
+    "MACDiscoveryAgent",
+    "__version__"
+]

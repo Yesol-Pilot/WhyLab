@@ -45,7 +45,7 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
         return (
             <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">⚖️ Causal Verdict</h3>
-                <p className="text-gray-500 dark:text-gray-400">데이터가 없습니다.</p>
+                <p className="text-gray-500 dark:text-gray-400">No data available.</p>
             </div>
         );
     }
@@ -54,13 +54,13 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
     const getVerdictStyle = (verdict: string) => {
         switch (verdict) {
             case 'CAUSAL':
-                return { color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20', icon: '✅', label: '인과관계 인정 (Causal)' };
+                return { color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20', icon: '✅', label: 'Causal Relationship Confirmed' };
             case 'NOT_CAUSAL':
-                return { color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/20', icon: '❌', label: '인과관계 기각 (Not Causal)' };
+                return { color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/20', icon: '❌', label: 'Causal Relationship Rejected' };
             case 'UNCERTAIN':
-                return { color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', icon: '⚠️', label: '판단 보류 (Uncertain)' };
+                return { color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', icon: '⚠️', label: 'Verdict Pending (Uncertain)' };
             default:
-                return { color: 'text-gray-600 dark:text-gray-400', bg: 'bg-gray-50 dark:bg-gray-800', icon: '❓', label: '판단 불가 (Unknown)' };
+                return { color: 'text-gray-600 dark:text-gray-400', bg: 'bg-gray-50 dark:bg-gray-800', icon: '❓', label: 'Unable to Determine (Unknown)' };
         }
     };
 
@@ -81,7 +81,7 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
                     <div>
                         <h2 className={`text-xl font-bold ${style.color}`}>{style.label}</h2>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
-                            확신도 {(debate.confidence * 100).toFixed(1)}% • {debate.rounds} 라운드 합의
+                            Confidence {(debate.confidence * 100).toFixed(1)}% • {debate.rounds} rounds of consensus
                         </p>
                     </div>
                 </div>
@@ -111,10 +111,10 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
 
             <div className="flex justify-between text-sm font-medium mb-6 px-1">
                 <div className="text-green-600 dark:text-green-400">
-                    Advocate (옹호) {debate.pro_score.toFixed(1)}
+                    Advocate {debate.pro_score.toFixed(1)}
                 </div>
                 <div className="text-red-600 dark:text-red-400">
-                    Critic (비판) {debate.con_score.toFixed(1)}
+                    Critic {debate.con_score.toFixed(1)}
                 </div>
             </div>
 
@@ -124,7 +124,7 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
                 <div className="space-y-3">
                     <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-green-500" />
-                        주요 옹호 근거 (Top 3)
+                        Key Advocate Arguments (Top 3)
                     </h3>
                     {debate.pro_evidence.slice(0, 3).map((e, i) => (
                         <EvidenceCard key={i} evidence={e} type="pro" />
@@ -136,7 +136,7 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
                 <div className="space-y-3">
                     <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-red-500" />
-                        주요 비판 근거 (Top 3)
+                        Key Critic Arguments (Top 3)
                     </h3>
                     {debate.con_evidence.slice(0, 3).map((e, i) => (
                         <EvidenceCard key={i} evidence={e} type="con" />
@@ -150,22 +150,22 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
                 <div className="mt-6 space-y-3">
                     <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 flex items-center gap-2">
                         <span className="text-base">🎙️</span>
-                        LLM 에이전트 토론
+                        LLM Agent Debate
                         {!debate.llm_debate.llm_active && (
-                            <span className="text-xs text-gray-400">(규칙 기반 Fallback)</span>
+                            <span className="text-xs text-gray-400">(Rule-based Fallback)</span>
                         )}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {debate.llm_debate.advocate_argument && (
                             <LLMArgumentCard
-                                title="Growth Hacker (옹호)"
+                                title="Growth Hacker (Advocate)"
                                 content={debate.llm_debate.advocate_argument}
                                 variant="pro"
                             />
                         )}
                         {debate.llm_debate.critic_argument && (
                             <LLMArgumentCard
-                                title="Risk Manager (비판)"
+                                title="Risk Manager (Critic)"
                                 content={debate.llm_debate.critic_argument}
                                 variant="con"
                             />
@@ -177,7 +177,7 @@ export default function DebateVerdict({ data }: DebateVerdictProps) {
                                 <span className="text-xl">⚖️</span>
                                 <div>
                                     <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 mb-1">
-                                        Product Owner 최종 판결
+                                        Product Owner Final Verdict
                                     </h4>
                                     <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-line">
                                         {debate.llm_debate.judge_verdict}
@@ -231,7 +231,7 @@ function EvidenceCard({ evidence, type }: { evidence: Evidence; type: 'pro' | 'c
 function EmptyCard() {
     return (
         <div className="p-4 rounded-lg border border-dashed border-gray-300 text-center text-gray-400 text-sm">
-            해당 없음
+            N/A
         </div>
     );
 }

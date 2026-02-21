@@ -233,6 +233,49 @@ export default function ChatPanel({ data }: Props) {
         }
     }, [messages]);
 
+    // [NEW] 실시간 사이클 알림 (Polling)
+    const [lastCycleId, setLastCycleId] = useState(0);
+
+    useEffect(() => {
+        const checkCycles = async () => {
+            try {
+                const res = await fetch("http://localhost:4001/system/cycles");
+                if (res.ok) {
+                    const json = await res.json();
+                    if (json.cycles && json.cycles.length > 0) {
+                        const latest = json.cycles[json.cycles.length - 1];
+
+                        // 첫 로딩 시에는 ID만 잡고 알림 스킵
+                        if (lastCycleId === 0) {
+                            setLastCycleId(latest.id);
+                            return;
+                        }
+
+                        // 새로운 사이클 발견 시 알림
+                        if (latest.id > lastCycleId) {
+                            const newMsg: ChatMessage = {
+                                role: "assistant",
+                                content: `🔔 **새로운 연구 사이클(#${latest.id}) 완료**\n\n` +
+                                    `🧠 **가설**: ${latest.hypothesis?.text ? latest.hypothesis.text.slice(0, 40) + "..." : "Unknown"}\n` +
+                                    `⚡ **방법**: ${latest.experiment?.method || "Unknown"}\n` +
+                                    `📊 **결과**: ATE=${latest.experiment?.ate?.toFixed(2) || "?"} (${latest.critic?.verdict || "Pending"})\n\n` +
+                                    `자세한 내용은 Strategy Map을 확인하세요.`,
+                                timestamp: new Date(),
+                            };
+                            setMessages(prev => [...prev, newMsg]);
+                            setLastCycleId(latest.id);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Cycle polling failed", e);
+            }
+        };
+
+        const interval = setInterval(checkCycles, 5000); // 5초마다 확인
+        return () => clearInterval(interval);
+    }, [lastCycleId]);
+
     const handleSend = async (text?: string) => {
         const question = text || input.trim();
         if (!question) return;

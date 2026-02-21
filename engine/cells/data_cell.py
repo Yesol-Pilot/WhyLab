@@ -29,6 +29,8 @@ from typing import Any, Dict, List, Tuple
 import duckdb
 import numpy as np
 import pandas as pd
+import os
+import glob
 
 from engine.cells.base_cell import BaseCell
 from engine.config import WhyLabConfig
@@ -66,6 +68,13 @@ class DataCell(BaseCell):
             생성된 데이터셋 및 메타데이터.
         """
         scenario = inputs.get("scenario", "A")
+        
+        # 0.1. CSV 파일 자동 감지 (engine/data/*.csv)
+        if not self.config.data.input_path:
+            local_csv = self._detect_local_csv()
+            if local_csv:
+                self.config.data.input_path = local_csv
+                self.logger.info("📂 로컬 CSV 자동 감지: %s", local_csv)
         
         # 0. 외부 데이터 로드 (CLI 인자 우선)
         if self.config.data.input_path:
@@ -239,6 +248,27 @@ class DataCell(BaseCell):
             "app_usage_time": app_usage,
             "consumption": consumption,
         })
+
+    def _detect_local_csv(self) -> str | None:
+        """engine/data 디렉토리에서 가장 최근 수정된 CSV 파일을 찾습니다."""
+        try:
+            # 현재 파일 기준 engine/data 경로 추정
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            data_dir = os.path.join(base_dir, "engine", "data")
+            
+            if not os.path.exists(data_dir):
+                return None
+                
+            csv_files = glob.glob(os.path.join(data_dir, "*.csv"))
+            if not csv_files:
+                return None
+                
+            # 가장 최근 수정된 파일 반환
+            latest_file = max(csv_files, key=os.path.getmtime)
+            return latest_file
+        except Exception as e:
+            self.logger.warning("로컬 CSV 검색 중 오류 발생: %s", e)
+            return None
 
     def _generate_scenario_A(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, Dict]:
         """시나리오 A: 신용 한도(Continuous) → 연체 여부(Binary)."""

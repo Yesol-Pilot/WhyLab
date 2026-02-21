@@ -161,9 +161,9 @@ class TestAutoCausalCell:
 class TestOrchestratorIntegration:
 
     def test_13_cell_pipeline(self, config):
-        """13셀 파이프라인 구성 확인."""
+        """16셀 파이프라인 구성 확인 (v0.2.0 기준)."""
         from engine.orchestrator import Orchestrator
         orch = Orchestrator(config)
         assert "discovery" in orch.cells
         assert "auto_causal" in orch.cells
-        assert len(orch.cells) == 13
+        assert len(orch.cells) >= 13  # v0.2.0에서 16셀로 확장

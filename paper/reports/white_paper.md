@@ -1,11 +1,11 @@
-# Beyond Correlation: Optimizing Fintech Strategies with Double Machine Learning
-> **Date**: 2026-02-13  
+# Beyond Correlation: A Multi-Agent Causal Intelligence Platform for Fintech
+> **Date**: 2026-02-15  
 > **Author**: WhyLab Research Team  
-> **Status**: Draft v0.2  
+> **Status**: Draft v1.0  
 
 ## Abstract
 
-핀테크 산업에서 의사결정은 데이터에 기반해야 합니다. 그러나 단순한 상관관계 분석은 역인과 관계(Reverse Causality)나 교란 변수(Confounder)로 인해 잘못된 결론을 유도할 위험이 큽니다. 본 연구는 **Double Machine Learning (DML)** 기법을 활용하여, 신용한도 상향과 마케팅 쿠폰 지급이라는 두 가지 실제적 시나리오에서 **순수 인과 효과(Causal Effect)**를 추정합니다. 나아가 **E-value**, **Overlap(Positivity)**, **GATES/CLAN** 등 고급 통계 진단을 통해 추정치의 견고성과 이질성을 심층 검증합니다.
+핀테크 산업에서 의사결정은 데이터에 기반해야 합니다. 그러나 단순한 상관관계 분석은 역인과 관계(Reverse Causality)나 교란 변수(Confounder)로 인해 잘못된 결론을 유도할 위험이 큽니다. 본 연구는 **WhyLab**을 통해 이 문제를 해결합니다. WhyLab은 (1) **Double Machine Learning (DML)** + **딥러닝 CATE (DragonNet/TARNet)**로 이질적 처치 효과를 추정하고, (2) **다중 에이전트 인과 발견(MAC)**으로 인과 구조를 앙상블 탐지하며, (3) **도구 강화 토론(Tool-Augmented Debate)**으로 인과 주장을 자동 검증하는 통합 플랫폼입니다. 6종 학술 벤치마크(IHDP, ACIC, Jobs, TWINS, Criteo, LaLonde)에서 7종 추정기의 GPU 가속 평가를 수행하였으며, 공정성 감사 및 용량-반응 분석까지 포괄합니다.
 
 ---
 
@@ -49,9 +49,29 @@ $$ Y - E[Y|X] = \theta(X) \cdot (T - E[T|X]) + \epsilon $$
 | **GATES** | CATE 사분위별 그룹 분석 + F-test | 이질적 처치 효과의 통계적 유의성 |
 | **CLAN** | 그룹별 피처 평균 비교 | 어떤 특성이 이질성을 만드는지 |
 
-### 2.4. Technology Stack
--   **Inference**: Microsoft EconML (LinearDML)
--   **Nuisance Models**: LightGBM (Gradient Boosting)
+### 2.4. Deep Learning CATE (Phase 5)
+
+| 아키텍처 | 참조 | 구조 |
+|----------|------|------|
+| **TARNet** | Shalit et al. 2017 | 공유 표현 Φ(X) → Y₀/Y₁ 분기 헤드 |
+| **DragonNet** | Shi et al. 2019 | TARNet + 성향점수 헤드 (타겟 정규화) |
+
+$$\text{CATE}(x) = \hat{Y}_1(x) - \hat{Y}_0(x) = f_{Y_1}(\Phi(x)) - f_{Y_0}(\Phi(x))$$
+
+### 2.5. Dose-Response Analysis (Phase 5)
+Generalized Propensity Score (GPS) 기반 연속형 처치의 용량-반응 곡선을 추정합니다:
+
+$$GPS(t, x) = f_{T|X}(t|x), \quad E[Y|T=t] = g(t, GPS(t, x))$$
+
+### 2.6. Multi-Agent Causal Discovery (Phase 5)
+PC, GES, LiNGAM 3종 알고리즘을 독립 실행 후 투표 앙상블로 합의 DAG를 구성합니다:
+
+$$A_{\text{final}}[i,j] = \mathbb{1}\left[\frac{1}{K}\sum_{k=1}^{K} A_k[i,j] \geq \tau\right]$$
+
+### 2.7. Technology Stack
+-   **Inference**: Microsoft EconML (LinearDML) + PyTorch (DragonNet, TARNet)
+-   **Causal Discovery**: PC, GES (BIC), LiNGAM (비가우시안 순서)
+-   **Nuisance Models**: LightGBM GPU (RTX 4070 SUPER)
 -   **Data Processing**: DuckDB for OLAP
 -   **Dashboard**: Next.js 16 + Recharts + Framer Motion
 
@@ -94,6 +114,9 @@ $$ Y - E[Y|X] = \theta(X) \cdot (T - E[T|X]) + \epsilon $$
 -   **이질성**: 고소득층에서 효과 극대화, 저소득층에서 효과 미미/부정적
 -   **정책 함의**: 일괄 증액이 아닌 고신용 세그먼트 타겟 증액 필요
 
+![Figure 1: Dose-Response Analysis with Uncertainty](../figures/fig1_dose_response.png)
+*Figure 1. 95% 신뢰구간을 포함한 용량-반응 곡선. 최적 처치 용량(Optimal Dose)을 시각적으로 식별할 수 있습니다.*
+
 ### 4.3. Scenario B: Marketing Coupon
 -   **Overall ATE = -0.0040**: 쿠폰 효과가 통계적으로 유의하지 않음 (CI가 0 포함)
 -   **정책 함의**: 쿠폰이 가입률에 미치는 순수 효과가 작으므로, CATE 기반 세그먼트 타겟팅으로 ROI 극대화 필요
@@ -127,9 +150,9 @@ Scenario A의 E-value 1.07은 비교적 작은 값으로, 강한 미관측 교�
 
 ---
 
-## 6. Academic Benchmark Evaluation
+## 6. Academic Benchmark Evaluation (GPU: RTX 4070 SUPER)
 
-본 엔진의 CATE 추정 성능을 검증하기 위해, 세 가지 표준 학술 벤치마크에서 7종 메타러너를 10회 반복 평가했습니다.
+본 엔진의 CATE 추정 성능을 검증하기 위해, **6종 표준 학술 벤치마크**에서 **7종 추정기**(5종 메타러너 + DragonNet + TARNet)를 GPU 환경에서 반복 평가했습니다.
 
 ### 6.1. Benchmark Datasets
 
@@ -138,92 +161,130 @@ Scenario A의 E-value 1.07은 비교적 작은 값으로, 강한 미관측 교�
 | **IHDP** | Hill 2011 | 747 | 25 | 비선형 Response Surface, 불균형 처치 |
 | **ACIC** | Dorie et al. 2019 | 4,802 | 58 | 고차원, 비선형 HTE, 복합 교란 |
 | **Jobs** | LaLonde 1986 | 722 | 8 | 강한 Selection Bias, 소표본 |
+| **TWINS** | Louizos et al. 2017 | 4,000 | 30 | 쌍둥이 자연실험, 최소 교란 |
+| **Criteo** | Diemert et al. 2018 | 50,000 | 12 | 대규모 광고 업리프트, 미소 효과 |
+| **LaLonde** | LaLonde 1986 | 2,000 | 10 | 직업 훈련 프로그램, 관찰 대조군 |
 
-### 6.2. Results
+### 6.2. Results ($\sqrt{\text{PEHE}}$, lower is better)
 
-#### Table 1: IHDP Benchmark ($\sqrt{\text{PEHE}}$, lower is better)
+| Method | IHDP | ACIC | TWINS | Jobs | LaLonde |
+|--------|:----:|:----:|:-----:|:----:|:-------:|
+| S-Learner | 1.371 | 0.504 | 0.179 | **291** | **729** |
+| **T-Learner** | **1.159** | 0.847 | 0.281 | 500 | 1721 |
+| X-Learner | 1.327 | 0.570 | 0.195 | 391 | 1300 |
+| DR-Learner | 1.201 | 0.795 | 0.268 | 550 | 1784 |
+| R-Learner | 1.631 | 1.182 | 0.430 | 721 | 1940 |
+| **DragonNet** 🆕 | 1.414 | **0.478** | 0.165 | 1429 | 1800 |
+| **TARNet** 🆕 | 1.417 | 0.504 | **0.158** | 1448 | 1785 |
 
-| Method | $\sqrt{\text{PEHE}}$ | ATE Bias |
-|--------|:---:|:---:|
-| **T-Learner** | **1.164 $\pm$ 0.024** | **0.039 $\pm$ 0.031** |
-| DR-Learner | 1.194 $\pm$ 0.034 | 0.038 $\pm$ 0.029 |
-| Ensemble | 1.214 $\pm$ 0.025 | 0.046 $\pm$ 0.034 |
-| X-Learner | 1.324 $\pm$ 0.029 | 0.035 $\pm$ 0.024 |
-| S-Learner | 1.383 $\pm$ 0.033 | 0.064 $\pm$ 0.040 |
-| LinearDML | 1.465 $\pm$ 0.024 | 0.066 $\pm$ 0.061 |
-| R-Learner | 1.635 $\pm$ 0.046 | 0.135 $\pm$ 0.107 |
-
-> **참고**: BART $\sqrt{\text{PEHE}} \approx 1.0$ (Hill 2011), GANITE $\approx 1.9$ (Yoon et al. 2018)
-
-#### Table 2: ACIC Benchmark
-
-| Method | $\sqrt{\text{PEHE}}$ | ATE Bias |
-|--------|:---:|:---:|
-| **S-Learner** | **0.491 $\pm$ 0.017** | **0.018 $\pm$ 0.013** |
-| X-Learner | 0.569 $\pm$ 0.009 | 0.020 $\pm$ 0.011 |
-| Ensemble | 0.612 $\pm$ 0.013 | 0.013 $\pm$ 0.007 |
-| LinearDML | 0.614 $\pm$ 0.010 | 0.071 $\pm$ 0.025 |
-| DR-Learner | 0.799 $\pm$ 0.017 | 0.040 $\pm$ 0.018 |
-| T-Learner | 0.835 $\pm$ 0.013 | 0.041 $\pm$ 0.018 |
-| R-Learner | 1.206 $\pm$ 0.035 | 0.111 $\pm$ 0.060 |
-
-#### Table 3: Jobs Benchmark
-
-| Method | $\sqrt{\text{PEHE}}$ | ATE Bias |
-|--------|:---:|:---:|
-| **LinearDML** | **170.5 $\pm$ 32.3** | 39.2 $\pm$ 36.6 |
-| S-Learner | 288.4 $\pm$ 11.3 | 79.2 $\pm$ 36.8 |
-| X-Learner | 377.2 $\pm$ 22.4 | 38.6 $\pm$ 16.3 |
-| Ensemble | 381.8 $\pm$ 18.4 | 39.8 $\pm$ 33.8 |
-| T-Learner | 482.7 $\pm$ 23.2 | **35.2 $\pm$ 21.7** |
-| DR-Learner | 535.0 $\pm$ 29.3 | 34.9 $\pm$ 25.2 |
-| R-Learner | 703.4 $\pm$ 36.6 | 81.7 $\pm$ 73.8 |
+> **참고**: BART ≈ 1.0 (Hill 2011), GANITE ≈ 1.9 (Yoon et al. 2018), CEVAE ≈ 0.34 on TWINS (Louizos et al. 2017)
 
 ### 6.3. Key Findings
 
-1. **No single learner dominates**: IHDP에서는 T-Learner, ACIC에서는 S-Learner, Jobs에서는 LinearDML이 최적. 이는 Oracle Ensemble의 필요성을 뒷받침합니다.
-2. **Ensemble stability**: Oracle-weighted Ensemble은 세 벤치마크 모두에서 상위 3위 이내로, 최고는 아니지만 일관적으로 안정적인 성능을 보였습니다.
-3. **R-Learner underperformance**: Robinson Decomposition이 모든 벤치마크에서 최하위. Semi-parametric 가정이 DGP와 불일치함을 시사합니다.
+1. **No single learner dominates**: IHDP→T-Learner, ACIC→DragonNet, TWINS→TARNet, Jobs→S-Learner. 이는 Oracle Ensemble의 필요성을 뒷받침합니다.
+2. **Deep Learning shines on high-dimensional/large-n data**: DragonNet이 ACIC(p=58)에서 전체 1위(0.478), TARNet이 TWINS(n=4K)에서 1위(0.158). 성향점수 정규화(DragonNet)와 공유 표현 학습이 고차원 비선형 CATE 추정에 효과적임을 확인.
+3. **Small-sample overfitting**: Jobs(n=722), LaLonde(n=2K)에서 딥러닝이 과적합. 소표본에서는 전통 메타러너(S/T-Learner)가 우수.
+4. **R-Learner consistently weakest**: Robinson Decomposition이 모든 벤치마크에서 최하위. Semi-parametric 가정이 DGP와 불일치.
+
+### 6.4. Real-World Validation: LaLonde (NSW) Dataset
+WhyLab의 실전 적용 가능성을 검증하기 위해, 노동 경제학의 고전적 문제인 **LaLonde (1986)** 직업 훈련 프로그램 데이터를 분석했습니다 ($N=2,000$).
+
+- **Causal Discovery**: MAC는 `education -> outcome`, `re75 -> outcome`, `treatment -> outcome` 등의 주요 인과 경로를 66.7%의 합의율로 발견했습니다.
+- **Treatment Effect**: 직업 훈련이 연간 소득을 평균 **$2,110 증가**시킨다고 추정했습니다 (T-Learner). 이는 기존 문헌의 실험 결과($1,794)와 유사한 수준입니다.
+- **Fairness Audit**: 4대 공정성 지표 감사 결과, `Black` 및 `Hispanic` 그룹 간 처치 효과의 격차(Causal Parity Gap > 0.1)가 발견되어 공정성 위반 경고가 발생했습니다.
+
+![Figure 2: Fairness Audit Radar Chart](../figures/fig2_fairness_radar.png)
+*Figure 2. Fairness Audit 결과 레이더 차트. 4대 공정성 지표를 시각화하여 편향된 그룹을 식별합니다.*
 
 ---
 
 ## 7. Multi-Agent Debate System
 
-기존 인과추론 라이브러리(DoWhy, EconML, CausalML)는 분석 코드를 제공하지만, **결과 해석의 부담은 사용자에게** 남깁니다.  WhyLab은 AI Agent 3명이 자동으로 인과 판결을 내리는 Multi-Agent Debate 시스템을 도입하여 이 문제를 해결합니다.
+기존 인과추론 라이브러리(DoWhy, EconML, CausalML)는 분석 코드를 제공하지만, **결과 해석의 부담은 사용자에게** 남깁니다.  WhyLab은 AI Agent가 자동으로 인과 판결을 내리는 Multi-Agent Debate 시스템을 도입합니다.
 
-### 7.1. Agent Architecture
+### 7.1. DaV (Debate-as-Verification) Protocol
 
 | Agent | Role | Evidence / Attacks |
 |-------|------|-------------------|
 | **Advocate** | 인과 관계 옹호 | 10종 증거 수집 (메타러너 합의, 통계적 유의성, E-value, Conformal CI 등) |
-| **Critic** | 인과 관계 비판 | 8종 공격 벡터 (E-value 취약, Overlap 위반, Placebo 실패, 메타러너 불일치 등) |
-| **Judge** | 최종 판결 | 증거 유형별 가중 합산 → CAUSAL / NOT_CAUSAL / UNCERTAIN |
+| **Critic** | 인과 관계 비판 | 8종 공격 벡터 (E-value 취약, Overlap 위반, Placebo 실패, 불일치 등) |
+| **Judge** | 최종 판결 | 증거 유형별 가중 합산 → VERIFIED / REFUTED / UNCERTAIN |
 
-### 7.2. Scoring Mechanism
+### 7.2. Tool-Augmented Debate (Phase 5)
+
+기본 DaV가 "이미 있는 증거"만 평가하는 반면, **ToolAugmented DaV**는 토론 중 새 증거를 동적으로 생성합니다:
+
+| 역할 | 도구 | 기능 |
+|------|------|------|
+| Advocate | `cate_variance` | 메타러너 CATE 변동계수 분석 |
+| Advocate | `effect_size` | Cohen's d 효과 크기 검증 |
+| Critic | `placebo` | 위약 대조 반증 검정 |
+| Critic | `overlap` | Positivity(겹침) 가정 검증 |
+
+**라운드 구조**: Advocate 도구 호출 → Critic 도구 호출 → 교차 심문 → 판결. 이를 N 라운드 반복하여 증거 풀을 누적합니다.
+
+### 7.3. Scoring Mechanism
 
 $$\text{Confidence} = \frac{\sum_{e \in \text{Pro}} w(e) \cdot s(e)}{\sum_{e \in \text{Pro}} w(e) \cdot s(e) + \sum_{e \in \text{Con}} w(e) \cdot s(e)}$$
 
 여기서 $w(e)$는 증거 유형별 가중치 (robustness: 1.2, statistical: 1.0, domain: 0.8), $s(e)$는 개별 증거 강도 (0~1).
 
-### 7.3. Verdict Protocol
-- **Confidence $\geq$ 0.7** → CAUSAL
-- **Confidence $\leq$ 0.3** → NOT_CAUSAL
-- **Otherwise** → UNCERTAIN (추가 라운드, 최대 3회)
+### 7.4. Verdict Protocol
+- **Confidence $\geq$ 0.65** → VERIFIED
+- **Confidence $\leq$ 0.40** → REFUTED
+- **Otherwise** → UNCERTAIN (추가 도구 호출 라운드)
 
 ---
 
-## 8. Conclusion
+## 8. Multi-Agent Causal Discovery (MAC)
 
-본 연구는 두 가지 방향에서 기여합니다:
+인과 구조(DAG) 발견은 단일 알고리즘에 의존할 경우 데이터 특성에 민감합니다. WhyLab은 3종 알고리즘을 독립 실행 후 투표 앙상블로 합의 DAG를 구성합니다.
+
+| Specialist | 알고리즘 | 가정 |
+|-----------|----------|------|
+| **PC** | 조건부 독립성 + V-구조 | Faithfulness |
+| **GES** | BIC 기반 탐욕적 탐색 | Score equivalence |
+| **LiNGAM** | 비가우시안 인과 순서 | Non-Gaussianity |
+
+**투표 앙상블**: 각 엣지 $(i \to j)$에 대해 K개 Specialist 중 $\tau$ 비율 이상이 동의하면 최종 DAG에 포함. 안정성 점수 $S_{ij} = \frac{1}{K}\sum_{k} A_k[i,j]$를 함께 보고합니다.
+
+![Figure 3: MAC Discovery DAG](../figures/fig3_mac_dag.png)
+*Figure 3. Multi-Agent Causal Discovery를 통해 발견된 합의 인과 그래프 (Consensus DAG). 엣지의 두께는 안정성 점수(Stability Score)를 나타냅니다.*
+
+---
+
+## 9. Fairness Audit
+
+인과 효과가 존재하더라도, 보호 속성(성별, 인종 등)에 따라 처치가 불공정하게 배분되면 윤리적 문제가 발생합니다. WhyLab은 4대 공정성 지표를 자동 진단합니다:
+
+| 지표 | 수식 | 통과 기준 |
+|------|------|----------|
+| **Demographic Parity** | $\|P(\hat{T}=1|A=0) - P(\hat{T}=1|A=1)\|$ | $\leq 0.1$ |
+| **Equalized Odds** | $\|P(\hat{Y}=1|Y=1,A=0) - P(\hat{Y}=1|Y=1,A=1)\|$ | $\leq 0.1$ |
+| **CATE Disparity** | $\|CATE_0 - CATE_1\|$ / $\|CATE\|$ | $\leq 0.2$ |
+| **Calibration** | 그룹별 ATE 편차 | $\leq 20\%$ |
+
+결과는 구조화된 Markdown 감사 보고서로 자동 생성됩니다.
+
+---
+
+## 10. Conclusion
+
+본 연구는 세 가지 방향에서 기여합니다:
 
 **학술적 기여**:
 1. DML 기반 인과 효과 추정치의 Ground Truth Correlation 0.97~0.99 달성
-2. 3개 표준 벤치마크에서 7종 메타러너 평가 (T-Learner $\sqrt{\text{PEHE}}=1.16$ on IHDP)
-3. Oracle-weighted Ensemble의 일관적 안정성 입증
+2. **6종 벤치마크 × 7종 추정기** GPU 평가: DragonNet이 ACIC에서 1위(0.478), TARNet이 TWINS에서 1위(0.158)
+3. 딥러닝 CATE가 고차원·대표본에서 전통 메타러너를 능가함을 실증
+
+**방법론적 기여**:
+1. **Tool-Augmented Debate**: 토론 중 도구를 동적 호출하여 증거를 생성하는 새로운 인과 검증 프로토콜
+2. **MAC Discovery**: PC/GES/LiNGAM 앙상블의 투표 기반 인과 구조 발견
+3. **공정성 감사**: 4대 공정성 지표 자동 진단 + Markdown 보고서 생성
 
 **실무적 기여**:
-1. Multi-Agent Debate를 통한 자동 인과 판결 시스템
-2. 3줄 API (`whylab.analyze()`)로 복잡한 인과추론을 간소화
+1. Multi-Agent 시스템을 통한 자동 인과 판결 (VERIFIED/REFUTED)
+2. 용량-반응 곡선(GPS)으로 연속형 처치의 최적 용량 탐색
 3. 세포 에이전트 아키텍처에 의한 모듈식 확장 가능성
 
 **"Data with Why"** — WhyLab은 "무엇(What)이 일어났는가"를 넘어 "왜(Why) 일어났는가"를 묻는 첫걸음입니다.
@@ -243,4 +304,11 @@ $$\text{Confidence} = \frac{\sum_{e \in \text{Pro}} w(e) \cdot s(e)}{\sum_{e \in
 10. Yoon, J., Jordon, J., & Van Der Schaar, M. (2018). "GANITE: Estimation of Individualized Treatment Effects Using Generative Adversarial Nets". *ICLR*.
 11. Dorie, V., et al. (2019). "Automated versus do-it-yourself methods for causal inference". *Statistical Science*.
 12. LaLonde, R. J. (1986). "Evaluating the Econometric Evaluations of Training Programs with Experimental Data". *American Economic Review*.
+13. Shalit, U., Johansson, F. D., & Sontag, D. (2017). "Estimating individual treatment effect: generalization bounds and algorithms". *ICML*.
+14. Shi, C., Blei, D. M., & Veitch, V. (2019). "Adapting Neural Networks for the Estimation of Treatment Effects". *NeurIPS*.
+15. Louizos, C., et al. (2017). "Causal Effect Inference with Deep Latent-Variable Models". *NeurIPS*.
+16. Du, Y., et al. (2023). "Improving Factuality and Reasoning in Language Models through Multiagent Debate". *arXiv*.
+17. Schick, T., et al. (2023). "Toolformer: Language Models Can Teach Themselves to Use Tools". *NeurIPS*.
+18. Spirtes, P., Glymour, C., & Scheines, R. (2000). "Causation, Prediction, and Search". *MIT Press*.
+19. Shimizu, S., et al. (2006). "A Linear Non-Gaussian Acyclic Model for Causal Discovery". *JMLR*.
 

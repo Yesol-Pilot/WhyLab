@@ -10,23 +10,23 @@ export default function OnboardingGuide() {
 
     const steps = [
         {
-            title: "WhyLab에 오신 것을 환영합니다",
-            desc: "이곳은 데이터의 '인과관계'를 분석하여 더 나은 의사결정을 돕는 공간입니다. 단순히 현상을 관찰하는 것을 넘어, '왜' 그런 일이 일어났는지 탐구해보세요.",
+            title: "Welcome to WhyLab",
+            desc: "This is a space for analyzing causal relationships in data to help you make better decisions. Go beyond observing phenomena — explore why things happen.",
             icon: <Lightbulb className="w-6 h-6 text-yellow-400" />
         },
         {
-            title: "시나리오 선택 (Scenario)",
-            desc: "상단의 'Scenario A'와 'Scenario B' 버튼을 통해 분석하고 싶은 주제를 전환할 수 있습니다. 현재 A는 '신용한도 상향', B는 '쿠폰 발송' 시나리오입니다.",
+            title: "Scenario Selection",
+            desc: "Use the 'Scenario A' and 'Scenario B' buttons at the top to switch between analysis topics. Currently, A is 'Credit Limit Adjustment' and B is 'Medical Treatment'.",
             icon: <ChevronRight className="w-6 h-6 text-brand-400" />
         },
         {
-            title: "인과 효과 (ATE) 확인",
-            desc: "가장 중요한 숫자는 상단의 'Total ATE'입니다. 이것은 우리가 시행한 정책(처치)이 결과에 미친 순수한 영향력을 의미합니다.",
+            title: "Causal Effect (ATE)",
+            desc: "The most important number is 'Total ATE' at the top. This represents the pure causal impact of a policy (treatment) on the outcome.",
             icon: <Info className="w-6 h-6 text-blue-400" />
         },
         {
-            title: "What-If 시뮬레이션",
-            desc: "우측의 시뮬레이터를 조작해보세요. '만약(If)' 우리가 투입량을 늘리거나 줄이면 결과가 어떻게 변할지 실시간으로 예측해줍니다.",
+            title: "What-If Simulation",
+            desc: "Try the simulator on the right. It predicts in real time how outcomes would change if you increase or decrease the treatment intensity.",
             icon: <Info className="w-6 h-6 text-green-400" />
         }
     ];

@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, BrainCircuit, GitFork, CreditCard, Megaphone, FlaskConical } from "lucide-react";
+import { ArrowRight, BarChart3, BrainCircuit, GitFork, CreditCard, Megaphone, FlaskConical, Play } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 export default function Home() {
   return (
@@ -25,13 +26,13 @@ export default function Home() {
             Research Prototype · Ground Truth Validated
           </div>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white drop-shadow-lg">
-            AI가 알려주는 <br />
+            AI-Powered <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-accent-cyan text-glow">
-              진짜 원인, 진짜 의사결정
+              Causal Inference
             </span>
           </h1>
           <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            상관관계와 인과관계를 AI가 자동으로 분리합니다. <span className="text-brand-300 font-semibold">AutoML + Double Machine Learning</span>으로 데이터 뒤에 숨겨진 진짜 원인을 밝히고, 액션 가능한 인사이트를 제공합니다.
+            Automatically separate correlation from causation. <span className="text-brand-300 font-semibold">AutoML + Double Machine Learning</span> uncovers the real causes hidden in your data and provides actionable insights.
           </p>
         </motion.div>
 
@@ -40,27 +41,35 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto mt-10"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto mt-10"
         >
           <ScenarioCard
+            title="Scenario A: Credit Limit"
+            description="Optimize credit limits to minimize default rates."
+            features={['Credit Limit', 'Default Rate', 'Income']}
             href="/dashboard?scenario=A"
             icon={<CreditCard className="w-6 h-6" />}
-            title="Scenario A"
-            subtitle="신용한도 → 연체율"
-            ate="-3.5%"
-            corr="0.977"
             color="brand"
             delay={0.5}
           />
           <ScenarioCard
+            title="Scenario B: Medical Treatment"
+            description="Healthcare outcome analysis with confounding variables"
+            features={['Treatment Effect', 'Patient History', 'Cure Rate']}
             href="/dashboard?scenario=B"
             icon={<Megaphone className="w-6 h-6" />}
-            title="Scenario B"
-            subtitle="쿠폰 → 가입 전환"
-            ate="-0.4%"
-            corr="0.996"
             color="cyan"
             delay={0.6}
+          />
+          <ScenarioCard
+            title="Scenario C: Personal Career"
+            description="Analyze causal impact of your skills on market value based on local knowledge base."
+            features={['Skill Level', 'Project Completion', 'Market Value']}
+            href="/dashboard?scenario=C"
+            icon={<BarChart3 className="w-6 h-6" />}
+            color="brand"
+            delay={0.7}
+            badge="REAL DATA"
           />
         </motion.div>
 
@@ -92,20 +101,20 @@ export default function Home() {
       <section className="z-10 grid grid-cols-1 md:grid-cols-3 gap-6 mt-20 w-full max-w-6xl">
         <FeatureCard
           icon={<BrainCircuit className="w-8 h-8 text-brand-400" />}
-          title="AI AutoML 인과추론"
-          desc="LinearDML, CausalForest 중 AI가 최적 모델을 자동 선택. RMSE 0.028~0.609, Correlation 0.977~0.996."
+          title="AI AutoML Causal Inference"
+          desc="AI auto-selects the optimal model between LinearDML and CausalForest. RMSE 0.028–0.609, Correlation 0.977–0.996."
           delay={0.8}
         />
         <FeatureCard
           icon={<GitFork className="w-8 h-8 text-accent-cyan" />}
-          title="인과 그래프(DAG)"
-          desc="PC Algorithm으로 인과 구조를 자동 발견. 교란 변수와 처치/결과 변수를 시각적으로 확인합니다."
+          title="Causal Graph (DAG)"
+          desc="Automatically discover causal structures with the PC Algorithm. Visually identify confounders, treatment, and outcome variables."
           delay={0.9}
         />
         <FeatureCard
           icon={<BarChart3 className="w-8 h-8 text-accent-pink" />}
-          title="What-If 의사결정"
-          desc="'신용 한도를 올리면 연체율이 줄어들까?' — Ground Truth 검증된 반사실 시뮬레이션."
+          title="What-If Decision Making"
+          desc="'Will raising the credit limit reduce defaults?' — Ground truth validated counterfactual simulation."
           delay={1.0}
         />
       </section>
@@ -119,12 +128,18 @@ export default function Home() {
 }
 
 /* ── Scenario Selection Card ── */
-function ScenarioCard({
-  href, icon, title, subtitle, ate, corr, color, delay,
-}: {
-  href: string; icon: React.ReactNode; title: string; subtitle: string;
-  ate: string; corr: string; color: "brand" | "cyan"; delay: number;
-}) {
+interface ScenarioCardProps {
+  title: string;
+  description: string;
+  features: string[];
+  href: string;
+  icon: React.ReactNode;
+  color: "brand" | "cyan";
+  delay: number;
+  badge?: string;
+}
+
+function ScenarioCard({ title, description, features, href, icon, color, delay, badge }: ScenarioCardProps) {
   const borderColor = color === "brand" ? "border-brand-500/30 hover:border-brand-500/60" : "border-accent-cyan/30 hover:border-accent-cyan/60";
   const bgColor = color === "brand" ? "bg-brand-500/5 hover:bg-brand-500/10" : "bg-accent-cyan/5 hover:bg-accent-cyan/10";
   const iconBg = color === "brand" ? "text-brand-400" : "text-accent-cyan";
@@ -137,25 +152,30 @@ function ScenarioCard({
     >
       <Link
         href={href}
-        className={`group block p-5 rounded-xl border ${borderColor} ${bgColor} backdrop-blur-md transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg`}
+        className={`group relative block p-5 rounded-xl border ${borderColor} ${bgColor} backdrop-blur-md transition-all duration-300 hover:translate-y-[-3px] hover:shadow-lg h-full`}
       >
+        {badge && (
+          <div className="absolute top-4 right-4 px-2 py-0.5 bg-brand-500/20 text-brand-300 text-[10px] font-bold rounded uppercase border border-brand-500/30">
+            {badge}
+          </div>
+        )}
         <div className="flex items-center gap-3 mb-3">
           <div className={`${iconBg}`}>{icon}</div>
           <div>
             <h3 className="text-lg font-bold text-white">{title}</h3>
-            <p className="text-sm text-slate-400">{subtitle}</p>
           </div>
           <ArrowRight className="w-4 h-4 text-slate-500 ml-auto group-hover:translate-x-1 transition-transform" />
         </div>
-        <div className="flex gap-4 text-sm">
-          <div>
-            <span className="text-slate-500">ATE</span>{" "}
-            <span className="text-white font-semibold">{ate}</span>
-          </div>
-          <div>
-            <span className="text-slate-500">Corr</span>{" "}
-            <span className="text-green-400 font-semibold">{corr}</span>
-          </div>
+        <p className="text-slate-400 text-sm mb-4 leading-relaxed h-10">
+          {description}
+        </p>
+        <div className="space-y-1">
+          {features.map((feature, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs text-slate-500">
+              <div className="w-1 h-1 rounded-full bg-brand-500/50" />
+              {feature}
+            </div>
+          ))}
         </div>
       </Link>
     </motion.div>

@@ -21,7 +21,7 @@ export default function ExplainabilityPanel({ data }: { data: CausalAnalysisResu
             >
                 <h2 className="text-xl font-bold mb-4">🔍 Explainability (SHAP)</h2>
                 <p className="text-gray-400 text-sm">
-                    파이프라인에 ExplainCell(SHAP)을 포함하여 재실행하면 Feature Importance가 표시됩니다.
+                    Re-run the pipeline with ExplainCell (SHAP) to display Feature Importance.
                 </p>
             </motion.div>
         );
@@ -42,7 +42,7 @@ export default function ExplainabilityPanel({ data }: { data: CausalAnalysisResu
         >
             <h2 className="text-xl font-bold">🔍 Explainability (SHAP)</h2>
             <p className="text-gray-400 text-sm">
-                각 변수가 CATE(이질적 치료 효과)에 기여하는 정도를 SHAP으로 분해
+                SHAP decomposition of each variable's contribution to CATE (heterogeneous treatment effect)
             </p>
 
             {/* Feature Importance 수평 바 차트 */}
@@ -73,7 +73,7 @@ export default function ExplainabilityPanel({ data }: { data: CausalAnalysisResu
                                 fontSize: '12px',
                             }}
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            formatter={(value: any) => [`${Number(value).toFixed(2)}`, 'SHAP 기여도']}
+                            formatter={(value: any) => [`${Number(value).toFixed(2)}`, 'SHAP Contribution']}
                         />
                         <Bar dataKey="importance" radius={[0, 6, 6, 0]}>
                             {fiData.map((_, index) => (
@@ -88,17 +88,17 @@ export default function ExplainabilityPanel({ data }: { data: CausalAnalysisResu
             {cfData.length > 0 && (
                 <div>
                     <h3 className="text-sm font-semibold text-cyan-400 mb-3">
-                        반사실 시뮬레이션 (What-If)
+                        Counterfactual Simulation (What-If)
                     </h3>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
                                 <tr className="text-gray-400 border-b border-gray-700">
                                     <th className="text-left py-2 px-3">User</th>
-                                    <th className="text-right py-2 px-3">원본 CATE</th>
-                                    <th className="text-right py-2 px-3">반사실 CATE</th>
-                                    <th className="text-right py-2 px-3">변화량</th>
-                                    <th className="text-left py-2 px-3">시나리오</th>
+                                    <th className="text-right py-2 px-3">Original CATE</th>
+                                    <th className="text-right py-2 px-3">Counterfactual CATE</th>
+                                    <th className="text-right py-2 px-3">Change</th>
+                                    <th className="text-left py-2 px-3">Scenario</th>
                                 </tr>
                             </thead>
                             <tbody>

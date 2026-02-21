@@ -1,42 +1,28 @@
-# ── WhyLab: 인과추론 연구 파이프라인 ──
-# NVIDIA CUDA 12.2 + Python 3.11 + LightGBM GPU
-FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
+# Python 3.12 Slim 이미지 사용
+FROM python:3.12-slim
 
-# 비대화형 + 타임존
-ENV DEBIAN_FRONTEND=noninteractive \
-    TZ=Asia/Seoul \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+# 작업 디렉토리 설정
+WORKDIR /app
 
-# 시스템 의존성
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.11 python3.11-dev python3-pip \
-    git curl build-essential cmake \
-    libboost-dev libboost-system-dev libboost-filesystem-dev \
-    ocl-icd-opencl-dev opencl-headers \
+# 시스템 의존성 설치 (OpenMP for LightGBM/XGBoost)
+RUN apt-get update && apt-get install -y \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# pip 최신화 + 심볼릭 링크
-RUN ln -sf /usr/bin/python3.11 /usr/bin/python && \
-    python -m pip install --upgrade pip setuptools wheel
-
-WORKDIR /whylab
-
-# 의존성 먼저 (Docker 캐시 활용)
+# 의존성 파일 복사 및 설치
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# LightGBM GPU 빌드 (CUDA 지원)
-RUN pip install --no-cache-dir lightgbm --config-settings=cmake.define.USE_GPU=ON
+# 소스 코드 복사 (engine, whylab, api 패키지 포함)
+COPY api ./api
+COPY engine ./engine
+COPY whylab ./whylab
 
-# 소스 코드 복사
-COPY . .
+# PYTHONPATH 설정 (현재 디렉토리를 모듈 경로에 추가)
+ENV PYTHONPATH=/app
 
-# 환경 변수
-ENV PYTHONPATH=/whylab
+# 실행 포트 노출
+EXPOSE 8000
 
-# 기본 엔트리포인트: 벤치마크 실행
-ENTRYPOINT ["python", "-m", "engine"]
-
-# 기본 인자: 도움말
-CMD ["--help"]
+# 서버 실행
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

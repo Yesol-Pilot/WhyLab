@@ -26,6 +26,12 @@ from engine.cells.meta_learner_cell import (
 from engine.config import WhyLabConfig
 from engine.data.benchmark_data import BENCHMARK_REGISTRY, BenchmarkData
 
+try:
+    from engine.cells.deep_cate_cell import DeepCATECell
+    _HAS_DEEP_CATE = True
+except ImportError:
+    _HAS_DEEP_CATE = False
+
 logger = logging.getLogger(__name__)
 
 
@@ -43,6 +49,12 @@ class BenchmarkCell(BaseCell):
         "DR-Learner": DRLearner,
         "R-Learner": RLearner,
     }
+
+    # DeepCATECell이 설치되어 있으면 DragonNet도 벤치마크에 포함
+    DEEP_LEARNER_REGISTRY = {}
+    if _HAS_DEEP_CATE:
+        DEEP_LEARNER_REGISTRY["DragonNet"] = "dragonnet"
+        DEEP_LEARNER_REGISTRY["TARNet"] = "tarnet"
 
     def __init__(self, config: WhyLabConfig) -> None:
         super().__init__(name="benchmark_cell", config=config)
@@ -102,6 +114,9 @@ class BenchmarkCell(BaseCell):
         # 메타러너별 지표 누적
         metrics_acc = {name: {"pehe": [], "ate_bias": []}
                        for name in self.LEARNER_REGISTRY}
+        # 딥러닝 메서드 추가
+        for name in self.DEEP_LEARNER_REGISTRY:
+            metrics_acc[name] = {"pehe": [], "ate_bias": []}
         # 기준선 추가
         metrics_acc["LinearDML"] = {"pehe": [], "ate_bias": []}
         metrics_acc["Ensemble"] = {"pehe": [], "ate_bias": []}
@@ -127,6 +142,28 @@ class BenchmarkCell(BaseCell):
                     self.logger.warning("  %s (rep=%d) 실패: %s", name, rep, e)
                     metrics_acc[name]["pehe"].append(float("nan"))
                     metrics_acc[name]["ate_bias"].append(float("nan"))
+
+            # ── 딥러닝 CATE (DragonNet/TARNet) ──
+            for deep_name, arch in self.DEEP_LEARNER_REGISTRY.items():
+                try:
+                    deep_cell = DeepCATECell(
+                        architecture=arch,
+                        hidden_dims=[64, 32],
+                        epochs=100,
+                        batch_size=min(64, len(data.X)),
+                    )
+                    deep_cell.fit(data.X, data.T, data.Y)
+                    tau_deep = deep_cell.predict_cate(data.X)
+                    learner_cates[deep_name] = tau_deep
+
+                    metrics_acc[deep_name]["pehe"].append(
+                        self._sqrt_pehe(tau_deep, data.tau_true))
+                    metrics_acc[deep_name]["ate_bias"].append(
+                        self._ate_bias(tau_deep, data.tau_true))
+                except Exception as e:
+                    self.logger.warning("  %s (rep=%d) 실패: %s", deep_name, rep, e)
+                    metrics_acc[deep_name]["pehe"].append(float("nan"))
+                    metrics_acc[deep_name]["ate_bias"].append(float("nan"))
 
             # ── 기준선: LinearDML (EconML) ──
             try:
@@ -218,7 +255,7 @@ class BenchmarkCell(BaseCell):
 
         # 순서 고정
         ordered = ["S-Learner", "T-Learner", "X-Learner", "DR-Learner",
-                    "R-Learner", "LinearDML", "Ensemble"]
+                    "R-Learner", "DragonNet", "TARNet", "LinearDML", "Ensemble"]
         for method in ordered:
             if method not in all_methods:
                 continue

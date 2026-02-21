@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,6 +34,7 @@ jobs:
         run: |
           pip install -e ".[dev]"
           pip install -r engine/requirements.txt
+          pip install networkx statsmodels causal-learn || true
 
       - name: Run Unit Tests with Coverage
         env:
@@ -48,7 +49,7 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python -m pytest tests/test_pipeline_e2e.py tests/test_integration.py \
+          python -m pytest tests/test_pipeline_e2e.py tests/test_integration.py tests/test_e2e_sprint5.py \
             -v --tb=short
 
       - name: Run Benchmark Smoke Test

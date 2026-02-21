@@ -3,13 +3,25 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { LayoutDashboard, GitFork, BarChart3, Settings, HelpCircle, LogOut, CreditCard, Megaphone, Menu, X } from "lucide-react";
+import { LayoutDashboard, Network, BarChart3, Settings, HelpCircle, LogOut, CreditCard, Megaphone, Menu, X, Scale, Activity, UploadCloud, PlayCircle, Server, Share2, GitBranch, ScrollText, FileText, MessageSquare, Rocket, Gauge } from "lucide-react";
 import { clsx } from "clsx";
 
 const menuItems = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Overview" },
-    { href: "/dashboard/causal-graph", icon: GitFork, label: "Causal Graph" },
+    { href: "/dashboard/upload", icon: UploadCloud, label: "Upload Data" },
+    { href: "/dashboard/causal-graph", icon: Network, label: "Discovery" },
     { href: "/dashboard/simulator", icon: BarChart3, label: "Simulation" },
+    { href: "/dashboard/fairness", icon: Scale, label: "Fairness Audit" },
+    { href: "/dashboard/dose-response", icon: Activity, label: "Dose-Response" },
+    { href: "/dashboard/policy-simulator", icon: PlayCircle, label: "Policy Simulator" },
+    { href: "/dashboard/system", icon: Server, label: "Control Room" },
+    { href: "/dashboard/system/knowledge", icon: Share2, label: "Knowledge Graph" },
+    { href: "/dashboard/system/evolution", icon: GitBranch, label: "Agent Evolution" },
+    { href: "/dashboard/system/cycles", icon: ScrollText, label: "Research Cycles" },
+    { href: "/dashboard/system/report", icon: FileText, label: "Research Report" },
+    { href: "/dashboard/system/forum", icon: MessageSquare, label: "Academic Forum" },
+    { href: "/dashboard/system/autopilot", icon: Rocket, label: "Autopilot" },
+    { href: "/dashboard/system/control", icon: Gauge, label: "System Health" },
     { href: "/dashboard/settings", icon: Settings, label: "Settings" },
 ];
 
@@ -29,7 +41,7 @@ export default function Sidebar() {
             <button
                 onClick={() => setMobileOpen(true)}
                 className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-slate-800/80 backdrop-blur-md border border-white/10 text-white"
-                aria-label="메뉴 열기"
+                aria-label="Open menu"
             >
                 <Menu className="w-5 h-5" />
             </button>
@@ -48,7 +60,7 @@ export default function Sidebar() {
                 <button
                     onClick={() => setMobileOpen(false)}
                     className="lg:hidden absolute top-4 right-4 p-1 text-slate-400 hover:text-white"
-                    aria-label="메뉴 닫기"
+                    aria-label="Close menu"
                 >
                     <X className="w-5 h-5" />
                 </button>
@@ -77,7 +89,7 @@ export default function Sidebar() {
                             )}
                         >
                             <CreditCard className="w-3.5 h-3.5" />
-                            신용한도
+                            Credit Limit
                         </Link>
                         <Link
                             href="/dashboard?scenario=B"
@@ -89,7 +101,7 @@ export default function Sidebar() {
                             )}
                         >
                             <Megaphone className="w-3.5 h-3.5" />
-                            쿠폰
+                            Coupon
                         </Link>
                     </div>
                 </div>

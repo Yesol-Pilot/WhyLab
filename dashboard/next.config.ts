@@ -1,17 +1,23 @@
 import type { NextConfig } from "next";
 
-const isVercel = process.env.VERCEL === "1";
+// GitHub Pages 빌드 시에만 static export + basePath 적용
+// 로컬 dev / Vercel에서는 rewrites 등 서버 기능 사용
+const isStaticExport = process.env.GITHUB_PAGES === "1";
 
 const nextConfig: NextConfig = {
-  // Vercel: SSR 모드, GitHub Pages: static export
-  ...(isVercel ? {} : { output: "export", basePath: "/WhyLab" }),
+  ...(!isStaticExport && {
+    async rewrites() {
+      return [
+        {
+          source: '/api/:path*',
+          destination: `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:4001"}/:path*`,
+        },
+      ]
+    },
+  }),
+  // GitHub Pages 배포 시에만 static export + basePath 적용
+  ...(isStaticExport ? { output: "export", basePath: "/WhyLab" } : {}),
   images: { unoptimized: true },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
 };
 
 export default nextConfig;

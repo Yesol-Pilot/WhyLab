@@ -48,7 +48,7 @@ export default function WhatIfSimulator({
                     What-If Simulator
                 </h3>
                 <p className="text-slate-400 text-sm mt-1">
-                    &quot;{treatmentName}&quot;를 변경하면 &quot;{outcomeName}&quot;이 어떻게 변할까요?
+                    How would &quot;{outcomeName}&quot; change if you adjust &quot;{treatmentName}&quot;?
                 </p>
             </div>
 
@@ -93,11 +93,10 @@ export default function WhatIfSimulator({
             {/* Insight */}
             <div className="p-3 bg-brand-500/10 border border-brand-500/20 rounded-lg">
                 <p className="text-sm text-brand-200">
-                    💡 <strong>Insight:</strong> {treatmentName}를
-                    <span className="font-bold mx-1 text-white">{treatmentDelta}</span>만큼 조정하면,
-                    예상되는 {outcomeName}는
-                    <span className="font-bold mx-1 text-white">{(simulatedOutcome - currentOutcome).toFixed(2)}</span>
-                    만큼 변합니다.
+                    💡 <strong>Insight:</strong> Adjusting {treatmentName} by
+                    <span className="font-bold mx-1 text-white">{treatmentDelta}</span>,
+                    the expected {outcomeName} would change by
+                    <span className="font-bold mx-1 text-white">{(simulatedOutcome - currentOutcome).toFixed(2)}</span>.
                 </p>
             </div>
         </div>

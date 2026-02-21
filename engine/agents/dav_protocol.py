@@ -151,15 +151,28 @@ class DaVProtocol:
         evidence = []
 
         # 증거 1: ATE 추정
+        has_ci = claim.confidence_interval != [0.0, 0.0]
+        ci_excludes_zero = False
+        if has_ci:
+            ci_excludes_zero = (claim.confidence_interval[0] > 0 or claim.confidence_interval[1] < 0)
+
         if claim.ate != 0:
-            ci_excludes_zero = (claim.confidence_interval[0] > 0 or claim.confidence_interval[1] < 0) \
-                if claim.confidence_interval != [0.0, 0.0] else False
             evidence.append(Evidence(
                 source="ate",
                 claim="인과 효과 크기",
-                direction="supports" if ci_excludes_zero else "neutral",
-                strength=0.7 if ci_excludes_zero else 0.3,
+                direction="supports" if ci_excludes_zero else "contradicts",
+                strength=0.7 if ci_excludes_zero else 0.4,
                 detail={"ate": claim.ate, "ci": claim.confidence_interval},
+            ))
+
+        # 증거 1-B: CI가 0을 포함하면 명시적 반증 증거
+        if has_ci and not ci_excludes_zero:
+            evidence.append(Evidence(
+                source="ci_includes_zero",
+                claim="신뢰구간이 0을 포함 — 효과 불확실",
+                direction="contradicts",
+                strength=0.6,
+                detail={"ci": claim.confidence_interval},
             ))
 
         # 증거 2: Meta-Learner 합의
@@ -192,7 +205,7 @@ class DaVProtocol:
                 evidence.append(Evidence(
                     source="e_value",
                     claim="미관측 교란 견고성",
-                    direction="supports" if ev > 1.5 else "contradicts",
+                    direction="supports" if ev > 2.0 else "contradicts",
                     strength=min(1.0, ev / 3.0) if ev else 0.2,
                     detail={"e_value": ev},
                 ))
@@ -207,7 +220,7 @@ class DaVProtocol:
                     source="refutation_placebo",
                     claim="위약 검정",
                     direction="supports" if passed else "contradicts",
-                    strength=0.8 if passed else 0.2,
+                    strength=0.8 if passed else 0.6,
                     detail={"passed": passed},
                 ))
 
@@ -233,8 +246,17 @@ class DaVProtocol:
                 source="causal_discovery",
                 claim="인과 그래프에 T→Y 엣지 존재",
                 direction="supports" if t_to_y else "contradicts",
-                strength=0.7 if t_to_y else 0.3,
+                strength=0.7 if t_to_y else 0.5,
                 detail={"t_to_y": t_to_y, "total_edges": len(dag_edges)},
+            ))
+        elif context.get("dag_edges") is not None:
+            # DAG 분석 수행되었으나 T→Y 엣지 없음
+            evidence.append(Evidence(
+                source="causal_discovery_absent",
+                claim="인과 그래프에 T→Y 엣지 부재",
+                direction="contradicts",
+                strength=0.5,
+                detail={"t_to_y": False, "total_edges": 0},
             ))
 
         return evidence

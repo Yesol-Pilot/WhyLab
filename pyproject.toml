@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "whylab"
-version = "0.2.0"
+version = "1.0.0"
 description = "Causal Decision Intelligence Engine with Multi-Agent Debate"
 readme = "README.md"
 license = {text = "MIT"}
@@ -14,13 +14,14 @@ authors = [
 ]
 keywords = ["causal-inference", "decision-intelligence", "machine-learning", "ai-agents", "double-machine-learning", "roi-simulator"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
@@ -31,10 +32,12 @@ dependencies = [
     "lightgbm>=4.0",
     "duckdb>=0.9",
     "shap>=0.42",
+    "networkx>=3.0",
+    "statsmodels>=0.14",
 ]
 
 [project.optional-dependencies]
-gpu = ["lightgbm[gpu]"]
+gpu = ["lightgbm[gpu]", "torch>=2.0"]
 dashboard = ["fastapi", "uvicorn", "websockets"]
 rag = ["chromadb>=0.4", "sentence-transformers>=2.2", "google-generativeai>=0.3"]
 mcp = ["mcp>=1.0"]
@@ -56,6 +59,31 @@ Issues = "https://github.com/Yesol-Pilot/WhyLab/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["engine", "whylab"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".venv/",
+    ".git/",
+    ".github/",
+    ".agent/",
+    ".gemini/",
+    ".pytest_cache/",
+    "__pycache__/",
+    "node_modules/",
+    "dashboard/.next/",
+    "dashboard/out/",
+    "dashboard/node_modules/",
+    "dist/",
+    "uploads/",
+    "logs/",
+    "*.db",
+    "*.db-journal",
+    "*.pyc",
+    "*.egg-info/",
+    "_diag.json",
+    "*.tar.gz",
+    "*.whl",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

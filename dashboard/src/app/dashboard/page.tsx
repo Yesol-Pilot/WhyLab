@@ -22,6 +22,7 @@ import ConformalBand from "@/components/ConformalBand";
 import OnboardingGuide from "@/components/OnboardingGuide";
 import AnalysisSection from "@/components/AnalysisSection";
 import CATEExplorer from "@/components/CATEExplorer";
+import StrategyMap from "@/components/StrategyMap";
 
 function DashboardContent() {
     const searchParams = useSearchParams();
@@ -61,6 +62,10 @@ function DashboardContent() {
                             <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30">
                                 REAL DATA
                             </span>
+                        ) : scenario === 'C' ? (
+                            <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-xs font-bold border border-purple-500/30">
+                                SYNTHETIC
+                            </span>
                         ) : (
                             <span className="px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-bold border border-yellow-500/30">
                                 DEMO MOCKUP
@@ -91,6 +96,16 @@ function DashboardContent() {
                         <div>
                             <div className="leading-none">Scenario B</div>
                             <div className="text-[10px] font-normal opacity-80 mt-0.5">Coupon (Demo)</div>
+                        </div>
+                    </Link>
+                    <Link
+                        href="/dashboard?scenario=C"
+                        className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${scenario === 'C' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/30 shadow-md' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    >
+                        <span className="w-2 h-2 rounded-full bg-purple-400" />
+                        <div>
+                            <div className="leading-none">Scenario C</div>
+                            <div className="text-[10px] font-normal opacity-80 mt-0.5">Career (Synthetic)</div>
                         </div>
                     </Link>
                 </div>
@@ -165,6 +180,10 @@ function DashboardContent() {
                         </div>
                         <DiagnosticsPanel data={data} />
                     </div>
+                </AnalysisSection>
+
+                <AnalysisSection title="Agent Strategy & Evolution" description="Adaptive Algorithm Engine Status">
+                    <StrategyMap />
                 </AnalysisSection>
 
                 <AnalysisSection title="Ask WhyLab Agent" description="Interactive Q&A Session" defaultOpen={true}>

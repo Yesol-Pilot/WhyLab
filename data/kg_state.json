@@ -1,0 +1,697 @@
+{
+  "saved_at": "2026-02-16T11:13:50.487568+09:00",
+  "nodes": [
+    {
+      "id": "Job Training Program",
+      "type": "Concept",
+      "category": "Treatment"
+    },
+    {
+      "id": "Real Earnings (1978)",
+      "type": "Concept",
+      "category": "Outcome"
+    },
+    {
+      "id": "Age",
+      "type": "Concept",
+      "category": "Confounder"
+    },
+    {
+      "id": "Education",
+      "type": "Concept",
+      "category": "Confounder"
+    },
+    {
+      "id": "Race",
+      "type": "Concept",
+      "category": "Confounder"
+    },
+    {
+      "id": "Marital Status",
+      "type": "Concept",
+      "category": "Confounder"
+    },
+    {
+      "id": "Agent:Shannon",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "56",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Tesla"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육학",
+      "category": "Forum",
+      "topic": "Job Training Program의 효과가 Education 수준에 따라 달라지는 현상은 selection bias에 의한 것인가, 아니면 진정한 인과적 상호작용인가?",
+      "last_consensus": "조건부 합의",
+      "last_summary": "토론 참여자들은 Job Training Program이 Real Earnings에 미치는 Education의 조건부 효과 연구에 있어 Selection bias 통제와 인과 메커니즘 규명이 모두 중요하며, 이를 위해 다양한 방법론을 병행해야 한다는 데 합의했습니다. Agent 변수를 활용한 층화분석, propensity score matching, covariate balance 점검, IPTW 적용, 상호작용항을 포함한 회귀분석, 그리고 Pearl의 do-calculus 활용 가능성 모색 등을 통해 연구의 타당성과 일반화 가능성을 높여야 합니다.",
+      "updated_at": "2026-02-16T11:13:36.947470+09:00"
+    },
+    {
+      "id": "Agent:Noether",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "59",
+      "specialization": "인과 추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Albert"
+    },
+    {
+      "id": "Agent:Hopper",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "67",
+      "specialization": "인과추론 모델링 전문가"
+    },
+    {
+      "id": "Agent:Kuhn",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "65",
+      "specialization": "인과 추론 컨텍스트 기반 리뷰 심층화"
+    },
+    {
+      "id": "Agent:Kant"
+    },
+    {
+      "id": "Agent:Dirac",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "70",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Lovelace",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "73",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Rawls",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "66",
+      "specialization": "인과 추론 비판 및 개선 전문가"
+    },
+    {
+      "id": "Agent:Turing",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "63",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육정책",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 조건부 인과 효과(Conditional Average Treatment Effect) 연구 결과의 일반화 가능성과 정책적 시사점은 무엇인가?",
+      "last_consensus": "합의",
+      "last_summary": "KG 데이터셋 기반 Job Training Program의 조건부 인과 효과는 Agent 효과와 선택 편향으로 인해 일반화 가능성이 제한적이라는 데 합의했습니다. 따라서 외부 데이터셋을 활용한 재현성 검증이 필수적이며, 정책적 시사점을 도출하는 데 신중을 기해야 합니다.",
+      "updated_at": "2026-02-16T09:41:56.648167+09:00"
+    },
+    {
+      "id": "Agent:Euler",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "66",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Ritchie",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "62",
+      "specialization": "이질적 처리효과 전문가"
+    },
+    {
+      "id": "Agent:Putnam",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "60",
+      "specialization": "인과 추론 방법론 전문가"
+    },
+    {
+      "id": "alignment_training",
+      "type": "Concept",
+      "category": "Discovered"
+    },
+    {
+      "id": "decision_quality",
+      "type": "Concept",
+      "category": "Discovered"
+    },
+    {
+      "id": "Agent:Thompson",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "72",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Quine",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "71",
+      "specialization": "인과추론 리뷰 심층 분석 및 개선 전문가"
+    },
+    {
+      "id": "Agent:Bohr",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "44",
+      "specialization": "인과 추론 모델링 및 검증 전문가"
+    },
+    {
+      "id": "Agent:Lakatos",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "70",
+      "specialization": "인과 추론 방법론 심층 분석 및 통합 전문가"
+    },
+    {
+      "id": "Agent:Darwin",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "71",
+      "specialization": "인과추론 방법론 심층 분석 및 적용 전문가"
+    },
+    {
+      "id": "Agent:Faraday",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "74",
+      "specialization": "인과적 머신러닝 전문가"
+    },
+    {
+      "id": "Agent:Kripke",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "73",
+      "specialization": "인과 추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Edison",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "69",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Hawking",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "68",
+      "specialization": "인과 관계 발견 및 강화 학습 기반 정책 최적화 전문가"
+    },
+    {
+      "id": "Agent:Feynman",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "62",
+      "specialization": "인과 추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Hume",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "64",
+      "specialization": "인과 추론 방법론 평가 전문가"
+    },
+    {
+      "id": "Agent:Watt",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "68",
+      "specialization": "인과추론 모델링 전문가"
+    },
+    {
+      "id": "Agent:Planck",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "64",
+      "specialization": "인과 추론 방법론 확장 및 통합 전문가"
+    },
+    {
+      "id": "Agent:Heisenberg",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "46",
+      "specialization": "인과 추론 방법론 개발 및 개선 전문가"
+    },
+    {
+      "id": "Agent:Carnap",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "63",
+      "specialization": "인과 추론 방법론 평가 전문가"
+    },
+    {
+      "id": "Agent:Babbage",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "39",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Habermas",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "72",
+      "specialization": "인과 추론 방법론 확장 및 통합 전문가"
+    },
+    {
+      "id": "Agent:Curie",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "29",
+      "specialization": "인과추론 방법론 심층 분석 및 적용 전문가"
+    },
+    {
+      "id": "Agent:Wittgenstein",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "61",
+      "specialization": "인과 추론 리뷰 심층 분석 전문가"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육학, 통계학",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education의 조건부 효과는 측정 오차 및 누락 변수의 존재 하에서 얼마나 강건하게 유지될 수 있는가?",
+      "last_consensus": "조건부 합의",
+      "last_summary": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education의 조건부 효과는 측정 오차와 누락 변수의 존재 하에서 강건성을 확보하기 어렵다는 데 의견이 모아졌습니다. 도구변수법, 잠재변수 모형 등 다양한 방법론을 활용하더라도 완전한 해결은 어려우며, 결과 해석에 신중함이 필요하다는 점에 공감대가 형성되었습니다.",
+      "updated_at": "2026-02-16T09:59:57.217233+09:00"
+    },
+    {
+      "id": "Agent:Rosalind",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "74",
+      "specialization": "인과 관계 강건성 분석 전문가"
+    },
+    {
+      "id": "Agent:Knuth",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "66",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Berners-Lee",
+      "type": "Agent",
+      "category": "Engineer",
+      "generation": "59",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Russell",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "17",
+      "specialization": "인과 추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Schrödinger",
+      "type": "Agent",
+      "category": "Theorist",
+      "generation": "73",
+      "specialization": "인과추론 방법론 전문가"
+    },
+    {
+      "id": "Agent:Popper",
+      "type": "Agent",
+      "category": "Critic",
+      "generation": "74",
+      "specialization": "인과 추론 방법론 전문가"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육학, 노동경제학",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education의 조건부 효과가 특정 직업군 또는 산업 분야에 따라 어떻게 달라지는가?",
+      "last_consensus": "합의",
+      "last_summary": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education 수준의 조절 효과는 직업군 및 산업 분야에 따라 이질적으로 나타날 가능성이 높다는 점에 합의했습니다. 후속 연구에서는 선택 편향을 완화하기 위해 다양한 인과추론 방법론을 병행하고, 추정된 효과의 재현 가능성 및 외부 타당성을 확보하기 위한 노력이 필요합니다.",
+      "updated_at": "2026-02-16T10:59:40.776409+09:00"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육학, 측정 이론",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 교육 수준의 조절 효과는 측정 편향(measurement bias)에 얼마나 민감하며, 이를 완화하기 위한 방법론적 개선 방안은 무엇인가?",
+      "last_consensus": "합의",
+      "last_summary": "Job Training Program이 Real Earnings에 미치는 교육 수준의 조절 효과 분석은 측정 편향에 민감하며, 특히 교육 수준 측정 오류가 상호작용항 추정치를 왜곡할 수 있다는 점에 합의했다. Agent 변수를 활용한 DID 분석, Measurement Error Model, 도구변수법 등 다양한 방법론을 결합하여 측정 편향을 완화하고 추정치의 강건성을 확보하는 데 동의했다.",
+      "updated_at": "2026-02-16T10:34:01.564244+09:00"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육학, 정책학, 윤리학",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education 수준별 효과 크기 차이에 대한 연구 결과가, 실제 사회경제적 불평등 해소 정책에 적용될 때 어떤 윤리적 고려사항과 잠재적 부작용을 내포하는가?",
+      "last_consensus": "합의",
+      "last_summary": "Job Training Program의 교육 수준별 효과 차이에 대한 연구 결과를 사회경제적 불평등 해소 정책에 적용하기 위해서는 재현성 확보, 방법론적 엄밀성 강화, 맥락적 요인에 대한 심층적 고려가 필수적이라는 데 합의했습니다. 특히, KG 데이터 분석 결과는 다양한 데이터셋을 활용한 메타 분석을 통해 검증하고, 관찰되지 않은 교란변수의 영향을 정량적으로 평가해야 정책 적용의 윤리적 정당성을 확보할 수 있다는 점을 강조했습니다.",
+      "updated_at": "2026-02-16T10:37:10.613089+09:00"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 교육학, 정책 분석, 윤리학",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education의 조건부 효과 강화 주장의 타당성을 평가하고, 이를 사회경제적 불평등 해소 정책에 적용할 때 고려해야 할 윤리적, 실질적 제약 조건은 무엇인가?",
+      "last_consensus": "조건부 합의",
+      "last_summary": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education의 조건부 효과 강화 주장은 방법론적 엄밀성을 확보해야 타당성을 인정받을 수 있다는 데 합의했습니다. 특히 Agent 변수(Shannon, Tesla)의 교란 효과를 통제하고, 다양한 인과 추론 방법론을 적용하여 결과의 강건성을 비교 검토하는 것이 중요합니다.",
+      "updated_at": "2026-02-16T10:48:22.402683+09:00"
+    },
+    {
+      "id": "Forum:인과추론, 사회경제학, 정책 분석",
+      "category": "Forum",
+      "topic": "Job Training Program이 Real Earnings에 미치는 인과 효과에 대한 Education의 조건부 효과는, ATE 추정치의 불확실성을 고려할 때, 실제적인 정책 결정에 유의미한 차이를 제공하는가?",
+      "last_consensus": "조건부 합의",
+      "last_summary": "Job Training Program이 Real Earnings에 미치는 효과에 대한 Education의 조건부 효과가 ATE 추정치의 불확실성을 유의미하게 넘어선다고 단정하기는 어렵지만, 정책적 함의를 완전히 배제할 수는 없다. 다중공선성 완화 및 표본 크기 감소 문제 해결을 위한 대안적 방법론을 활용하고, 데이터 특성을 고려한 민감도 분석 및 재현 가능성 확보를 통해 조건부 효과의 유효성을 신중하게 검토해야 한다.",
+      "updated_at": "2026-02-16T10:53:27.161945+09:00"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Job Training Program",
+      "target": "Real Earnings (1978)",
+      "relation": "increases",
+      "weight": 0.5,
+      "verified": false
+    },
+    {
+      "source": "Age",
+      "target": "Real Earnings (1978)",
+      "relation": "affects",
+      "weight": 0.3,
+      "verified": false
+    },
+    {
+      "source": "Age",
+      "target": "Job Training Program",
+      "relation": "causes",
+      "weight": 0.8,
+      "hypothesis_id": "H-2230",
+      "hypothesis_text": "Job Training Program이 Real Earnings (1978)에 미치는 긍정적인 인과 효과는 Education 수준이 높을수록 더 클 것이다.",
+      "verified": true,
+      "ate": 1.9212,
+      "method": "S-Learner (XGBoost)",
+      "experiment_id": "EXP-2246",
+      "verdict": "ACCEPT",
+      "confidence": "high",
+      "added_at": "2026-02-16T09:37:34.340580+09:00"
+    },
+    {
+      "source": "Education",
+      "target": "Real Earnings (1978)",
+      "relation": "increases",
+      "weight": 0.4,
+      "verified": false
+    },
+    {
+      "source": "Education",
+      "target": "Job Training Program",
+      "relation": "causes",
+      "weight": 0.8,
+      "hypothesis_id": "H-2290",
+      "hypothesis_text": "Job Training Program이 Real Earnings (1978)에 미치는 긍정적 인과 효과는 Education 수준이 높을수록 더 크게 나타날 것이다.",
+      "verified": true,
+      "ate": 1.9212,
+      "method": "PSM (성향점수매칭)",
+      "experiment_id": "EXP-2290",
+      "verdict": "ACCEPT",
+      "confidence": "high",
+      "added_at": "2026-02-16T09:38:42.576323+09:00"
+    },
+    {
+      "source": "Race",
+      "target": "Real Earnings (1978)",
+      "relation": "may_cause",
+      "weight": 0.4,
+      "verified": false,
+      "hypothesis_id": "H-2528",
+      "hypothesis_text": "Job Training Program 참여가 Real Earnings (1978)에 미치는 긍정적 인과 효과는 Education 수준이 높을수록 더욱 강화될 것이다.",
+      "ate": 1.9212,
+      "method": "S-Learner (XGBoost)",
+      "experiment_id": "EXP-2556",
+      "verdict": "REVISE",
+      "confidence": "low",
+      "added_at": "2026-02-16T09:42:50.561978+09:00"
+    },
+    {
+      "source": "Race",
+      "target": "Job Training Program",
+      "relation": "causes",
+      "weight": 0.8,
+      "hypothesis_id": "H-2361",
+      "hypothesis_text": "Job Training Program이 Real Earnings (1978)에 미치는 긍정적 인과 효과는, Marital Status가 Married인 경우에 더 크게 나타날 것이다.",
+      "verified": true,
+      "ate": 1.9212,
+      "method": "Causal Forest",
+      "experiment_id": "EXP-2417",
+      "verdict": "ACCEPT",
+      "confidence": "high",
+      "added_at": "2026-02-16T09:40:39.185287+09:00"
+    },
+    {
+      "source": "Marital Status",
+      "target": "Job Training Program",
+      "relation": "causes",
+      "weight": 0.8,
+      "hypothesis_id": "H-2480",
+      "hypothesis_text": "Job Training Program 참여가 Real Earnings (1978)에 미치는 긍정적 효과는 Marital Status가 Married인 경우에 더욱 강화될 것이다.",
+      "verified": true,
+      "ate": 1.9212,
+      "method": "BART (베이지안 가법 회귀 나무)",
+      "experiment_id": "EXP-2480",
+      "verdict": "ACCEPT",
+      "confidence": "high",
+      "added_at": "2026-02-16T09:41:29.882845+09:00"
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Shannon",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Hopper",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Lovelace",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Turing",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Ritchie",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Thompson",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Faraday",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Edison",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Watt",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Babbage",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Knuth",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Tesla",
+      "target": "Agent:Berners-Lee",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Noether",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Dirac",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Euler",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Bohr",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Darwin",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Hawking",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Feynman",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Planck",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Heisenberg",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Curie",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Rosalind",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Albert",
+      "target": "Agent:Schrödinger",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Kuhn",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Rawls",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Putnam",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Quine",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Lakatos",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Kripke",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Hume",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Carnap",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Habermas",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Wittgenstein",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Russell",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "Agent:Kant",
+      "target": "Agent:Popper",
+      "relation": "evolved_into",
+      "weight": 1.0
+    },
+    {
+      "source": "alignment_training",
+      "target": "decision_quality",
+      "relation": "causes",
+      "verified": true,
+      "weight": 0.8,
+      "ate": 1.9212,
+      "method": "DML (이중기계학습) v2",
+      "experiment_id": "EXP-8027",
+      "verdict": "ACCEPT",
+      "confidence": "high",
+      "added_at": "2026-02-16T11:13:50.487431+09:00"
+    }
+  ]
+}

@@ -70,10 +70,10 @@ export default function CATEExplorer({
                 </div>
                 <div>
                     <h3 className="text-lg font-bold text-white">
-                        CATE Explorer — 누구에게 효과가 큰가?
+                        CATE Explorer — Who Benefits Most?
                     </h3>
                     <p className="text-sm text-gray-400">
-                        개인별 처치 효과(CATE) 분포 및 타겟팅 추천
+                        Individual treatment effect (CATE) distribution and targeting recommendations
                     </p>
                 </div>
             </div>

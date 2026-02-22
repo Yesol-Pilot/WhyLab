@@ -4,7 +4,7 @@
     "ci_lower": -0.0426216689011943,
     "ci_upper": -0.031122794930879067,
     "alpha": 0.05,
-    "description": "신용 한도(credit_limit) 1단위 증가 시 연체율(is_default)이 3.69%p 감소"
+    "description": "A 1-unit increase in credit_limit reduces is_default by 3.69%p"
   },
   "cate_distribution": {
     "mean": -0.03687223191603668,
@@ -81,7 +81,7 @@
   },
   "segments": [
     {
-      "name": "소득 Q1(하)",
+      "name": "Income Q1 (Low)",
       "dimension": "income",
       "n": 20000,
       "cate_mean": 0.030123528919353465,
@@ -89,7 +89,7 @@
       "cate_ci_upper": 0.13904062685776
     },
     {
-      "name": "소득 Q2",
+      "name": "Income Q2",
       "dimension": "income",
       "n": 20000,
       "cate_mean": 0.0019689109614955853,
@@ -97,7 +97,7 @@
       "cate_ci_upper": 0.11034146325895894
     },
     {
-      "name": "소득 Q3",
+      "name": "Income Q3",
       "dimension": "income",
       "n": 20000,
       "cate_mean": -0.022450534316753836,
@@ -105,7 +105,7 @@
       "cate_ci_upper": 0.08670529915140558
     },
     {
-      "name": "소득 Q4",
+      "name": "Income Q4",
       "dimension": "income",
       "n": 20000,
       "cate_mean": -0.05600213463196237,
@@ -113,7 +113,7 @@
       "cate_ci_upper": 0.05455114618840335
     },
     {
-      "name": "소득 Q5(상)",
+      "name": "Income Q5 (High)",
       "dimension": "income",
       "n": 20000,
       "cate_mean": -0.13800093051231624,
@@ -121,7 +121,7 @@
       "cate_ci_upper": -0.000293428508534088
     },
     {
-      "name": "연령 20대",
+      "name": "Age 20s",
       "dimension": "age",
       "n": 30818,
       "cate_mean": -0.056400752854810124,
@@ -129,7 +129,7 @@
       "cate_ci_upper": 0.08584998394537893
     },
     {
-      "name": "연령 30대",
+      "name": "Age 30s",
       "dimension": "age",
       "n": 38295,
       "cate_mean": -0.03768244985800258,
@@ -137,7 +137,7 @@
       "cate_ci_upper": 0.10343350638752491
     },
     {
-      "name": "연령 40대",
+      "name": "Age 40s",
       "dimension": "age",
       "n": 24102,
       "cate_mean": -0.020464591783366407,
@@ -145,7 +145,7 @@
       "cate_ci_upper": 0.11705274374063078
     },
     {
-      "name": "연령 50대",
+      "name": "Age 50s",
       "dimension": "age",
       "n": 6094,
       "cate_mean": -0.0033860067752464608,
@@ -153,7 +153,7 @@
       "cate_ci_upper": 0.13349908191807966
     },
     {
-      "name": "연령 60대",
+      "name": "Age 60s",
       "dimension": "age",
       "n": 657,
       "cate_mean": 0.011076141090650523,
@@ -161,7 +161,7 @@
       "cate_ci_upper": 0.1529567681398982
     },
     {
-      "name": "신용 300-499",
+      "name": "Credit 300-499",
       "dimension": "credit_score",
       "n": 2954,
       "cate_mean": 0.07795287295842725,
@@ -169,7 +169,7 @@
       "cate_ci_upper": 0.1840713643314225
     },
     {
-      "name": "신용 500-599",
+      "name": "Credit 500-599",
       "dimension": "credit_score",
       "n": 23574,
       "cate_mean": 0.02064656651982844,
@@ -177,7 +177,7 @@
       "cate_ci_upper": 0.12185111874672432
     },
     {
-      "name": "신용 600-699",
+      "name": "Credit 600-699",
       "dimension": "credit_score",
       "n": 46938,
       "cate_mean": -0.03669400728159075,
@@ -185,7 +185,7 @@
       "cate_ci_upper": 0.0659428747811251
     },
     {
-      "name": "신용 700-799",
+      "name": "Credit 700-799",
       "dimension": "credit_score",
       "n": 23511,
       "cate_mean": -0.09411223688110103,
@@ -193,7 +193,7 @@
       "cate_ci_upper": 0.005964578147830191
     },
     {
-      "name": "신용 800-900",
+      "name": "Credit 800-900",
       "dimension": "credit_score",
       "n": 2919,
       "cate_mean": -0.15345336789624275,
@@ -374,7 +374,7 @@
       "original_ate": -0.03687223191603668,
       "n_iter": 20,
       "status": "Pass",
-      "interpretation": "Placebo ATE 평균=0.00006 (≈0), 원래 ATE=-0.03687는 Null 분포에서 이례적 (p={p_value:.3f}<0.05) → 진짜 효과"
+      "interpretation": "Placebo ATE mean=0.00006 (≈0), original ATE=-0.03687 is anomalous in null distribution (p={p_value:.3f}<0.05) → genuine effect"
     },
     "random_common_cause": {
       "mean_effect": -0.2063198035173845,
@@ -388,7 +388,7 @@
     "e_value": {
       "point": 1.234971772965241,
       "ci_bound": 1.2121987236475325,
-      "interpretation": "취약 — 작은 교란에도 결과가 바뀔 수 있음",
+      "interpretation": "Vulnerable — results may change with minor confounding",
       "status": "Fail"
     },
     "overlap": {
@@ -470,7 +470,7 @@
           0.002599999999870004
         ]
       },
-      "interpretation": "Overlap 부족 — Positivity 위반 위험",
+      "interpretation": "Overlap insufficient — Positivity violation risk",
       "status": "Fail"
     },
     "gates": {
@@ -542,7 +542,7 @@
         }
       ],
       "f_statistic": 143132.26,
-      "heterogeneity": "강한 이질성 — 세그먼트별 차등 전략 필수",
+      "heterogeneity": "Strong heterogeneity — segment-specific strategies required",
       "status": "Info"
     }
   },
@@ -583,35 +583,35 @@
         "original_cate": -1.338527304274812,
         "counterfactual_cate": -0.6228760291883915,
         "diff": 0.7156512750864206,
-        "description": "income 50% 감소 시 CATE 변화"
+        "description": "CATE change when income reduced by 50%"
       },
       {
         "user_id": "90928.0",
         "original_cate": -0.9126353164927359,
         "counterfactual_cate": -0.35542191515343546,
         "diff": 0.5572134013393004,
-        "description": "income 50% 감소 시 CATE 변화"
+        "description": "CATE change when income reduced by 50%"
       },
       {
         "user_id": "38587.0",
         "original_cate": -0.8535886164642454,
         "counterfactual_cate": -0.3442893687983118,
         "diff": 0.5092992476659337,
-        "description": "income 50% 감소 시 CATE 변화"
+        "description": "CATE change when income reduced by 50%"
       },
       {
         "user_id": "57013.0",
         "original_cate": -0.7873513101610745,
         "counterfactual_cate": -0.31284658581834646,
         "diff": 0.47450472434272806,
-        "description": "income 50% 감소 시 CATE 변화"
+        "description": "CATE change when income reduced by 50%"
       },
       {
         "user_id": "11589.0",
         "original_cate": -0.738360151130983,
         "counterfactual_cate": -0.27188904308895057,
         "diff": 0.4664711080420324,
-        "description": "income 50% 감소 시 CATE 변화"
+        "description": "CATE change when income reduced by 50%"
       }
     ]
   },
@@ -624,11 +624,11 @@
     "n_samples": 100000
   },
   "ai_insights": {
-    "summary": "Scenario A 분석 결과, credit_limit의 변화는 is_default을(를) 평균 3.69%p 감소시키는 중간 수준의 효과를 보였습니다. 95% 신뢰구간 [-0.0426, -0.0311]을 고려하면 이 결과는 통계적으로 유의합니다.",
-    "headline": "✅ credit_limit → is_default: ATE = -0.0369 (감소 3.7%p)",
-    "significance": "유의함",
+    "summary": "Analysis of Scenario A shows that changes in credit_limit produce a medium-level effect of reducing is_default by an average of 3.69%p. Considering the 95% confidence interval [-0.0426, -0.0311], this result is statistically significant.",
+    "headline": "✅ credit_limit → is_default: ATE = -0.0369 (decrease 3.7%p)",
+    "significance": "Significant",
     "effect_size": "medium",
-    "effect_direction": "감소",
+    "effect_direction": "decrease",
     "top_drivers": [
       {
         "feature": "income",
@@ -644,10 +644,10 @@
       }
     ],
     "model_quality": "excellent",
-    "model_quality_label": "우수",
+    "model_quality_label": "Excellent",
     "correlation": 0.983,
     "rmse": 0.6031,
-    "recommendation": "특히 income에 따라 효과 이질성이 크므로, 세그먼트별 차등 전략이 유효합니다.",
+    "recommendation": "Effect heterogeneity is particularly large by income, so segment-specific strategies are effective.",
     "generated_by": "rule_based"
   },
   "debate": {
@@ -656,248 +656,248 @@
     "pro_score": 16.18196612755829,
     "con_score": 7.634193665805423,
     "rounds": 3,
-    "recommendation": "⚖️ [보류] 5% 트래픽 A/B 테스트 제안. 주요 리스크 검증 필요: 미관측 외부 변수(경기 침체 등)에 취약 → 예상치 못한 손실 위험",
+    "recommendation": "⚖️ [Hold] Recommend 5% traffic A/B test. Key risk validation needed: vulnerable to unobserved external variables (e.g., economic recession) → potential unexpected losses",
     "pro_evidence": [
       {
-        "claim": "메타러너 60% 동일 방향",
+        "claim": "Meta-learner 60% same direction",
         "type": "statistical",
         "strength": 0.6,
         "source": "meta_learner_consensus",
-        "business_impact": "모델 간 합의로 예측 신뢰도 확보 → 과감한 마케팅 집행 가능"
+        "business_impact": "Model consensus ensures prediction reliability → enables bold marketing execution"
       },
       {
-        "claim": "Placebo p=0.0000 (원래 효과 유의)",
+        "claim": "Placebo p=0.0000 (original effect significant)",
         "type": "robustness",
         "strength": 1.0,
         "source": "placebo_p_value",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "E-value=1.23 (취약)",
+        "claim": "E-value=1.23 (vulnerable)",
         "type": "robustness",
         "strength": 0.4116572576550803,
         "source": "e_value",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "Conformal CI 0 포함 → 불확실",
+        "claim": "Conformal CI includes 0 → uncertain",
         "type": "statistical",
         "strength": 0.1,
         "source": "conformal_ci",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "LOO 교란변수 제거 후 부호 유지 ✓",
+        "claim": "LOO confounder removal sign preserved ✓",
         "type": "robustness",
         "strength": 1.0,
         "source": "loo_confounder",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "Overlap=0.08 (주의)",
+        "claim": "Overlap=0.08 (caution)",
         "type": "statistical",
         "strength": 0.0,
         "source": "overlap",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "GATES 이질성 유의 ✓",
+        "claim": "GATES heterogeneity significant ✓",
         "type": "statistical",
         "strength": 1.0,
         "source": "gates_heterogeneity",
-        "business_impact": "타겟팅 효율화 기회 발견 (상위 20% 유저 집중 공략)"
+        "business_impact": "Targeting optimization opportunity found (focus on top 20% users)"
       },
       {
-        "claim": "SHAP-교란변수 정합성: 100%",
+        "claim": "SHAP-confounder coherence: 100%",
         "type": "domain",
         "strength": 1.0,
         "source": "shap_coherence",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "메타러너 60% 동일 방향",
+        "claim": "Meta-learner 60% same direction",
         "type": "statistical",
         "strength": 0.6,
         "source": "meta_learner_consensus",
-        "business_impact": "모델 간 합의로 예측 신뢰도 확보 → 과감한 마케팅 집행 가능"
+        "business_impact": "Model consensus ensures prediction reliability → enables bold marketing execution"
       },
       {
-        "claim": "Placebo p=0.0000 (원래 효과 유의)",
+        "claim": "Placebo p=0.0000 (original effect significant)",
         "type": "robustness",
         "strength": 1.0,
         "source": "placebo_p_value",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "E-value=1.23 (취약)",
+        "claim": "E-value=1.23 (vulnerable)",
         "type": "robustness",
         "strength": 0.4116572576550803,
         "source": "e_value",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "Conformal CI 0 포함 → 불확실",
+        "claim": "Conformal CI includes 0 → uncertain",
         "type": "statistical",
         "strength": 0.1,
         "source": "conformal_ci",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "LOO 교란변수 제거 후 부호 유지 ✓",
+        "claim": "LOO confounder removal sign preserved ✓",
         "type": "robustness",
         "strength": 1.0,
         "source": "loo_confounder",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "Overlap=0.08 (주의)",
+        "claim": "Overlap=0.08 (caution)",
         "type": "statistical",
         "strength": 0.0,
         "source": "overlap",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "GATES 이질성 유의 ✓",
+        "claim": "GATES heterogeneity significant ✓",
         "type": "statistical",
         "strength": 1.0,
         "source": "gates_heterogeneity",
-        "business_impact": "타겟팅 효율화 기회 발견 (상위 20% 유저 집중 공략)"
+        "business_impact": "Targeting optimization opportunity found (focus on top 20% users)"
       },
       {
-        "claim": "SHAP-교란변수 정합성: 100%",
+        "claim": "SHAP-confounder coherence: 100%",
         "type": "domain",
         "strength": 1.0,
         "source": "shap_coherence",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "메타러너 60% 동일 방향",
+        "claim": "Meta-learner 60% same direction",
         "type": "statistical",
         "strength": 0.6,
         "source": "meta_learner_consensus",
-        "business_impact": "모델 간 합의로 예측 신뢰도 확보 → 과감한 마케팅 집행 가능"
+        "business_impact": "Model consensus ensures prediction reliability → enables bold marketing execution"
       },
       {
-        "claim": "Placebo p=0.0000 (원래 효과 유의)",
+        "claim": "Placebo p=0.0000 (original effect significant)",
         "type": "robustness",
         "strength": 1.0,
         "source": "placebo_p_value",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "E-value=1.23 (취약)",
+        "claim": "E-value=1.23 (vulnerable)",
         "type": "robustness",
         "strength": 0.4116572576550803,
         "source": "e_value",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "Conformal CI 0 포함 → 불확실",
+        "claim": "Conformal CI includes 0 → uncertain",
         "type": "statistical",
         "strength": 0.1,
         "source": "conformal_ci",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "LOO 교란변수 제거 후 부호 유지 ✓",
+        "claim": "LOO confounder removal sign preserved ✓",
         "type": "robustness",
         "strength": 1.0,
         "source": "loo_confounder",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "Overlap=0.08 (주의)",
+        "claim": "Overlap=0.08 (caution)",
         "type": "statistical",
         "strength": 0.0,
         "source": "overlap",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       },
       {
-        "claim": "GATES 이질성 유의 ✓",
+        "claim": "GATES heterogeneity significant ✓",
         "type": "statistical",
         "strength": 1.0,
         "source": "gates_heterogeneity",
-        "business_impact": "타겟팅 효율화 기회 발견 (상위 20% 유저 집중 공략)"
+        "business_impact": "Targeting optimization opportunity found (focus on top 20% users)"
       },
       {
-        "claim": "SHAP-교란변수 정합성: 100%",
+        "claim": "SHAP-confounder coherence: 100%",
         "type": "domain",
         "strength": 1.0,
         "source": "shap_coherence",
-        "business_impact": "안정적인 성과 기대"
+        "business_impact": "Stable performance expected"
       }
     ],
     "con_evidence": [
       {
-        "claim": "E-value=1.23 < 2.0 → 미관측 교란에 취약",
+        "claim": "E-value=1.23 < 2.0 → vulnerable to unobserved confounding",
         "type": "robustness",
         "strength": 0.3825141135173795,
         "source": "e_value_weak",
-        "business_impact": "미관측 외부 변수(경기 침체 등)에 취약 → 예상치 못한 손실 위험"
+        "business_impact": "Vulnerable to unobserved external variables (e.g., recession) → potential unexpected losses"
       },
       {
-        "claim": "Overlap=0.08 < 0.7 → positivity 위반 위험",
+        "claim": "Overlap=0.08 < 0.7 → positivity violation risk",
         "type": "statistical",
         "strength": 0.8857142857142858,
         "source": "overlap_violation",
-        "business_impact": "특정 유저군에 편향된 결과 → 일반화 시 성과 하락 우려"
+        "business_impact": "Results biased toward specific user groups → performance decline risk upon generalization"
       },
       {
-        "claim": "Placebo p=0.0000 < 0.05 → 허위 양성 위험",
+        "claim": "Placebo p=0.0000 < 0.05 → false positive risk",
         "type": "robustness",
         "strength": 1.0,
         "source": "placebo_failure",
-        "business_impact": "가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고"
+        "business_impact": "High likelihood of spurious effect → marketing budget waste warning"
       },
       {
-        "claim": "E-value=1.23 < 2.0 → 미관측 교란에 취약",
+        "claim": "E-value=1.23 < 2.0 → vulnerable to unobserved confounding",
         "type": "robustness",
         "strength": 0.3825141135173795,
         "source": "e_value_weak",
-        "business_impact": "미관측 외부 변수(경기 침체 등)에 취약 → 예상치 못한 손실 위험"
+        "business_impact": "Vulnerable to unobserved external variables (e.g., recession) → potential unexpected losses"
       },
       {
-        "claim": "Overlap=0.08 < 0.7 → positivity 위반 위험",
+        "claim": "Overlap=0.08 < 0.7 → positivity violation risk",
         "type": "statistical",
         "strength": 0.8857142857142858,
         "source": "overlap_violation",
-        "business_impact": "특정 유저군에 편향된 결과 → 일반화 시 성과 하락 우려"
+        "business_impact": "Results biased toward specific user groups → performance decline risk upon generalization"
       },
       {
-        "claim": "Placebo p=0.0000 < 0.05 → 허위 양성 위험",
+        "claim": "Placebo p=0.0000 < 0.05 → false positive risk",
         "type": "robustness",
         "strength": 1.0,
         "source": "placebo_failure",
-        "business_impact": "가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고"
+        "business_impact": "High likelihood of spurious effect → marketing budget waste warning"
       },
       {
-        "claim": "E-value=1.23 < 2.0 → 미관측 교란에 취약",
+        "claim": "E-value=1.23 < 2.0 → vulnerable to unobserved confounding",
         "type": "robustness",
         "strength": 0.3825141135173795,
         "source": "e_value_weak",
-        "business_impact": "미관측 외부 변수(경기 침체 등)에 취약 → 예상치 못한 손실 위험"
+        "business_impact": "Vulnerable to unobserved external variables (e.g., recession) → potential unexpected losses"
       },
       {
-        "claim": "Overlap=0.08 < 0.7 → positivity 위반 위험",
+        "claim": "Overlap=0.08 < 0.7 → positivity violation risk",
         "type": "statistical",
         "strength": 0.8857142857142858,
         "source": "overlap_violation",
-        "business_impact": "특정 유저군에 편향된 결과 → 일반화 시 성과 하락 우려"
+        "business_impact": "Results biased toward specific user groups → performance decline risk upon generalization"
       },
       {
-        "claim": "Placebo p=0.0000 < 0.05 → 허위 양성 위험",
+        "claim": "Placebo p=0.0000 < 0.05 → false positive risk",
         "type": "robustness",
         "strength": 1.0,
         "source": "placebo_failure",
-        "business_impact": "가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고"
+        "business_impact": "High likelihood of spurious effect → marketing budget waste warning"
       }
     ],
     "llm_debate": {
       "llm_active": false,
       "model": "rule_based",
-      "advocate_argument": "📗 **Growth Hacker 핵심 주장:**\n  • Placebo p=0.0000 (원래 효과 유의)\n    → 안정적인 성과 기대\n  • LOO 교란변수 제거 후 부호 유지 ✓\n    → 안정적인 성과 기대\n  • GATES 이질성 유의 ✓\n    → 타겟팅 효율화 기회 발견 (상위 20% 유저 집중 공략)",
-      "critic_argument": "📕 **Risk Manager 핵심 리스크:**\n  • Placebo p=0.0000 < 0.05 → 허위 양성 위험\n    ⚠️ 가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고\n  • Placebo p=0.0000 < 0.05 → 허위 양성 위험\n    ⚠️ 가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고\n  • Placebo p=0.0000 < 0.05 → 허위 양성 위험\n    ⚠️ 가짜 효과일 가능성 높음 → 마케팅 예산 낭비 경고",
-      "judge_verdict": "⚖️ **판결: UNCERTAIN** (확신도: 67.9%)\n⚖️ [보류] 5% 트래픽 A/B 테스트 제안. 주요 리스크 검증 필요: 미관측 외부 변수(경기 침체 등)에 취약 → 예상치 못한 손실 위험"
+      "advocate_argument": "📗 **Growth Hacker Key Arguments:**\n  • Placebo p=0.0000 (original effect significant)\n    → Stable performance expected\n  • LOO confounder removal sign preserved ✓\n    → Stable performance expected\n  • GATES heterogeneity significant ✓\n    → Targeting optimization opportunity found (focus on top 20% users)",
+      "critic_argument": "📕 **Risk Manager Key Risks:**\n  • Placebo p=0.0000 < 0.05 → false positive risk\n    ⚠️ High likelihood of spurious effect → marketing budget waste warning\n  • Placebo p=0.0000 < 0.05 → false positive risk\n    ⚠️ High likelihood of spurious effect → marketing budget waste warning\n  • Placebo p=0.0000 < 0.05 → false positive risk\n    ⚠️ High likelihood of spurious effect → marketing budget waste warning",
+      "judge_verdict": "⚖️ **Verdict: UNCERTAIN** (Confidence: 67.9%)\n⚖️ [Hold] Recommend 5% traffic A/B test. Key risk validation needed: vulnerable to unobserved external variables (e.g., economic recession) → potential unexpected losses"
     }
   },
   "conformal": {
@@ -910,7 +910,7 @@
     "ci_lower_mean": -0.1772157595320419,
     "ci_upper_mean": 0.024499349178032058,
     "adaptive": false,
-    "interpretation": "Conformal 95% 예측구간: 폭=0.20172, 실제 적중률=93.9%"
+    "interpretation": "Conformal 95% prediction interval: width=0.20172, actual hit rate=93.9%"
   },
   "meta_learner": {
     "individual": {},

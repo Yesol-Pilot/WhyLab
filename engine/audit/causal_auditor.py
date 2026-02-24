@@ -36,19 +36,33 @@ SIGNIFICANCE_THRESHOLD = 0.05
 class CausalAuditor:
     """에이전트 결정에 대한 인과 감사를 수행합니다.
 
-    Phase 1에서는 경량 통계 기반 감사를 수행하고,
-    Phase 2에서 WhyLab 22-Cell 파이프라인과 통합합니다.
+    하이브리드 추론 아키텍처 (리서치 기반):
+        - 데이터 풍부 → CausalImpact (BSTS)
+        - 데이터 희소 → GSC (Generalized Synthetic Control)
+        - Phase 1 기본 → lightweight_t_test (scipy 미의존)
+
+    Phase 2에서 DML/GSC 통합 시 method_router가 자동 스위칭합니다.
     """
+
+    # 지원 메서드 (Phase별 확장)
+    SUPPORTED_METHODS = [
+        "lightweight_t_test",    # Phase 1: 기본 (현재)
+        "causal_impact",         # Phase 2: 데이터 풍부 시
+        "gsc",                   # Phase 2: 데이터 희소 시
+        "dml",                   # Phase 2: Multi-treatment
+    ]
 
     def __init__(
         self,
         significance_level: float = SIGNIFICANCE_THRESHOLD,
         min_pre: int = MIN_PRE_OBSERVATIONS,
         min_post: int = MIN_POST_OBSERVATIONS,
+        preferred_method: str = "auto",
     ) -> None:
         self.significance_level = significance_level
         self.min_pre = min_pre
         self.min_post = min_post
+        self.preferred_method = preferred_method
 
     def audit(self, pair: DecisionOutcomePair) -> AuditResult:
         """DecisionOutcomePair에 대한 인과 감사를 실행합니다.

@@ -44,10 +44,21 @@ GA4_SOURCE_DIMENSION = "sessionSource"
 class GA4Connector:
     """GA4 Data API v1 커넥터.
 
+    리서치 기반 할당량 방어:
+        - 동시 요청: 속성당 10개 제한
+        - 시간당 토큰: 40,000개 제한
+        - 일일 토큰: 200,000개 제한
+    큐 기반 Lazy Fetching으로 할당량 소진을 방어합니다.
+
     환경변수:
         GOOGLE_APPLICATION_CREDENTIALS: 서비스 계정 키 경로
         WHYLAB_GA4_PROPERTY_ID: 기본 GA4 속성 ID
     """
+
+    # GA4 API 할당량 상수 (Standard 속성 기준)
+    QUOTA_CONCURRENT_REQUESTS = 10
+    QUOTA_TOKENS_PER_HOUR = 40_000
+    QUOTA_TOKENS_PER_DAY = 200_000
 
     def __init__(
         self,
@@ -61,6 +72,8 @@ class GA4Connector:
             "GOOGLE_APPLICATION_CREDENTIALS", ""
         )
         self._client = None
+        self._request_count = 0
+        self._tokens_used_hour = 0
 
     def _ensure_client(self) -> bool:
         """GA4 클라이언트를 지연 초기화합니다."""

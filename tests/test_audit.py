@@ -14,6 +14,7 @@ import pytest
 
 from engine.audit.schemas import (
     AgentType,
+    AuditResult,
     AuditVerdict,
     DecisionEvent,
     DecisionOutcomePair,
@@ -334,3 +335,77 @@ class TestFullPipeline:
                 AuditVerdict.UNCERTAIN,
             )
             assert result.recommendation
+
+
+# ──────────────────────────────────────────────
+# 피드백 컨트롤러 테스트
+# ──────────────────────────────────────────────
+
+from engine.audit.feedback_controller import DampingController, FeedbackSignal
+
+
+class TestDampingController:
+    def test_high_confidence_high_damping(self):
+        """높은 신뢰도 → 높은 감쇠 → 공격적 업데이트."""
+        ctrl = DampingController()
+        zeta = ctrl.compute_damping(confidence=0.9, drift_index=0.1)
+        assert zeta > ctrl.base_damping
+
+    def test_high_drift_low_damping(self):
+        """높은 드리프트 → 낮은 감쇠 → 보수적 유지."""
+        ctrl = DampingController()
+        zeta = ctrl.compute_damping(confidence=0.5, drift_index=0.8)
+        assert zeta < ctrl.base_damping
+
+    def test_sparse_data_reduces_damping(self):
+        """데이터 희소 → 감쇠 하향."""
+        ctrl = DampingController()
+        dense = ctrl.compute_damping(confidence=0.7, data_density=1.0)
+        sparse = ctrl.compute_damping(confidence=0.7, data_density=0.2)
+        assert sparse < dense
+
+    def test_damping_within_bounds(self):
+        """감쇠 인자가 항상 [min, max] 범위 내."""
+        ctrl = DampingController(min_damping=0.05, max_damping=0.8)
+        for conf in [0.0, 0.5, 1.0]:
+            for drift in [0.0, 0.5, 1.0]:
+                for density in [0.1, 0.5, 1.0]:
+                    z = ctrl.compute_damping(conf, drift, density)
+                    assert 0.05 <= z <= 0.8
+
+    def test_generate_feedback_causal(self, decision):
+        """CAUSAL 감사 결과 → reinforce 피드백."""
+        ctrl = DampingController()
+        result = AuditResult(
+            decision_id=decision.decision_id,
+            verdict=AuditVerdict.CAUSAL,
+            confidence=0.8,
+            ate=0.15,
+        )
+        signal = ctrl.generate_feedback(result)
+        assert signal.action == "reinforce"
+        assert signal.effective_weight > 0
+
+    def test_generate_feedback_not_causal(self, decision):
+        """NOT_CAUSAL 감사 결과 → suppress 피드백."""
+        ctrl = DampingController()
+        result = AuditResult(
+            decision_id=decision.decision_id,
+            verdict=AuditVerdict.NOT_CAUSAL,
+            confidence=0.7,
+            ate=-0.02,
+        )
+        signal = ctrl.generate_feedback(result)
+        assert signal.action == "suppress"
+
+    def test_feedback_history(self, decision):
+        """피드백 이력이 기록됨."""
+        ctrl = DampingController()
+        result = AuditResult(
+            decision_id=decision.decision_id,
+            verdict=AuditVerdict.UNCERTAIN,
+            confidence=0.4,
+        )
+        ctrl.generate_feedback(result)
+        assert len(ctrl.history) == 1
+        assert ctrl.history[0]["action"] == "hold"

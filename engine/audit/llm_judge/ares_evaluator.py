@@ -86,6 +86,7 @@ class ARESEvaluator:
         n_samples: int = 10,
         soundness_threshold: float = 0.8,
         confidence_level: float = 0.95,
+        use_real_llm: bool = False,
     ) -> None:
         """
         Args:
@@ -93,11 +94,20 @@ class ARESEvaluator:
             n_samples: Monte Carlo 샘플링 횟수
             soundness_threshold: 검증 통과 임계치 (p̂ ≥ threshold)
             confidence_level: 신뢰 수준 (기본 95%)
+            use_real_llm: True면 실제 LLM API 호출 (비용 발생).
+                         False면 judge_fn은 Mock/rule-based.
+                         논문 §Architecture 벤치마크 데이터 수집용.
         """
         self.judge_fn = judge_fn
         self.n_samples = n_samples
         self.soundness_threshold = soundness_threshold
         self.confidence_level = confidence_level
+        self.use_real_llm = use_real_llm
+
+        # 비용/지연 계측 (논문 데이터용)
+        self._call_latencies: List[float] = []
+        self._total_tokens: int = 0
+        self._total_cost_usd: float = 0.0
 
     def evaluate(
         self,
@@ -120,7 +130,11 @@ class ARESEvaluator:
             positive_count = 0
             for _ in range(self.n_samples):
                 try:
+                    import time as _time
+                    t0 = _time.time()
                     is_sound = self.judge_fn(step, list(verified_premises))
+                    elapsed = _time.time() - t0
+                    self._call_latencies.append(elapsed)
                     if is_sound:
                         positive_count += 1
                 except Exception as e:
@@ -190,6 +204,8 @@ class ARESEvaluator:
                 "n_samples": self.n_samples,
                 "soundness_threshold": self.soundness_threshold,
                 "confidence_level": self.confidence_level,
+                "use_real_llm": self.use_real_llm,
+                "benchmark": self.benchmark_stats,
             },
         )
 
@@ -201,6 +217,29 @@ class ARESEvaluator:
         )
 
         return result
+
+    @property
+    def benchmark_stats(self) -> Dict[str, Any]:
+        """논문 §Architecture 벤치마크 데이터.
+
+        Real-LLM 모드에서 수집된 비용/지연 통계.
+        """
+        n = len(self._call_latencies)
+        if n == 0:
+            return {"total_calls": 0, "mode": "mock" if not self.use_real_llm else "real"}
+        return {
+            "mode": "real" if self.use_real_llm else "mock",
+            "total_calls": n,
+            "avg_latency_ms": round(sum(self._call_latencies) / n * 1000, 1),
+            "p95_latency_ms": round(
+                sorted(self._call_latencies)[int(n * 0.95)] * 1000, 1
+            ) if n >= 20 else None,
+            "total_tokens": self._total_tokens,
+            "total_cost_usd": round(self._total_cost_usd, 4),
+            "cost_per_audit_usd": round(
+                self._total_cost_usd / max(n, 1), 6
+            ),
+        }
 
     @staticmethod
     def _beta_binomial_ci(

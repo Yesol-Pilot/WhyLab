@@ -178,6 +178,35 @@ class LyapunovFilter:
         slope = num / den if den > 0 else 0
         return slope <= 0  # 음의 기울기 = 에너지 감소 = 수렴
 
+    def compute_energy_proxy(
+        self,
+        current_reward: float,
+        max_reward: float,
+    ) -> float:
+        """V_t 대리지표(Proxy) 계산.
+
+        논문 §Experiments 핵심:
+        θ*는 관측 불가능하므로, 에이전트 보상(R_t)으로 에너지를 근사.
+
+            V_t ≈ ½(R_max - R_t)²
+
+        R_max: 도달 가능한 최대 보상 (예: CTR 상한, Task Success Rate 상한)
+        R_t: 현재 에이전트의 보상 (예: 당일 CVR, 성공률)
+
+        V_t가 작을수록 θ*에 가까움 (에너지 최소).
+        ζ 클리핑 후 V_t가 하락하면 안정화 증명.
+
+        Args:
+            current_reward: R_t (예: 0.12 = 12% CVR)
+            max_reward: R_max (예: 0.20 = 20% CVR 상한)
+
+        Returns:
+            V_t ≥ 0 (0 = 최적 상태)
+        """
+        gap = max(0.0, max_reward - current_reward)
+        v_t = 0.5 * gap * gap
+        return round(v_t, 6)
+
     def prove_stability(self) -> Dict[str, Any]:
         """논문 Table용 안정성 증명 요약.
 
@@ -214,4 +243,5 @@ class LyapunovFilter:
                 "Heavy-tail guard: ζ ∈ [ε_floor, C] "
                 f"where ε_floor={self.min_zeta}, C={self.max_zeta}"
             ),
+            "proxy_definition": "V_t ≈ ½(R_max - R_t)² where R_max=achievable upper bound",
         }

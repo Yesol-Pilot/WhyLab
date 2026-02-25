@@ -274,17 +274,23 @@ class CausalDriftMonitor:
 
 # ── 모듈 수준 유틸 ──
 
-def _signal_entropy(values: List[float], n_bins: int = 5) -> float:
+def _signal_entropy(values: List[float], n_bins: Optional[int] = None) -> float:
     """연속 신호의 경험적 엔트로피 (히스토그램 기반).
 
-    연속 값을 n_bins개의 등간격 구간으로 이산화한 후
+    연속 값을 자동 결정된 구간 수로 이산화한 후
     Shannon 엔트로피를 계산합니다.
+
+    구간 수: Sturges' Rule — k = ⌈1 + log₂(N)⌉
+    통계학적 정당성: Sturges (1926), "The Choice of a Class Interval"
     """
     if len(values) < 2:
         return 0.0
     vmin, vmax = min(values), max(values)
     if abs(vmax - vmin) < _EPS:
         return 0.0  # 모든 값이 동일 → 엔트로피 0
+    # Sturges' Rule: k = ⌈1 + log₂(N)⌉
+    if n_bins is None:
+        n_bins = max(2, math.ceil(1 + math.log2(len(values))))
     bin_width = (vmax - vmin) / n_bins
     counts = [0] * n_bins
     for v in values:
@@ -293,10 +299,14 @@ def _signal_entropy(values: List[float], n_bins: int = 5) -> float:
     return _shannon_entropy(counts)
 
 
-def _entropy_inverse_weights(entropies: List[float]) -> List[float]:
-    """엔트로피 역수 기반 가중치 계산.
+def _entropy_inverse_weights(
+    entropies: List[float],
+    smoothing: float = 0.1,
+    max_weight_cap: float = 0.6,
+) -> List[float]:
+    """엔트로피 역수 기반 가중치 계산 (스무딩 + 캡 적용).
 
-    w_i = (1 / (H_i + ε)) / Σ_j (1 / (H_j + ε))
+    w_i = (1 / (H_i + α)) / Σ_j (1 / (H_j + α)),  capped at max_weight_cap
 
     논문 정당성:
     - H_i가 낮을수록(예측 가능할수록) 해당 성분에서
@@ -304,10 +314,36 @@ def _entropy_inverse_weights(entropies: List[float]) -> List[float]:
       더 높은 가중치를 부여합니다.
     - 모든 성분이 균일하면 (1/3, 1/3, 1/3)이 되어
       기존 균등 가중치의 상위 호환입니다.
+
+    안정성 보장 (Zero-Entropy 방어):
+    - 스무딩 α=0.1을 분모에 추가하여 H→0일 때
+      가중치 폭발(1/ε → 10¹⁰)을 방지합니다.
+    - max_weight_cap=0.6으로 단일 성분이 Winner-takes-all
+      하여 다른 성분을 무시하는 현상을 차단합니다.
     """
-    inv = [1.0 / (h + _EPS) for h in entropies]
+    n = len(entropies)
+    inv = [1.0 / (h + smoothing) for h in entropies]
     total = sum(inv)
     if total < _EPS:
-        n = len(entropies)
         return [1.0 / n] * n
-    return [w / total for w in inv]
+    weights = [w / total for w in inv]
+
+    # Winner-takes-all 방지: 최대 가중치 캡
+    capped = False
+    for i in range(n):
+        if weights[i] > max_weight_cap:
+            weights[i] = max_weight_cap
+            capped = True
+    if capped:
+        # 남은 가중치를 나머지에 재분배
+        excess = sum(weights) - 1.0
+        non_capped = [i for i in range(n) if weights[i] < max_weight_cap]
+        if non_capped:
+            per_item = excess / len(non_capped)
+            for i in non_capped:
+                weights[i] -= per_item
+        # 정규화
+        total_w = sum(weights)
+        weights = [w / total_w for w in weights]
+
+    return weights

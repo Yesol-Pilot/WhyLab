@@ -23,6 +23,7 @@ class AnalysisResult:
     effect_size: float = 0.0  # Cohen's d 등
     placebo_passed: bool = False
     diagnostics: Dict[str, Any] = field(default_factory=dict)
+    sensitivity: Dict[str, Any] = field(default_factory=dict)  # R2: E-value 민감도
 
     @property
     def is_significant(self) -> bool:

@@ -66,6 +66,7 @@ class AsyncDLQWriter:
         self._memory_fallback: List[Dict] = []  # DB 미연결 시
         self._persisted_count = 0
         self._error_count = 0
+        self._persistent_conn = None  # 영구 커넥션 (데몬 스레드 전용)
 
         # 백그라운드 데몬 스레드 시작
         self._thread = threading.Thread(
@@ -126,31 +127,59 @@ class AsyncDLQWriter:
                 break
         return batch
 
+    def _ensure_connection(self):
+        """영구 커넥션 확보 (끊어졌을 때만 재연결).
+
+        TCP 핸드셰이크 안티패턴 방어:
+        매초 connect/close 대신 데몬 스레드 내 단일 커넥션 유지.
+        """
+        if self._persistent_conn is not None:
+            try:
+                # 커넥션 상태 확인 (lightweight)
+                self._persistent_conn.poll()
+                if self._persistent_conn.closed == 0:
+                    return self._persistent_conn
+            except Exception:
+                pass
+            # 커넥션 죽음 — 재연결
+            try:
+                self._persistent_conn.close()
+            except Exception:
+                pass
+            self._persistent_conn = None
+
+        self._persistent_conn = _get_pg_connection()
+        return self._persistent_conn
+
     def _batch_insert_pg(self, batch: List[Dict]) -> bool:
-        """psycopg2 네이티브 배치 INSERT."""
-        conn = _get_pg_connection()
+        """영구 커넥션으로 배치 INSERT (매초 connect/close 없음)."""
+        conn = self._ensure_connection()
         if not conn:
             return False
 
         try:
-            with conn:
-                with conn.cursor() as cur:
-                    args = [
-                        (e["decision_id"], e["reason"], json.dumps(e["payload"]))
-                        for e in batch
-                    ]
-                    cur.executemany(
-                        "INSERT INTO audit_dlq (decision_id, reason, payload) "
-                        "VALUES (%s, %s, %s::jsonb)",
-                        args,
-                    )
+            with conn.cursor() as cur:
+                args = [
+                    (e["decision_id"], e["reason"], json.dumps(e["payload"]))
+                    for e in batch
+                ]
+                cur.executemany(
+                    "INSERT INTO audit_dlq (decision_id, reason, payload) "
+                    "VALUES (%s, %s, %s::jsonb)",
+                    args,
+                )
+            conn.commit()
             logger.info("📥 DLQ batch persisted via PG: %d entries", len(batch))
             return True
         except Exception as e:
             logger.warning("⚠️ PG batch insert failed: %s", e)
+            # 커넥션 이상 시 다음 사이클에 재연결
+            try:
+                conn.rollback()
+            except Exception:
+                pass
+            self._persistent_conn = None
             return False
-        finally:
-            conn.close()
 
     def _batch_insert_rest(self, batch: List[Dict]) -> bool:
         """REST API 폴백 배치 INSERT."""
@@ -180,7 +209,7 @@ class AsyncDLQWriter:
         return False
 
     def shutdown(self, timeout: float = 5.0) -> None:
-        """종료 — 잔여 항목 플러시."""
+        """종료 — 잔여 항목 플러시 + 커넥션 해제."""
         self._stop_event.set()
         self._thread.join(timeout=timeout)
         # 잔여 큐 처리
@@ -188,6 +217,13 @@ class AsyncDLQWriter:
         if remaining:
             if not self._batch_insert_pg(remaining):
                 self._batch_insert_rest(remaining)
+        # 영구 커넥션 해제
+        if self._persistent_conn:
+            try:
+                self._persistent_conn.close()
+            except Exception:
+                pass
+            self._persistent_conn = None
 
     @property
     def stats(self) -> Dict[str, Any]:

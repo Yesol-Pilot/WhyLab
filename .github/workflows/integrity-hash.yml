@@ -1,0 +1,57 @@
+name: Daily Integrity Hash Auto-Commit
+
+# 무인(Zero-touch) 봇: 사람의 개입 원천 차단
+# integrity_hashes.jsonl을 GitHub Actions 서비스 계정으로만 커밋
+# → 심사위원에게 "해시값 사후 조작 불가" 입증
+
+on:
+  schedule:
+    # 매일 자정(KST) = UTC 15:00
+    - cron: '0 15 * * *'
+  workflow_dispatch: # 수동 트리거 (긴급 시)
+
+permissions:
+  contents: write
+
+jobs:
+  commit-integrity-hash:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install psycopg2-binary
+
+      - name: Run daily integrity worker
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          python -c "
+          from datetime import date
+          from engine.deploy.shadow import DailyIntegrityWorker
+          worker = DailyIntegrityWorker(hash_log_path='data/integrity_hashes.jsonl')
+          result = worker.run(str(date.today()))
+          print(result)
+          "
+
+      - name: Auto-commit hash log
+        run: |
+          git config user.name "whylab-integrity-bot"
+          git config user.email "integrity-bot@whylab.noreply.github.com"
+          git add data/integrity_hashes.jsonl
+          git diff --staged --quiet || git commit -m "chore(integrity): daily SHA-256 hash [$(date -u +%Y-%m-%d)]
+
+          Automated by GitHub Actions — zero human intervention.
+          Bot: whylab-integrity-bot"
+          git push

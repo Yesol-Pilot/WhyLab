@@ -124,6 +124,18 @@ even under arbitrarily large noise variance, ensuring the agent
 continues learning at a minimal but non-zero rate.
 \end{corollary}
 
+\begin{remark}[Observable Energy Proxy]
+Since the optimal strategy $\theta^*$ is unobservable in practice,
+we define an empirical proxy for the Lyapunov energy function using
+the agent's task reward $R_t$:
+\[
+V_t \approx \frac{1}{2}(R_{max} - R_t)^2
+\]
+where $R_{max}$ is the achievable upper bound (e.g., maximum observed
+conversion rate over a calibration window). This proxy satisfies the
+key requirement: $V_t \to 0$ as $R_t \to R_{max}$, and $V_t$ decreasing
+after $\zeta$-clipping events provides empirical evidence of stabilization.
+\end{remark}
 
 %% ============================================================
 \section{System Architecture \& Deployment Challenges}

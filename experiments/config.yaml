@@ -1,0 +1,58 @@
+# E1 + E3a Experiment Configuration
+# All runs: 20 seeds, mean ± 95% CI
+
+experiment:
+  seeds: 40
+  rng_base_seed: 42
+
+e1:
+  name: "Drift Detection"
+  horizon: 1000
+  shift_time: 300
+  K: 3  # number of streams
+  streams:
+    - name: "low_entropy"
+      entropy_level: 0.1  # very concentrated, high information
+      n_bins: 10
+    - name: "mid_entropy"
+      entropy_level: 1.5
+      n_bins: 10
+    - name: "high_entropy"
+      entropy_level: 3.0  # near-uniform, low information
+      n_bins: 10
+  severities:
+    mild: 0.5
+    moderate: 0.8
+    severe: 1.0
+  shift_stream: 0  # index of stream that shifts (low_entropy)
+  fpr_target: 0.05
+  calibration_window: 200  # steps 0..199 for threshold calibration
+  detectors:
+    - "entropy_weighted"   # C1
+    - "uniform"            # B4
+    - "adwin"              # B5
+  adwin_delta: 0.002  # ADWIN sensitivity (tuned for FPR match)
+
+e3a:
+  name: "Stability Validation"
+  horizon: 1000
+  dim: 5
+  A_diag: [1.0, 2.0, 3.0, 4.0, 5.0]
+  R_star: 100.0
+  theta0_scale: 3.0  # initial theta ~ N(0, scale)
+  hallucination_rates: [0.0, 0.1, 0.3, 0.5]
+  noise_sigma: 0.5  # base Gaussian noise std
+  hallucination_sigma: 5.0  # hallucination noise std
+  ema_alpha: 0.1  # EMA for R_max proxy
+  controllers:
+    - name: "no_damping"    # B1
+      zeta: 0.5
+    - name: "cosine"        # B2
+      zeta_init: 0.5
+      zeta_floor: 0.01
+    - name: "grad_clip"     # B3
+      c: 1.0
+      zeta_max_clip: 0.5
+    - name: "adaptive"      # C3
+      epsilon_floor: 0.01
+      ceiling: 0.8

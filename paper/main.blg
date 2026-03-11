@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: plainnat.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
+Database file #1: references.bib
+Warning--empty booktitle in econml2019
+You've used 14 entries,
+            2773 wiz_defined-function locations,
+            672 strings with 7575 characters,
+and the built_in function-call counts, 7081 in all, are:
+= -- 592
+> -- 479
+< -- 11
++ -- 161
+- -- 147
+* -- 582
+:= -- 1087
+add.period$ -- 45
+call.type$ -- 14
+change.case$ -- 91
+chr.to.int$ -- 14
+cite$ -- 29
+duplicate$ -- 318
+empty$ -- 569
+format.name$ -- 171
+if$ -- 1475
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 14
+newline$ -- 81
+num.names$ -- 56
+pop$ -- 200
+preamble$ -- 1
+purify$ -- 77
+quote$ -- 0
+skip$ -- 244
+stack$ -- 0
+substring$ -- 185
+swap$ -- 33
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 154
+warning$ -- 1
+while$ -- 55
+width$ -- 0
+write$ -- 189
+(There was 1 warning)

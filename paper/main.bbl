@@ -1,0 +1,109 @@
+\begin{thebibliography}{14}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Battocchi et~al.(2019)Battocchi, Dillon, Hei, Lewis, Raz, Oprescu, and
+  Syrgkanis]{econml2019}
+Keith Battocchi, Eleanor Dillon, Maggie Hei, Greg Lewis, Paul Raz, Miruna
+  Oprescu, and Vasilis Syrgkanis.
+\newblock {EconML}: A {Python} package for {ML}-based heterogeneous treatment
+  effects estimation.
+\newblock 2019.
+\newblock \url{https://github.com/py-why/EconML}.
+
+\bibitem[Berkenkamp et~al.(2017)Berkenkamp, Turchetta, Schoellig, and
+  Krause]{berkenkamp2017safe}
+Felix Berkenkamp, Matteo Turchetta, Angela~P. Schoellig, and Andreas Krause.
+\newblock Safe model-based reinforcement learning with stability guarantees.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~30, 2017.
+
+\bibitem[Bifet and Gavald\`{a}(2007)]{bifet2007adwin}
+Albert Bifet and Ricard Gavald\`{a}.
+\newblock Learning from time-changing data with adaptive windowing.
+\newblock In \emph{Proceedings of the 2007 SIAM International Conference on
+  Data Mining (SDM)}, pages 443--448, 2007.
+
+\bibitem[Chow et~al.(2018)Chow, Nachum, Duenez-Guzman, and
+  Ghavamzadeh]{chow2018lyapunov}
+Yinlam Chow, Ofir Nachum, Edgar Duenez-Guzman, and Mohammad Ghavamzadeh.
+\newblock A {Lyapunov}-based approach to safe reinforcement learning.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~31, 2018.
+
+\bibitem[Cinelli and Hazlett(2020)]{cinelli2020}
+Carlos Cinelli and Chad Hazlett.
+\newblock Making sense of sensitivity: Extending omitted variable bias.
+\newblock \emph{Journal of the Royal Statistical Society: Series B},
+  82\penalty0 (1):\penalty0 39--67, 2020.
+\newblock \doi{10.1111/rssb.12348}.
+
+\bibitem[Kennedy(2023)]{kennedy2023}
+Edward~H. Kennedy.
+\newblock Towards optimal doubly robust estimation of heterogeneous causal
+  effects.
+\newblock \emph{Electronic Journal of Statistics}, 17\penalty0 (2):\penalty0
+  3008--3049, 2023.
+
+\bibitem[Saad-Falcon et~al.(2025)Saad-Falcon, Barber, Krishnamurthy,
+  Athiwaratkun, Solai, and Khashabi]{saadfacon2025ares}
+Jon Saad-Falcon, Omar Barber, Akash Krishnamurthy, Ben Athiwaratkun,
+  Sathish~Reddy Solai, and Daniel Khashabi.
+\newblock {ARES}: An automated evaluation framework for retrieval-augmented
+  generation systems.
+\newblock In \emph{Proceedings of the 2025 Conference on Empirical Methods in
+  Natural Language Processing (EMNLP)}, 2025.
+
+\bibitem[Sharma and Kiciman(2022)]{dowhy2022}
+Amit Sharma and Emre Kiciman.
+\newblock {DoWhy}: An end-to-end library for causal inference.
+\newblock \emph{arXiv preprint arXiv:2011.04216}, 2022.
+
+\bibitem[Shinn et~al.(2023)Shinn, Cassano, Labash, Gopinath, Narasimhan, and
+  Yao]{shinn2023reflexion}
+Noah Shinn, Federico Cassano, Ashwin Labash, Karthik Gopinath, Karthik
+  Narasimhan, and Shunyu Yao.
+\newblock Reflexion: Language agents with verbal reinforcement learning.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, volume~36, 2023.
+
+\bibitem[Sturges(1926)]{sturges1926}
+Herbert~A. Sturges.
+\newblock The choice of a class interval.
+\newblock \emph{Journal of the American Statistical Association}, 21\penalty0
+  (153):\penalty0 65--66, 1926.
+
+\bibitem[VanderWeele and Ding(2017)]{vanderweele2017}
+Tyler~J. VanderWeele and Peng Ding.
+\newblock Sensitivity analysis in observational research: Introducing the
+  {E}-value.
+\newblock \emph{Annals of Internal Medicine}, 167\penalty0 (4):\penalty0
+  268--274, 2017.
+\newblock \doi{10.7326/M16-2607}.
+
+\bibitem[Wager and Athey(2018)]{wager2018}
+Stefan Wager and Susan Athey.
+\newblock Estimation and inference of heterogeneous treatment effects using
+  random forests.
+\newblock \emph{Journal of the American Statistical Association}, 113\penalty0
+  (523):\penalty0 1228--1242, 2018.
+
+\bibitem[Yao et~al.(2023)Yao, Zhao, Yu, Du, Shafran, Narasimhan, and
+  Cao]{yao2023react}
+Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan,
+  and Yuan Cao.
+\newblock {ReAct}: Synergizing reasoning and acting in language models.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2023.
+
+\bibitem[Zhang et~al.(2025)Zhang, Li, and Peng]{zhang2025whowhen}
+Shuo Zhang, Liangcai Li, and Nanyun Peng.
+\newblock Which agent causes task failures and when? {On} automated failure
+  attribution of {LLM} multi-agent systems.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine
+  Learning (ICML)}, 2025.
+
+\end{thebibliography}

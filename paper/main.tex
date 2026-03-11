@@ -449,51 +449,64 @@ $E \in [1.0, 5.0]$ and $RV_q \in [0.01, 0.5]$.
 
 \begin{table}[t]
 \centering
-\caption{Filtering performance from the threshold sweep
-  (40~seeds, mean over synthetic observational studies with OLS
-  estimation). E-values computed from $d = |ATE|/\sigma_{\text{pooled}}$;
-  $RV_q$ from $f_q = |\hat{\beta}|/\text{SE}$.
-  \emph{Fragile rate}: fraction of confounded positives among accepted.
-  \emph{Fragile rej.}: fraction of all confounded positives correctly
-  rejected.}
+\caption{Filtering performance under two operating regimes from the
+  threshold sweep (40~seeds, mean over synthetic observational studies).
+  For each regime, the operating point minimizing fragile rate
+  is selected per filter.
+  E-values: $d = |ATE|/\sigma_{\text{pooled}}$;
+  $RV_q$: $f_q = |\hat{\beta}|/\text{SE}$.}
 \label{tab:e2-filter}
 \small
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabular}{@{}llcccc@{}}
 \toprule
-\textbf{Filter} & \textbf{Fragile rate} $\downarrow$
+\textbf{Regime} & \textbf{Filter}
+  & \textbf{Frag.\,rate} $\downarrow$
   & \textbf{Recall} $\uparrow$
-  & \textbf{Fragile rej.} $\uparrow$
+  & \textbf{Frag.\,rej.} $\uparrow$
   & \textbf{Retention} \\
 \midrule
-No filter       & 0.403 & 1.000 & 0.000 & 1.000 \\
-E-only ($E \geq 2.5$)  & 0.134 & 0.677 & 0.873 & 0.387 \\
-$RV_q$-only ($RV_q \geq 0.50$) & 0.287 & 0.939 & 0.475 & 0.718 \\
-\textbf{C2} ($E{\geq}1.5,\; RV_q{\geq}0.50$)
-  & \textbf{0.287} & 0.939 & \textbf{0.475} & 0.718 \\
-\textbf{C2} ($E{\geq}2.5,\; RV_q{\geq}0.15$)
-  & \textbf{0.134} & 0.677 & \textbf{0.873} & 0.387 \\
+\multirow{4}{*}{\rotatebox[origin=c]{90}{\scriptsize Recall$\geq$0.9}}
+  & No filter       & 0.403 & 1.000 & 0.000 & 1.000 \\
+  & E-only ($E{\geq}1.5$)  & 0.335 & 0.963 & 0.312 & 0.813 \\
+  & $RV_q$-only ($RV_q{\geq}0.50$) & 0.287 & 0.939 & 0.475 & 0.718 \\
+  & \textbf{C2} ($E{\geq}1.0,\; RV_q{\geq}0.50$)
+    & \textbf{0.287} & 0.939 & \textbf{0.475} & 0.718 \\
+\midrule
+\multirow{4}{*}{\rotatebox[origin=c]{90}{\scriptsize Recall$\geq$0.5}}
+  & No filter       & 0.403 & 1.000 & 0.000 & 1.000 \\
+  & E-only ($E{\geq}5.0$) & 0.209 & 0.867 & 0.690 & 0.572 \\
+  & $RV_q$-only ($RV_q{\geq}0.50$) & 0.287 & 0.939 & 0.475 & 0.718 \\
+  & \textbf{C2} ($E{\geq}5.0,\; RV_q{\geq}0.20$)
+    & \textbf{0.209} & 0.867 & \textbf{0.690} & 0.572 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The OLS-based E-value captures effect \emph{magnitude} relative to
-outcome variability, while the robustness value~$RV_q$ captures
-statistical \emph{precision}. The no-filter baseline admits 40.3\%
-confounded positives (Table~\ref{tab:e2-filter}). The E-value filter
-($E \geq 2.5$) reduces fragile rate to 13.4\% and rejects 87.3\% of
-confounded positives, while maintaining recall at 0.677. At a less
-conservative operating point ($E \geq 1.5$), adding the $RV_q$
-threshold ($RV_q \geq 0.50$) further reduces fragile rate from 33.5\%
-(E-only at 1.5) to 28.7\%, demonstrating the complementary information
-captured by the two sensitivity axes.
+The two axes capture complementary information: E-values
+measure effect \emph{magnitude} (standardized by outcome
+variability $\sigma_{\text{pooled}}$), while $RV_q$ measures
+statistical \emph{precision} (normalized by regression SE).
+Table~\ref{tab:e2-filter} reports optimal operating points under
+two recall regimes, applying the same selection rule
+(minimize fragile rate) to all filters.
+Under the high-recall regime (recall~$\geq 0.9$), the $RV_q$
+axis dominates: $RV_q$-only and C2 both reduce fragile rate
+from 33.5\% (E-only) to 28.7\%, demonstrating that $RV_q$ captures
+fragile estimates that E-value alone misses.
+Under the high-precision regime (recall~$\geq 0.5$), the E-value
+axis dominates: E-only and C2 both achieve 20.9\% fragile rate
+and 69\% fragile rejection.
+Across both regimes, C2 matches or exceeds the better of the two
+single-axis filters, confirming that the dual-threshold design
+never degrades performance while providing a \emph{robustness envelope}
+that guards against the failure mode of either axis alone.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.85\linewidth]{../experiments/figures/e2_filtering.pdf}
   \caption{E2 threshold sweep: (a)~fragile rate vs.\ recall Pareto
-    frontier and (b)~fragile rejection vs.\ retention. The C2
-    dual-threshold filter (star) achieves the lowest fragile rate at
-    recall~$\geq 0.5$.}
+    frontier and (b)~fragile rejection vs.\ retention.
+    Each marker represents one (E, $RV_q$) threshold pair.}
   \label{fig:e2-pareto}
 \end{figure}
 

@@ -48,8 +48,8 @@
 \newlabel{sec:e2}{{5.2}{4}{E2: Sensitivity Filtering}{subsection.5.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Kaplan--Meier cumulative detection curves for severe shifts (40~seeds). C1 (solid blue) detects shifts earlier and more frequently than uniform (dashed orange) and ADWIN (dotted green). Lower $S(t)$ indicates faster, more reliable detection.}}{5}{figure.1}\protected@file@percent }
 \newlabel{fig:e1-km}{{1}{5}{Kaplan--Meier cumulative detection curves for severe shifts (40~seeds). C1 (solid blue) detects shifts earlier and more frequently than uniform (dashed orange) and ADWIN (dotted green). Lower $S(t)$ indicates faster, more reliable detection}{figure.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Filtering performance from the threshold sweep (40~seeds, mean over synthetic observational studies with OLS estimation). E-values computed from $d = |ATE|/\sigma _{\text  {pooled}}$; $RV_q$ from $f_q = |\hat  {\beta }|/\text  {SE}$. \emph  {Fragile rate}: fraction of confounded positives among accepted. \emph  {Fragile rej.}: fraction of all confounded positives correctly rejected.}}{5}{table.2}\protected@file@percent }
-\newlabel{tab:e2-filter}{{2}{5}{Filtering performance from the threshold sweep (40~seeds, mean over synthetic observational studies with OLS estimation). E-values computed from $d = |ATE|/\sigma _{\text {pooled}}$; $RV_q$ from $f_q = |\hat {\beta }|/\text {SE}$. \emph {Fragile rate}: fraction of confounded positives among accepted. \emph {Fragile rej.}: fraction of all confounded positives correctly rejected}{table.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Filtering performance under two operating regimes from the threshold sweep (40~seeds, mean over synthetic observational studies). For each regime, the operating point minimizing fragile rate is selected per filter. E-values: $d = |ATE|/\sigma _{\text  {pooled}}$; $RV_q$: $f_q = |\hat  {\beta }|/\text  {SE}$.}}{5}{table.2}\protected@file@percent }
+\newlabel{tab:e2-filter}{{2}{5}{Filtering performance under two operating regimes from the threshold sweep (40~seeds, mean over synthetic observational studies). For each regime, the operating point minimizing fragile rate is selected per filter. E-values: $d = |ATE|/\sigma _{\text {pooled}}$; $RV_q$: $f_q = |\hat {\beta }|/\text {SE}$}{table.2}{}}
 \def\@LN@column{1}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}E3a: Stability Validation}{5}{subsection.5.3}\protected@file@percent }
 \newlabel{sec:e3a}{{5.3}{5}{E3a: Stability Validation}{subsection.5.3}{}}
@@ -60,9 +60,8 @@
 \citation{chow2018lyapunov}
 \citation{berkenkamp2017safe}
 \citation{zhang2025whowhen}
-\citation{saadfacon2025ares}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces E2 threshold sweep: (a)~fragile rate vs.\ recall Pareto frontier and (b)~fragile rejection vs.\ retention. The C2 dual-threshold filter (star) achieves the lowest fragile rate at recall~$\geq 0.5$.}}{6}{figure.2}\protected@file@percent }
-\newlabel{fig:e2-pareto}{{2}{6}{E2 threshold sweep: (a)~fragile rate vs.\ recall Pareto frontier and (b)~fragile rejection vs.\ retention. The C2 dual-threshold filter (star) achieves the lowest fragile rate at recall~$\geq 0.5$}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces E2 threshold sweep: (a)~fragile rate vs.\ recall Pareto frontier and (b)~fragile rejection vs.\ retention. Each marker represents one (E, $RV_q$) threshold pair.}}{6}{figure.2}\protected@file@percent }
+\newlabel{fig:e2-pareto}{{2}{6}{E2 threshold sweep: (a)~fragile rate vs.\ recall Pareto frontier and (b)~fragile rejection vs.\ retention. Each marker represents one (E, $RV_q$) threshold pair}{figure.2}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Stationary stability metrics with bootstrap 95\% CI (seed resampling). Columns 2--4: worst case $h{=}0.5$ (40 seeds). Last column: mean across all $h$ values. \emph  {Viol.\ rate}: $P(\Delta V_t > 0)$.}}{6}{table.3}\protected@file@percent }
 \newlabel{tab:e3a}{{3}{6}{Stationary stability metrics with bootstrap 95\% CI (seed resampling). Columns 2--4: worst case $h{=}0.5$ (40 seeds). Last column: mean across all $h$ values. \emph {Viol.\ rate}: $P(\Delta V_t > 0)$}{table.3}{}}
 \def\@LN@column{1}
@@ -70,6 +69,7 @@
 \newlabel{sec:e3b}{{5.4}{6}{Heavy-Tail Robustness}{subsection.5.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Related Work}{6}{section.6}\protected@file@percent }
 \newlabel{sec:related}{{6}{6}{Related Work}{section.6}{}}
+\citation{saadfacon2025ares}
 \bibstyle{plainnat}
 \bibdata{references}
 \bibcite{econml2019}{{1}{2019}{{Battocchi et~al.}}{{Battocchi, Dillon, Hei, Lewis, Raz, Oprescu, and Syrgkanis}}}
@@ -83,22 +83,22 @@
 \bibcite{shinn2023reflexion}{{9}{2023}{{Shinn et~al.}}{{Shinn, Cassano, Labash, Gopinath, Narasimhan, and Yao}}}
 \bibcite{vanderweele2017}{{10}{2017}{{VanderWeele and Ding}}{{}}}
 \bibcite{wager2018}{{11}{2018}{{Wager and Athey}}{{}}}
-\bibcite{yao2023react}{{12}{2023}{{Yao et~al.}}{{Yao, Zhao, Yu, Du, Shafran, Narasimhan, and Cao}}}
-\bibcite{zhang2025whowhen}{{13}{2025}{{Zhang et~al.}}{{Zhang, Li, and Peng}}}
 \def\@LN@column{1}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{7}{section.7}\protected@file@percent }
 \newlabel{sec:conclusion}{{7}{7}{Conclusion}{section.7}{}}
+\bibcite{yao2023react}{{12}{2023}{{Yao et~al.}}{{Yao, Zhao, Yu, Du, Shafran, Narasimhan, and Cao}}}
+\bibcite{zhang2025whowhen}{{13}{2025}{{Zhang et~al.}}{{Zhang, Li, and Peng}}}
 \def\@LN@column{1}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Full Lyapunov Stability Proof}{8}{appendix.A}\protected@file@percent }
 \newlabel{sec:proof}{{A}{8}{Full Lyapunov Stability Proof}{appendix.A}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {B}Proposition~\ref {prop:detection} Proof}{8}{appendix.B}\protected@file@percent }
 \newlabel{sec:prop-proof}{{B}{8}{Proposition~\ref {prop:detection} Proof}{appendix.B}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Additional Experimental Details}{8}{appendix.C}\protected@file@percent }
-\newlabel{sec:supp-exp}{{C}{8}{Additional Experimental Details}{appendix.C}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}C3-Oracle Ablation}{8}{subsection.C.1}\protected@file@percent }
-\newlabel{sec:oracle-ablation}{{C.1}{8}{C3-Oracle Ablation}{subsection.C.1}{}}
 \citation{bifet2007adwin}
 \def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Additional Experimental Details}{9}{appendix.C}\protected@file@percent }
+\newlabel{sec:supp-exp}{{C}{9}{Additional Experimental Details}{appendix.C}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}C3-Oracle Ablation}{9}{subsection.C.1}\protected@file@percent }
+\newlabel{sec:oracle-ablation}{{C.1}{9}{C3-Oracle Ablation}{subsection.C.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Proxy energy $\hat  {V}_t$ trajectories over 1000 steps ($h{=}0.5$, representative seed). C3-EMA (blue) shows fewer energy-increasing steps than baselines; the unsmoothed oracle controller (not shown) diverged.}}{9}{figure.3}\protected@file@percent }
 \newlabel{fig:e3a-proxy}{{3}{9}{Proxy energy $\hat {V}_t$ trajectories over 1000 steps ($h{=}0.5$, representative seed). C3-EMA (blue) shows fewer energy-increasing steps than baselines; the unsmoothed oracle controller (not shown) diverged}{figure.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.2}E1: Kaplan--Meier Analysis and ADWIN Calibration}{9}{subsection.C.2}\protected@file@percent }
@@ -113,7 +113,7 @@
 \newlabel{tab:e3b}{{4}{10}{Heavy-tail stress test: C3-EMA vs C3-raw under different noise distributions ($h{=}0.5$, 40~seeds). All metrics computed independently per noise type}{table.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {E}Robustness Value Definition}{10}{appendix.E}\protected@file@percent }
 \newlabel{sec:rv-definition}{{E}{10}{Robustness Value Definition}{appendix.E}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {F}NeurIPS Paper Checklist}{10}{appendix.F}\protected@file@percent }
-\newlabel{sec:checklist}{{F}{10}{NeurIPS Paper Checklist}{appendix.F}{}}
 \def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {F}NeurIPS Paper Checklist}{11}{appendix.F}\protected@file@percent }
+\newlabel{sec:checklist}{{F}{11}{NeurIPS Paper Checklist}{appendix.F}{}}
 \gdef \@abspage@last{11}

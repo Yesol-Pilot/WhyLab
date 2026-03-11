@@ -1,5 +1,5 @@
 # E1 + E3a Experiment Configuration
-# All runs: 20 seeds, mean ± 95% CI
+# All runs: 40 seeds, mean ± 95% CI
 
 experiment:
   seeds: 40

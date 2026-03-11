@@ -1,398 +1,77 @@
-# WhyLab: Causal Decision Intelligence Engine
+# WhyLab: Causal Audit Framework for Stable Agent Self-Improvement
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![v1.0.0](https://img.shields.io/badge/version-1.0.0-green.svg)](https://pypi.org/project/whylab/)
-[![Pipeline Cells](https://img.shields.io/badge/Pipeline-16_Cells-blueviolet)](#architecture-16-cell-pipeline)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-whylab.vercel.app-00d4aa)](https://whylab.vercel.app/dashboard)
+> Anonymous code for NeurIPS 2026 submission
 
-> **"Don't just predict the future. Cause it."**
+Self-improving AI agents lack runtime safeguards that prevent evaluation drift, fragile outcome acceptance, and unbounded parameter updates from compounding into catastrophic policy degradation. **WhyLab** introduces a causal audit framework comprising three complementary defenses:
 
-<p align="center">
-  <a href="https://whylab.vercel.app/dashboard">
-    <img src="docs/dashboard_hero.png" alt="WhyLab Dashboard" width="800" />
-  </a>
-  <br />
-  <em>▲ 인터랙티브 대시보드 — ROI 시뮬레이터, AI 토론, CATE 탐색기, 인과 그래프</em>
-</p>
+## Key Contributions
 
-WhyLab is a **Decision Intelligence Engine** powered by **Multi-Agent Debate**
-and a **Causal Audit Framework** for autonomous agent systems.
+| ID | Contribution | Method |
+|:---|:---|:---|
+| **C1** | Drift Detection | Information-theoretic divergence monitoring across evaluation streams |
+| **C2** | Sensitivity Filtering | E-value × Robustness Value dual-threshold filter for fragile outcomes |
+| **C3** | Lyapunov Damping | Observable energy proxy with EMA-smoothed adaptive step-size control |
 
-- **v1.0**: Causal inference pipeline (22-Cell), MCP server, interactive dashboard
-- **v2.0**: Causal audit engine for agent self-improvement (drift detection, sensitivity analysis, Lyapunov stability)
+## Abstract
 
-### 🎯 Why WhyLab?
-
-- **For POs**: "Rollout or Not?" — Get actionable verdicts (e.g., "ROI +12%, Risk Low → **Rollout**").
-- **For Data Scientists**: SOTA accuracy (T-Learner PEHE 1.164 on IHDP) + IV/DiD/RDD/Granger out-of-the-box.
-- **For Devs**: 3 lines of code to integrate causal AI into your pipeline.
-
-```python
-import whylab
-
-result = whylab.analyze(data, treatment='coupon', outcome='purchase')
-print(result.verdict)   # "CAUSAL"
-result.summary()        # ATE, CI, Meta-learners, Sensitivity, Debate verdict
-```
-
-## What Makes WhyLab Different?
-
-| | DoWhy | EconML | CausalML | **WhyLab** |
-|---|:---:|:---:|:---:|:---:|
-| Causal Graph Modeling | O | - | - | **O** |
-| Meta-Learners (S/T/X/DR/R) | - | O | O | **O** |
-| Double Machine Learning | - | O | - | **O** |
-| Refutation Tests | O | - | - | **O** |
-| **IV / DiD / RDD** | - | △ | - | **O** |
-| **Granger / CausalImpact** | - | - | - | **O** |
-| **Structural Counterfactual** | - | - | - | **O** |
-| **AI Agent Auto-Debate** | - | - | - | **O** |
-| **Auto Verdict (CAUSAL/NOT)** | - | - | - | **O** |
-| **Auto Discovery (PC + LLM)** | - | - | - | **O** |
-| **Native MCP v2 Server** | - | - | - | **O** |
-| **Policy Simulator (What-If)** | - | - | - | **O** |
-| **Interactive Dashboard** | - | - | - | **O** |
-| **REST API Server** | - | - | - | **O** |
-
----
-
-## Architecture: 22-Cell Pipeline + MCP Integration
-
-```
-                        ┌──────────────────────────────────┐
-                        │     External AI Agents           │
-                        │  (Claude Desktop, GPT, etc.)     │
-                        └──────────┬───────────────────────┘
-                                   │ MCP Protocol
-                        ┌──────────▼───────────────────────┐
-                        │   WhyLab MCP Server (v2)         │
-                        │   7 Tools + 3 Resources          │
-                        └──────────┬───────────────────────┘
-                                   │
-  ┌────────────────────────────────▼──────────────────────────────┐
-  │                    22-Cell Causal Engine                      │
-  │                                                              │
-  │  Data → Discovery → AutoCausal → Causal → MetaLearner →     │
-  │    Conformal → Explain → Refutation → Sensitivity →          │
-  │      QuasiExp → Temporal → Counterfactual → DoseResponse →   │
-  │        DeepCATE → Fairness → Benchmark →                     │
-  │          Viz → Debate → Export → Report                      │
-  └──────────────────────────┬───────────────────────────────────┘
-                             │
-              ┌──────────────▼──────────────┐
-              │   Next.js Dashboard         │
-              │   Policy Simulator (What-If)│
-              │   CATE Explorer             │
-              │   AI Debate Verdict         │
-              └────────────────────────────┘
-```
-
-<details>
-<summary><strong>📋 Full 22-Cell Reference</strong></summary>
-
-| # | Cell | Role |
-|:---:|---|---|
-| 1 | `DataCell` | SCM-based synthetic data + external CSV/SQL/BigQuery |
-| 2 | `DiscoveryCell` | Auto causal graph discovery (PC + LLM hybrid) |
-| 3 | `AutoCausalCell` | Data profiling → methodology auto-recommendation |
-| 4 | `CausalCell` | DML estimation (Linear/Forest/Sparse) |
-| 5 | `MetaLearnerCell` | 5 meta-learners (S/T/X/DR/R) + Oracle ensemble |
-| 6 | `ConformalCell` | Distribution-free confidence intervals |
-| 7 | `ExplainCell` | SHAP-based feature importance & explanations |
-| 8 | `RefutationCell` | Placebo, Bootstrap, Random Cause tests |
-| 9 | `SensitivityCell` | E-value, Overlap, GATES analysis |
-| 10 | `QuasiExperimentalCell` | **IV (2SLS)**, **DiD** (parallel trend), **Sharp RDD** |
-| 11 | `TemporalCausalCell` | **Granger causality**, **CausalImpact**, lag correlation |
-| 12 | `CounterfactualCell` | Structural counterfactuals, Manski bounds, ITE ranking |
-| 13 | `DoseResponseCell` | Continuous treatment dose-response estimation |
-| 14 | `DeepCateCell` | Deep learning-based CATE estimation |
-| 15 | `FairnessAuditCell` | Algorithmic fairness across protected groups |
-| 16 | `BenchmarkCell` | Automated IHDP/ACIC/Jobs evaluation |
-| 17 | `VizCell` | Publication-ready figures |
-| 18 | `DebateCell` | 3-agent LLM debate (Growth Hacker / Risk Manager / PO) |
-| 19 | `ExportCell` | JSON serialization + LLM debate results |
-| 20 | `ReportCell` | Automated analysis reports |
-
-</details>
-
-### Multi-Agent Debate System
-
-Three AI agents simulate real organizational decision-making:
-
-1. **Growth Hacker** (10 evidence types): Finds revenue opportunities from causal signals
-2. **Risk Manager** (8 attack vectors): Warns about potential losses and model vulnerabilities
-3. **Product Owner (Judge)**: Synthesizes Growth vs Risk → delivers actionable verdict
-   - `🚀 Rollout 100%` | `⚖️ A/B Test 5%` | `🛑 Reject`
-
-Supports **LLM-enhanced debate** (Gemini API) with automatic rule-based fallback.
-
-### Native MCP v2 Server — Agent Interop Standard
-
-WhyLab ships with a built-in **Model Context Protocol (MCP)** server, enabling seamless integration with any MCP-compatible AI agent (Claude Desktop, Cursor, etc.).
-
-**7 Tools:**
-| Tool | Description |
-|---|---|
-| `run_analysis` | Execute full causal pipeline (Scenario A or B) |
-| `get_debate_verdict` | Get AI debate result (CAUSAL / NOT_CAUSAL / UNCERTAIN) |
-| `simulate_intervention` | What-If policy simulation (intensity × target ratio → ROI) |
-| `ask_rag` | Natural language Q&A with persona (Growth / Risk / PO) |
-| `compare_scenarios` | Side-by-side scenario comparison |
-| `run_drift_check` | Causal drift detection (ATE/CATE shift monitoring) |
-| `get_monitoring_status` | Current monitoring system health |
-
-**3 Resources:** `whylab://data/latest` · `whylab://report/latest` · `whylab://benchmark/summary`
-
-```bash
-# Quick start: connect Claude Desktop to WhyLab
-python -m engine.server.mcp_server
-```
-
-```json
-// claude_desktop_config.json
-{
-  "mcpServers": {
-    "whylab": {
-      "command": "python",
-      "args": ["-m", "engine.server.mcp_server"]
-    }
-  }
-}
-```
-
----
-
-## Benchmark Results
-
-Evaluated on 3 standard causal inference benchmarks (10 replications each):
-
-### IHDP (Hill 2011, n=747, p=25)
-
-| Method | sqrt(PEHE) | ATE Bias |
-|---|:---:|:---:|
-| **T-Learner** | **1.164 +/- 0.024** | **0.039 +/- 0.031** |
-| DR-Learner | 1.194 +/- 0.034 | 0.038 +/- 0.029 |
-| Ensemble | 1.214 +/- 0.025 | 0.046 +/- 0.034 |
-| X-Learner | 1.324 +/- 0.029 | 0.035 +/- 0.024 |
-| S-Learner | 1.383 +/- 0.033 | 0.064 +/- 0.040 |
-| LinearDML | 1.465 +/- 0.024 | 0.066 +/- 0.061 |
-
-> **Ref**: BART ~1.0 (Hill 2011), GANITE ~1.9 (Yoon 2018), CEVAE ~2.7 (Louizos 2017)
-
-### ACIC (Dorie 2019, n=4802, p=58)
-
-| Method | sqrt(PEHE) | ATE Bias |
-|---|:---:|:---:|
-| **S-Learner** | **0.491 +/- 0.017** | **0.018 +/- 0.013** |
-| X-Learner | 0.569 +/- 0.009 | 0.020 +/- 0.011 |
-| Ensemble | 0.612 +/- 0.013 | 0.013 +/- 0.007 |
-| LinearDML | 0.614 +/- 0.010 | 0.071 +/- 0.025 |
-| DR-Learner | 0.799 +/- 0.017 | 0.040 +/- 0.018 |
-| T-Learner | 0.835 +/- 0.013 | 0.041 +/- 0.018 |
-
-### Jobs (LaLonde 1986, n=722, p=8)
-
-| Method | sqrt(PEHE) | ATE Bias |
-|---|:---:|:---:|
-| **LinearDML** | **170.5 +/- 32.3** | 39.2 +/- 36.6 |
-| S-Learner | 288.4 +/- 11.3 | 79.2 +/- 36.8 |
-| X-Learner | 377.2 +/- 22.4 | 38.6 +/- 16.3 |
-| Ensemble | 381.8 +/- 18.4 | 39.8 +/- 33.8 |
-| T-Learner | 482.7 +/- 23.2 | **35.2 +/- 21.7** |
-| DR-Learner | 535.0 +/- 29.3 | 34.9 +/- 25.2 |
-
----
+We address the problem of maintaining stability in self-improving AI agents that iteratively update their strategies based on evaluation feedback. We formalize three failure modes—evaluation drift, fragile outcome acceptance, and unbounded parameter updates—and propose a lightweight audit layer that wraps any base estimator. The framework combines information-theoretic drift detection (C1), sensitivity-aware effect filtering using E-values and robustness values (C2), and Lyapunov-bounded adaptive damping with an observable energy proxy (C3). Experiments on synthetic environments demonstrate that C1 improves within-horizon detection reliability, C2 substantially reduces fragile acceptance rates, and C3 achieves the lowest violation frequency with strong proxy–state alignment.
 
 ## Quick Start
 
-### Prerequisites
-- Python 3.9+
-- Node.js 18+ (Dashboard)
-
-### Installation
-
 ```bash
-# Clone
-git clone https://github.com/Yesol-Pilot/WhyLab.git
-cd WhyLab
+# Install dependencies
+pip install numpy scipy matplotlib
 
-# Python
-pip install -e ".[all]"
+# Run E1: Drift Detection (40 seeds, ~60s)
+python experiments/e1_drift_detection.py
 
-# Dashboard
-cd dashboard; npm install
+# Run E2: Sensitivity Filtering (40 seeds, ~30s)
+python experiments/e2_sensitivity_filter.py
+
+# Run E3a: Lyapunov Stability (20 seeds × 4 step sizes, ~45s)
+python experiments/e3a_stationary.py
+
+# Run E3b: Heavy-Tail Stress Test (40 seeds, ~90s)
+python experiments/e3b_heavy_tail.py
 ```
 
-### Usage
-
-#### 1. Python SDK (3 Lines)
-```python
-import whylab
-
-result = whylab.analyze("data.csv", treatment="T", outcome="Y")
-result.summary()
-```
-
-#### 2. CLI — Causal Pipeline
-```bash
-python -m engine.pipeline --scenario A   # Credit limit -> Default
-python -m engine.pipeline --scenario B   # Marketing coupon -> Signup
-```
-
-#### 3. REST API Server
-```bash
-# Start
-uvicorn whylab.server:app --reload --port 8000
-
-# Analyze
-curl -X POST http://localhost:8000/api/v1/analyze \
-  -H "Content-Type: application/json" \
-  -d '{"treatment": "T", "outcome": "Y", "data_path": "data.csv"}'
-
-# Available methods
-curl http://localhost:8000/api/v1/methods
-```
-
-#### 4. Connect Your Data (CSV / SQL / BigQuery)
-```bash
-# CSV
-python -m engine.cli --data "sales.csv" --treatment coupon --outcome purchase
-
-# PostgreSQL
-python -m engine.cli --data "postgresql://user:pass@host/db" \
-  --db-query "SELECT * FROM users" --treatment coupon --outcome purchase
-
-# BigQuery
-python -m engine.cli --data "my-gcp-project" --source-type bigquery \
-  --db-query "SELECT * FROM dataset.table" --treatment treatment --outcome outcome
-```
-
-#### 5. Ask Questions (RAG Agent)
-```bash
-python -m engine.cli --query "쿠폰 효과가 있어?" --persona growth_hacker
-python -m engine.cli --query "리스크는 없어?" --persona risk_manager
-```
-
-#### 6. Run Benchmarks
-```bash
-python -m engine.pipeline --benchmark ihdp acic jobs \
-  --replications 10 --output results/ --latex
-```
-
-#### 7. Launch Dashboard
-```bash
-cd dashboard; npm run dev
-# Open http://localhost:4000
-```
-
-#### 8. Docker (GPU)
-```bash
-docker compose up whylab       # Default pipeline
-docker compose up benchmark    # Benchmark mode
-docker compose up pipeline     # Full pipeline + Debate
-```
-
----
-
-## Project Structure
+## Repository Structure
 
 ```
 WhyLab/
-  engine/
-    cells/            # 22 modular analysis cells
-    agents/           # 11 AI agents (debate, discovery, architect, etc.)
-    connectors/       # Multi-source data (CSV/SQL/BigQuery)
-    monitoring/       # Causal drift detection & alerting
-    data/             # Benchmark data loaders (IHDP/ACIC/Jobs)
-    rag/              # RAG-based Q&A agent (multi-turn, persona)
-    server/           # MCP Protocol server (7 tools, 3 resources)
-    audit.py          # Governance: analysis audit trail (JSONL)
-    config.py         # Central configuration (no magic numbers)
-    orchestrator.py   # 22-cell pipeline orchestrator
-    cli.py            # CLI entry point
-    audit/            # v2.0 Causal Audit Engine
-      drift_monitor.py  # Information-theoretic drift detection (R1)
-      sensitivity.py    # E-value + Partial R² (R2)
-      lyapunov.py       # ζ stability controller (R5)
-      outbox.py         # Transactional outbox (C3)
-      llm_judge/        # ARES evaluator framework (R3)
-      methods/          # DML, CausalImpact, GSC
-    telemetry/          # OTel dynamic sampling (C4)
-    deploy/             # Shadow deployment controller (P4)
-  whylab/
-    api.py            # 3-line SDK (analyze → CausalResult)
-    server.py         # SDK REST API server (port 8000)
-  api/
-    main.py           # Dashboard Backend API (port 4001)
-  dashboard/          # Next.js interactive dashboard
-    components/       #   PolicySimulator, WhatIfSimulator, DebateVerdict, ...
-  tests/              # 142 tests (v1 pipeline + v2 audit engine)
-  results/            # Benchmark output (JSON + LaTeX)
-  .github/workflows/  # CI (80% gate) + Deploy + PyPI Release (OIDC)
+├── paper/                      # LaTeX source + compiled PDF
+│   ├── main.tex
+│   ├── main.pdf
+│   ├── references.bib
+│   └── neurips_2025.sty
+├── experiments/                # Experiment scripts
+│   ├── e1_drift_detection.py   # E1: Drift detection (C1)
+│   ├── e1_censoring.py         # E1: Censoring analysis
+│   ├── e1_figures.py           # E1: KM curve generation
+│   ├── e2_sensitivity_filter.py # E2: Sensitivity filter (C2)
+│   ├── e2_figures.py           # E2: Pareto frontier
+│   ├── e3a_stationary.py       # E3a: Stationary stability (C3)
+│   ├── e3a_figures.py          # E3a: Proxy trajectory plots
+│   ├── e3b_heavy_tail.py       # E3b: Heavy-tail stress test
+│   ├── config.yaml             # Shared hyperparameters
+│   ├── figures/                # Generated figures (PDF + PNG)
+│   └── results/                # Raw experiment outputs (CSV)
+└── README.md
 ```
 
-## v2.0 — Causal Audit Engine
+## Reproducing Results
 
-An audit framework that prevents autonomous agents from diverging due to hallucination feedback loops.
+| Script | Output | Paper Reference |
+|:---|:---|:---|
+| `e1_drift_detection.py` | `results/e1_metrics.csv` | Table 1 (E1 detection rates) |
+| `e1_figures.py` | `figures/e1_km.pdf` | Figure 1 (KM curves) |
+| `e2_sensitivity_filter.py` | `results/e2_metrics.csv` | Table 2 (E2 filtering) |
+| `e2_figures.py` | `figures/e2_filtering.pdf` | Figure 2 (Pareto frontier) |
+| `e3a_stationary.py` | `results/e3a_stationary_metrics.csv` | Table 3 (E3a stability) |
+| `e3b_heavy_tail.py` | `results/e3b_full_metrics.csv` | Table A1 (E3b stress test) |
 
-### Component Maturity
-
-| Component | Maturity | Description |
-|---|---|---|
-| **Drift Index (R1)** | ✅ Production | Information-theoretic dynamic weights (entropy-inverse) |
-| **E-value Sensitivity (R2)** | ✅ Production | VanderWeele 2017 + Cinelli 2020 Partial R² |
-| **Lyapunov ζ Controller (R5)** | ✅ Production | ζ_max bound clipping, convergence tracking |
-| **Outbox Pattern (C3)** | ✅ Production | WAL-based at-least-once delivery + DLQ |
-| **Partitioning + Rollup (C2)** | ✅ Production | Weekly partitions, daily rollup (permanent) |
-| **OTel Dynamic Sampling (C4)** | ✅ Production | 5% normal, 100% errors/DI-spikes |
-| **Shadow Deploy (P4)** | ✅ Production | 3-phase promotion, cost circuit breaker |
-| **Chaos Tests (C1)** | ✅ Tests | Retry storms, DLQ, partial failures |
-| **ARES Evaluator (R3)** | ⚠️ Framework | Monte Carlo + Beta-Binomial CI; LLM mock only |
-| **CausalFlip (R3)** | ⚠️ Framework | Keyword-based judge; needs real LLM integration |
-| **Who&When Benchmark (R4)** | ⚠️ Internal | Synthetic data only; NOT validated on real dataset |
-
-> **Legend**: ✅ Production-ready | ⚠️ Framework/Mock (needs real integration)
-
-### Quick Test (v2.0 Audit Engine)
-
-```bash
-# All 142 tests (~4 seconds)
-python -m pytest tests/ -q --tb=short
-
-# By module
-python -m pytest tests/test_audit.py tests/test_methods.py      # Core audit
-python -m pytest tests/test_sensitivity.py tests/test_lyapunov.py  # R2 + R5
-python -m pytest tests/test_causal_flip.py                        # R3 ARES
-python -m pytest tests/test_otel.py tests/test_shadow.py          # C4 + P4
-```
-
----
-
-## Tests
-
-```bash
-# Full suite
-python -m pytest tests/ -v
-```
-
-> **142 tests** passing (v1.0 Pipeline + v2.0 Audit Engine)
-
----
-
-## Citation
-
-If you use WhyLab in your research, please cite:
-
-```bibtex
-@software{whylab2026,
-  title={WhyLab: Causal Decision Intelligence Engine with Multi-Agent Debate},
-  author={Yesol Heo},
-  year={2026},
-  url={https://github.com/Yesol-Pilot/WhyLab}
-}
-```
+All experiments use fixed random seeds for reproducibility. Results were generated on Python 3.11 with NumPy 1.26 and SciPy 1.12.
 
 ## License
 
-MIT License
+MIT License — see [LICENSE](LICENSE) for details.

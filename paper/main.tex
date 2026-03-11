@@ -417,10 +417,21 @@ curves (Kaplan--Meier estimates, Appendix) rather than
 conditional-delay tests alone. Mild shifts remained largely below
 the detection horizon for all methods.
 
-% [fig:e1-km moved to appendix — see Appendix~\ref{sec:e1-supp}]
-Kaplan--Meier cumulative detection curves (Appendix~\ref{sec:e1-supp},
-Figure~\ref{fig:e1-km}) confirm that C1 detects severe shifts both
-earlier and more frequently than uniform and ADWIN baselines.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{../experiments/figures/e1_km.pdf}
+  \caption{Kaplan--Meier cumulative detection curves for severe shifts
+    (40~seeds). C1 (solid blue) detects shifts earlier and more
+    frequently than uniform (dashed orange) and ADWIN (dotted green).
+    Lower $S(t)$ indicates faster, more reliable detection.}
+  \label{fig:e1-km}
+\end{figure}
+
+The Kaplan--Meier curves (Figure~\ref{fig:e1-km}) confirm that C1
+detects severe shifts both earlier and more frequently than uniform
+and ADWIN baselines. Due to conservative thresholding (FPR~$=5\%$),
+a large fraction of runs remained censored under mild shifts;
+censoring analysis is provided in Appendix~\ref{sec:e1-supp}.
 
 
 \subsection{E2: Sensitivity Filtering}
@@ -755,19 +766,10 @@ Standard conditional-delay comparisons are therefore unreliable
 because they condition on a small, potentially unrepresentative
 subset of detected runs.
 
-We report Kaplan--Meier cumulative detection curves (Figure~\ref{fig:e1-km})
-as the primary visualization. The survival function $S(t)$ represents the
+Full Kaplan--Meier detection curves are presented in the main text
+(Figure~\ref{fig:e1-km}). The survival function $S(t)$ represents the
 probability of {\em not} having detected the shift by step~$t$ after the
-change point. Lower $S(t)$ indicates faster, more reliable detection.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.85\linewidth]{../experiments/figures/e1_km.pdf}
-  \caption{Kaplan--Meier cumulative detection curves for severe shifts
-    (40~seeds). C1 (solid blue) detects shifts earlier and more
-    frequently than uniform (dashed orange) and ADWIN (dotted green).}
-  \label{fig:e1-km}
-\end{figure}
+change point.
 
 \textbf{ADWIN calibration.}
 ADWIN~\cite{bifet2007adwin} was calibrated on the pre-shift segment

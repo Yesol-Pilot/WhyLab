@@ -1,46 +1,29 @@
-# 의존성
-node_modules/
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+
+# Python
 __pycache__/
 *.pyc
-.next/
-out/
-
-# 환경
-.env
-.env.local
-*.egg-info/
-
-# IDE
-.vscode/
-.idea/
+.venv/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# 데이터 (대용량)
-*.parquet
-*.db
-!paper/data/*.db
+# IDE
+.vscode/
+.idea/
 
-# Jupyter 체크포인트
-.ipynb_checkpoints/
-
-# 빌드
-dist/
-build/
-
-# 캐시
-.pytest_cache/
-.mypy_cache/
-
-# 에이전트 스킬 (외부 패키지 — 대용량)
-.agent/skills/
-
-# CSV 데이터 (파이프라인 생성물)
-paper/data/*.csv
-
-# 런타임
-_diag.json
-logs/
-uploads/
+# Reports (local only)
+paper/reports/
+paper/visions/
+paper/whylab_v2_deep_dive.md
+paper/.gitkeep

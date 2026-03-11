@@ -1,6 +1,6 @@
 # WhyLab: Causal Audit Framework for Stable Agent Self-Improvement
 
-> Anonymous code for NeurIPS 2026 submission
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18948929.svg)](https://doi.org/10.5281/zenodo.18948929)
 
 Self-improving AI agents lack runtime safeguards that prevent evaluation drift, fragile outcome acceptance, and unbounded parameter updates from compounding into catastrophic policy degradation. **WhyLab** introduces a causal audit framework comprising three complementary defenses:
 

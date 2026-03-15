@@ -35,6 +35,25 @@ python experiments/e3a_stationary.py
 python experiments/e3b_heavy_tail.py
 ```
 
+## E4: Agent Benchmark (HumanEval + Reflexion + WhyLab Audit)
+
+```bash
+# Install additional experiment dependencies
+pip install -r requirements-experiments.txt
+
+# Pilot run (10 problems × 2 seeds — calibration only)
+python -m experiments.e4_agent_benchmark --split pilot
+
+# Main holdout run (30 problems × 5 seeds)
+python -m experiments.e4_agent_benchmark --split main --holdout_exclude pilot
+
+# Analyze results with cluster bootstrap CI
+python -m experiments.e4_analyze --input experiments/results/e4_metrics.csv --emit_latex paper/tables/e4_main.tex
+```
+
+> **Note:** E4 requires a Gemini API key in `.env` (`GEMINI_API_KEY=...`).
+> The experiment generates both **default** (E≥2.0, RV≥0.1) and **calibrated** (E≥1.5, RV≥0.05) operating points in a single run for transparent Pareto trade-off reporting.
+
 ## Repository Structure
 
 ```
@@ -53,9 +72,17 @@ WhyLab/
 │   ├── e3a_stationary.py       # E3a: Stationary stability (C3)
 │   ├── e3a_figures.py          # E3a: Proxy trajectory plots
 │   ├── e3b_heavy_tail.py       # E3b: Heavy-tail stress test
+│   ├── e4_agent_benchmark.py   # E4: Agent benchmark (HumanEval)
+│   ├── e4_analyze.py           # E4: Bootstrap CI analysis
+│   ├── reflexion_loop.py       # Reflexion episode engine
+│   ├── audit_layer.py          # C1-C3 audit integration layer
+│   ├── humaneval_loader.py     # HumanEval dataset loader
+│   ├── llm_client.py           # Cached LLM client (Gemini)
 │   ├── config.yaml             # Shared hyperparameters
 │   ├── figures/                # Generated figures (PDF + PNG)
 │   └── results/                # Raw experiment outputs (CSV)
+├── engine/                     # Core WhyLab engine
+├── .github/workflows/ci.yml   # CI: lint + unit tests + build
 └── README.md
 ```
 
@@ -69,6 +96,8 @@ WhyLab/
 | `e2_figures.py` | `figures/e2_filtering.pdf` | Figure 2 (Pareto frontier) |
 | `e3a_stationary.py` | `results/e3a_stationary_metrics.csv` | Table 3 (E3a stability) |
 | `e3b_heavy_tail.py` | `results/e3b_full_metrics.csv` | Table A1 (E3b stress test) |
+| `e4_agent_benchmark.py` | `results/e4_metrics.csv` | Table 4 (E4 agent benchmark) |
+| `e4_analyze.py` | `results/e4_summary_ci.csv` | Table 4 (bootstrap CI) |
 
 All experiments use fixed random seeds for reproducibility. Results were generated on Python 3.11 with NumPy 1.26 and SciPy 1.12.
 

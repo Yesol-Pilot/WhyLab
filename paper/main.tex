@@ -303,7 +303,9 @@ before it influences strategy updates.
 \label{def:evalue}
 For a continuous outcome, we compute an approximate E-value using the
 standard mean-difference conversion~\cite{vanderweele2017}: the
-standardized effect $d = |ATE| / \sigma_{\text{pooled}}$ is converted
+standardized effect $d = \text{ATE} / \sigma_{\text{pooled}}$
+(in the agent context, $\text{ATE}$ is the observed episode effect
+$\Delta R_t$) is converted
 to an approximate risk-ratio scale via
 $RR \approx \exp(0.91 \cdot d)$, yielding:
 \begin{equation}
@@ -748,9 +750,13 @@ through self-reflection~\cite{shinn2023reflexion} or reasoning
 traces~\cite{yao2023react}. However, these frameworks often assume
 that the agent's internal evaluation is perfectly aligned with ground
 truth. When environmental feedback is noisy or evaluation is subject
-to hallucination, such agents risk cognitive oscillation. WhyLab
-provides a principled safety monitoring layer that integrates into
-these self-improvement loops to ensure stability.
+to hallucination, such agents risk cognitive oscillation. 
+Concurrently, emerging research has recognized safety vulnerabilities 
+in agentic systems, proposing frameworks like AgentAuditor~\cite{agentauditor2025} 
+for human-level safety evaluation and AgentBreeder~\cite{agentbreeder2025} 
+for mitigating multi-agent scaffolding risks.
+WhyLab provides a principled safety monitoring layer that directly integrates into
+these self-improvement loops to ensure runtime stability.
 
 \textbf{Causal inference tools.}
 DoWhy~\cite{dowhy2022} provides a principled four-step causal

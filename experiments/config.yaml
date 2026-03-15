@@ -56,3 +56,53 @@ e3a:
     - name: "adaptive"      # C3
       epsilon_floor: 0.01
       ceiling: 0.8
+
+e4:
+  name: "Agent Benchmark"
+  benchmark: "humaneval"
+  max_attempts: 5          # Reflexion max retry per problem
+  problems_subset: null    # null = all 164, integer = pilot subset
+  llm:
+    model: "gemini-2.0-flash"
+    temperature: 0.7       # Reflexion standard (seed diversity)
+    max_tokens: 2048
+    prompt_version: "v1"
+    cache_mode: "hybrid"   # online | replay | hybrid
+  audit:
+    c1_window: 5                    # agent context: max_attempts=5
+    c1_agreement_threshold: 0.4     # conservative alarm (agent has few data points)
+    c2_e_thresh: 1.5                # relaxed for single-problem cheap eval
+    c2_rv_thresh: 0.05              # relaxed for short score windows
+    c3_epsilon_floor: 0.01          # damping floor
+    c3_ceiling: 0.8                 # damping ceiling
+  ablations:
+    - name: "none"
+      c1: false
+      c2: false
+      c3: false
+    - name: "C1_only"
+      c1: true
+      c2: false
+      c3: false
+    - name: "C2_only"
+      c1: false
+      c2: true
+      c3: false
+    - name: "C3_only"
+      c1: false
+      c2: false
+      c3: true
+    - name: "full"
+      c1: true
+      c2: true
+      c3: true
+    - name: "none_stress"     # stress: longer loop, no audit
+      c1: false
+      c2: false
+      c3: false
+      max_attempts: 10
+    - name: "full_stress"     # stress: longer loop + full audit
+      c1: true
+      c2: true
+      c3: true
+      max_attempts: 10

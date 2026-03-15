@@ -62,7 +62,10 @@ ReAct-style LLM coding agent (HumanEval) show that the
 framework improves drift detection reliability, filters fragile
 successes (reducing oscillation by 16\% with minimal pass-rate cost),
 and stabilizes proxy-observable updates under noisy feedback
-with hallucination rates up to 50\%.
+with hallucination rates up to 50\%. Furthermore, we establish a 
+pilot-holdout calibration method to adapt observational sensitivity 
+thresholds to low-sample online agent loops, characterizing the 
+precision-safety Pareto tradeoff.
 \end{abstract}
 
 
@@ -816,6 +819,11 @@ heuristic that trades the theoretical guarantee of
 Theorem~\ref{thm:lyapunov} for empirical robustness under heavy
 tails---a trade-off we believe is appropriate for safety-critical
 agent auditing.
+Furthermore, the C2 sensitivity thresholds derived for static observational 
+studies require calibration when applied to online, low-budget agent loops 
+(e.g., max 5 attempts). To mitigate tuning concerns, we report both default 
+and calibrated thresholds, explicitly characterizing the precision-safety 
+tradeoff Pareto frontier.
 While our E4 experiment demonstrates integration with a ReAct-style
 coding agent on HumanEval, extending this monitoring framework to
 long-horizon, multi-agent tool-using environments with dynamic

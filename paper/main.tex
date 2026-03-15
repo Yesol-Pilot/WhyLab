@@ -616,8 +616,13 @@ cheap$\leftrightarrow$full calibration drift (which is rare on
 HumanEval) and C3 only dampens step sizes without rejecting.
 C2 is the active component: it rejects 85\% of proposed
 updates where the improvement is not robust under the $E$-value
-and $RV_q$ dual-threshold criterion, yielding a strict but
-consistent filter.
+and $RV_q$ dual-threshold criterion ($E \geq 2.0$, $RV_q \geq 0.1$),
+yielding a strict but consistent filter.
+This $-2.2$\,pp pass-rate cost is the \emph{precision--safety
+tradeoff} inherent in sensitivity gating: operators can shift the
+operating point along this curve by adjusting $(E_{\min}, RV_{\min})$.
+We report results at the default thresholds without per-benchmark
+tuning; no hyperparameters were calibrated on the evaluation set.
 
 Under the stress protocol (up to 10~attempts),
 the full audit retains the same pass-rate advantage (93.5\% vs.\
@@ -629,20 +634,22 @@ without over-constraining the agent.
   \centering
   \caption{E4: Reflexion agent on HumanEval (164 problems $\times$
     5~seeds). Pass@1 = final pass rate; Safe = passed with zero
-    regressions; Osc.\ = oscillation index (lower is better);
-    Acc.\ = update acceptance rate.}
+    regressions; Osc.\ = oscillation index
+    (pass$\leftrightarrow$fail transitions / max, lower is better);
+    Acc.\ = update acceptance rate
+    ($\#$accepted / $\#$proposed, N/A where no gate is active).}
   \label{tab:e4}
   \begin{tabular}{lcccc}
     \toprule
     Ablation & Pass@1 & Safe & Osc. & Acc. \\
     \midrule
-    none          & 0.955 & 0.955 & 0.051 & --- \\
+    none          & 0.955 & 0.955 & 0.051 & N/A \\
     C1 only       & 0.954 & 0.954 & 0.051 & 1.00 \\
     C2 only       & 0.933 & 0.933 & 0.043 & 0.15 \\
     C3 only       & 0.955 & 0.955 & 0.051 & 1.00 \\
     full (C1+C2+C3) & 0.933 & 0.933 & 0.043 & 0.15 \\
     \midrule
-    none (stress) & 0.967 & 0.967 & 0.053 & --- \\
+    none (stress) & 0.967 & 0.967 & 0.053 & N/A \\
     full (stress) & 0.935 & 0.935 & 0.044 & 0.08 \\
     \bottomrule
   \end{tabular}

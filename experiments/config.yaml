@@ -88,25 +88,43 @@ e4:
       c1: true
       c2: false
       c3: false
-    - name: "C2_only"
+    - name: "C2_default"          # observational-study thresholds
       c1: false
       c2: true
       c3: false
+      c2_e_thresh: 2.0
+      c2_rv_thresh: 0.1
+    - name: "C2_calibrated"       # environment-adapted thresholds
+      c1: false
+      c2: true
+      c3: false
+      c2_e_thresh: 1.5
+      c2_rv_thresh: 0.05
     - name: "C3_only"
       c1: false
       c2: false
       c3: true
-    - name: "full"
+    - name: "full_default"        # all components, observational thresholds
       c1: true
       c2: true
       c3: true
-    - name: "none_stress"     # stress: longer loop, no audit
+      c2_e_thresh: 2.0
+      c2_rv_thresh: 0.1
+    - name: "full_calibrated"     # all components, env-adapted thresholds
+      c1: true
+      c2: true
+      c3: true
+      c2_e_thresh: 1.5
+      c2_rv_thresh: 0.05
+    - name: "none_stress"         # stress: longer loop, no audit
       c1: false
       c2: false
       c3: false
       max_attempts: 10
-    - name: "full_stress"     # stress: longer loop + full audit
+    - name: "full_stress"         # stress: longer loop + calibrated audit
       c1: true
       c2: true
       c3: true
+      c2_e_thresh: 1.5
+      c2_rv_thresh: 0.05
       max_attempts: 10

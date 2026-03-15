@@ -132,13 +132,17 @@ def run_e4(
             # Stress ablations can override max_attempts
             abl_max_attempts = abl.get("max_attempts", max_attempts)
 
-            # Build audit config
+            # Build audit config: global defaults first, then ablation overrides
             audit_config = {
+                **{k: v for k, v in audit_cfg.items()},  # global defaults
                 "c1": abl.get("c1", False),
                 "c2": abl.get("c2", False),
                 "c3": abl.get("c3", False),
-                **{k: v for k, v in audit_cfg.items()},
             }
+            # Per-ablation threshold overrides (e.g. C2_default vs C2_calibrated)
+            for override_key in ("c2_e_thresh", "c2_rv_thresh", "c3_epsilon_floor", "c3_ceiling"):
+                if override_key in abl:
+                    audit_config[override_key] = abl[override_key]
             audit = AgentAuditLayer(audit_config)
 
             # Determine if audit layer is active

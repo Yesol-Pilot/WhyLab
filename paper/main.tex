@@ -13,6 +13,8 @@
 \usepackage{algorithmic}
 \usepackage[draft]{hyperref}   % draft: suppress PDF links (fixes lineno+hyperref rerun loop)
 \usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
@@ -134,6 +136,73 @@ monitoring framework successfully prevents cognitive oscillation with
 minimal cost to overall performance, confirming its practical utility
 for safe agent deployment.
 
+\begin{figure}[t]
+  \centering
+  \resizebox{\columnwidth}{!}{
+  \begin{tikzpicture}[
+    >=Latex,
+    node distance=1.5cm and 1.6cm,
+    font=\small,
+    agentnode/.style={rectangle, rounded corners, draw=gray!80, fill=gray!10, thick, text centered, minimum width=2.8cm, minimum height=0.9cm, inner sep=4pt},
+    whynode/.style={rectangle, rounded corners, draw=blue!60!black, fill=blue!5, thick, text centered, minimum width=2.8cm, minimum height=0.9cm, inner sep=4pt, text width=2.8cm},
+    rejectnode/.style={circle, draw=red!80!black, fill=red!10, thick, text centered, inner sep=2pt, text width=1.1cm},
+    framenode/.style={rectangle, draw=blue!40, dashed, thick, inner sep=14pt},
+    agentframenode/.style={rectangle, draw=gray!60, dashed, thick, inner sep=12pt}
+  ]
+
+  % Core loop nodes
+  \node[agentnode] (policy) {LLM Policy $\theta_t$};
+  \node[agentnode, right=1.6cm of policy] (env) {Noisy Environment};
+  \node[agentnode, right=1.6cm of env] (update) {Proposed Update $\hat{g}_t$};
+
+  \draw[->, thick] (policy) -- node[above] {\scriptsize 1. Action} (env);
+  \draw[->, thick] (env) -- node[above] {\scriptsize 2. Feedback ($R_t$)} (update);
+  
+  % Oscillation risk arc
+  \draw[->, thick, dashed, red!80!black] (update.north) .. controls +(0, 1.2) and +(0, 1.2) .. node[above] {\scriptsize Unchecked Update (Oscillation Risk)} (policy.north);
+
+  % WhyLab nodes
+  \node[whynode, below=2.2cm of update] (c1) {\textbf{C1. Drift Monitor}\\ \scriptsize Entropy Index};
+  \node[whynode, below=2.2cm of env] (c2) {\textbf{C2. Sensitivity Gate}\\ \scriptsize $E$-value \& $RV$ bounds};
+  \node[whynode, below=2.2cm of policy] (c3) {\textbf{C3. Lyapunov Damping}\\ \scriptsize Step Size Controller};
+
+  % Routing
+  \draw[->, thick, blue!60!black] (update) -- node[right] {\scriptsize Monitor} (c1);
+  \draw[->, thick, blue!60!black] (update) -- node[left, pos=0.3] {\scriptsize 3. Audit Gate} (c2);
+  
+  \draw[->, thick, dashed, blue!60!black] (c1) -- node[above] {\scriptsize Alert} (c2);
+  
+  \node[rejectnode, below=0.6cm of c2] (reject) {\scriptsize Reject};
+  \draw[->, thick, red!80!black] (c2) -- node[right] {\scriptsize Fragile} (reject);
+  \draw[->, thick, red!80!black] (reject) -| node[above, pos=0.75] {\scriptsize Revert to $\theta_t$} (policy.south east);
+
+  \draw[->, thick, green!50!black] (c2) -- node[above] {\scriptsize Robust (Pass)} (c3);
+  
+  \draw[->, thick, dashed, blue!60!black] (c1.south) -- ++(0,-1.8) -| node[above, pos=0.25] {\scriptsize Condition bounds} (c3.south);
+
+  \node[agentnode, left=1.0cm of c3] (stable) {Stable Policy $\theta_{t+1}$};
+  \draw[->, thick, blue!60!black] (c3) -- node[above] {\scriptsize 4. Scaled $\zeta_t$} (stable);
+  \draw[->, thick, green!50!black] (stable) |- node[left, pos=0.75] {\scriptsize 5. Safe Update} (policy.west);
+
+  % Background boxes
+  \begin{scope}[on background layer]
+    \node[agentframenode, fit=(policy)(env)(update)] (agentbox) {};
+    \node[above right=2pt and 0pt of agentbox.north west, text=gray!80, font=\bfseries\footnotesize] {Target System: Self-Improving Agent};
+    
+    \node[framenode, fill=blue!2, fit=(c1)(c2)(c3)(reject)] (whybox) {};
+    \node[above right=2pt and 0pt of whybox.north west, text=blue!60!black, font=\bfseries\footnotesize] {WhyLab: Causal Safety Monitoring Framework};
+  \end{scope}
+
+  \end{tikzpicture}
+  }
+  \vspace{0.5em}
+  \caption{WhyLab causal safety monitoring framework. Instead of uncritically accepting potentially
+  hallucinated updates ($\hat{g}_t$) that cause cognitive oscillation, proposed updates are routed
+  through a safety monitoring layer. \textbf{C1} detects environmental drift, \textbf{C2} filters out
+  fragile successes lacking unmeasured-confounder robustness, and \textbf{C3} adapts the step size
+  to bound the Lyapunov energy of the policy. Unsafe updates are rejected, preserving the status quo.}
+  \label{fig:framework}
+\end{figure}
 
 % ============================================================
 \section{Problem Formulation}

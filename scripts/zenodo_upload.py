@@ -97,21 +97,20 @@ def update_metadata(token, draft):
             "upload_type": "publication",
             "publication_type": "preprint",
             "description": (
-                "<p>Self-improving AI agents lack runtime safeguards that prevent "
-                "evaluation drift, fragile outcome acceptance, and unbounded parameter "
-                "updates from compounding into catastrophic policy degradation. "
-                "<strong>WhyLab</strong> introduces a causal audit framework comprising "
-                "three complementary defenses:</p>"
+                "<p>Self-improving AI agents risk cognitive policy oscillation "
+                "when noisy feedback causes strategy degradation. "
+                "<strong>WhyLab</strong> provides a causal safety monitoring framework "
+                "with three components:</p>"
                 "<ul>"
-                "<li><strong>C1</strong>: Information-theoretic drift detection across evaluation streams</li>"
-                "<li><strong>C2</strong>: E-value × Robustness Value dual-threshold filter for fragile outcomes</li>"
-                "<li><strong>C3</strong>: Lyapunov-bounded adaptive damping with observable energy proxy</li>"
+                "<li><strong>C1</strong>: Information-theoretic drift detection</li>"
+                "<li><strong>C2</strong>: E-value sensitivity filter for fragile successes</li>"
+                "<li><strong>C3</strong>: Lyapunov-bounded adaptive damping</li>"
                 "</ul>"
-                "<p>Experiments on synthetic environments demonstrate that C1 improves "
-                "within-horizon detection reliability, C2 substantially reduces fragile "
-                "acceptance rates, and C3 achieves the lowest violation frequency with "
-                "strong proxy–state alignment.</p>"
-                "<p>Code: https://github.com/neogenesislab/WhyLab-NeurIPS2026</p>"
+                "<p>On SWE-bench Lite (300 problems), C2 maintains zero regressions "
+                "across 10,500 episodes. A non-stationary experiment (E6) validates "
+                "all three components independently: C3 reduces energy by 49%, "
+                "C2 reduces oscillation by 76%, C1 cuts drift detection delay by 16%.</p>"
+                "<p>Code: https://github.com/Yesol-Pilot/WhyLab</p>"
             ),
             "creators": [{"name": "Anonymous", "affiliation": "Anonymous"}],
             "keywords": [
@@ -121,18 +120,17 @@ def update_metadata(token, draft):
                 "Sensitivity Analysis",
                 "Lyapunov Stability",
                 "E-value",
-                "Robustness Value",
                 "NeurIPS 2026",
             ],
             "access_right": "open",
             "license": "MIT",
-            "publication_date": "2026-03-11",
-            "version": "1.0.0",
+            "publication_date": "2026-03-17",
+            "version": "2.0.0",
             "language": "eng",
             "notes": (
                 "Anonymous preprint for NeurIPS 2026. "
-                "11 pages (6 content + refs + appendix + checklist). "
-                "40-seed experiments across 3 contributions (C1-C3)."
+                "17 pages (9 content + refs + appendix + checklist). "
+                "6 experiments (E1-E6), 840+ episodes with bootstrap CI."
             ),
         }
     }

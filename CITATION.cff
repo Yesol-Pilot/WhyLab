@@ -2,10 +2,10 @@ cff-version: 1.2.0
 title: "WhyLab: Causal Audit Framework for Stable Agent Self-Improvement"
 message: "If you use this software, please cite it using the metadata from this file."
 type: software
-version: 1.0.0
-date-released: "2026-03-11"
+version: 2.0.0
+date-released: "2026-03-17"
 license: MIT
-repository-code: "https://github.com/neogenesislab/WhyLab-NeurIPS2026"
+repository-code: "https://github.com/Yesol-Pilot/WhyLab"
 keywords:
   - causal inference
   - agent self-improvement
@@ -14,8 +14,9 @@ keywords:
   - lyapunov stability
   - neurips 2026
 abstract: >-
-  A causal audit framework for stable agent self-improvement,
-  addressing evaluation drift, fragile outcome acceptance, and
-  unbounded parameter updates through information-theoretic drift
-  detection (C1), sensitivity-aware effect filtering (C2), and
-  Lyapunov-bounded adaptive damping (C3).
+  A causal safety monitoring framework for stable agent self-improvement,
+  comprising drift detection (C1), sensitivity-aware effect filtering (C2),
+  and Lyapunov-bounded adaptive damping (C3). Validated on SWE-bench Lite
+  (zero regressions across 10,500 episodes), HumanEval, and a non-stationary
+  online learning environment (E6) where all three components contribute
+  independently.

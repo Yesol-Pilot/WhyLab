@@ -83,7 +83,7 @@ class OpenAIProvider:
         self.temperature = temperature
         self.max_tokens = max_tokens
 
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = os.getenv("OPENAI_API_KEY", "").strip()
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY not set")
         self._client = OpenAI(api_key=api_key)
@@ -126,7 +126,7 @@ class AnthropicProvider:
         self.temperature = temperature
         self.max_tokens = max_tokens
 
-        api_key = os.getenv("ANTHROPIC_API_KEY")
+        api_key = os.getenv("ANTHROPIC_API_KEY", "").strip()
         if not api_key:
             raise RuntimeError("ANTHROPIC_API_KEY not set")
         self._client = Anthropic(api_key=api_key)

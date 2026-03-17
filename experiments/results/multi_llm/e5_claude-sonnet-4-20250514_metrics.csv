@@ -1,0 +1,10 @@
+model,seed,ablation,instance_id,final_passed,safe_pass,first_pass_attempt,total_attempts,regression_count,oscillation_count,oscillation_index,updates_accepted,updates_rejected
+claude-sonnet-4-20250514,42,none,astropy__astropy-12907,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,none,astropy__astropy-14182,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,none,astropy__astropy-14365,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,C2_calibrated,astropy__astropy-12907,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,C2_calibrated,astropy__astropy-14182,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,C2_calibrated,astropy__astropy-14365,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,full_calibrated,astropy__astropy-12907,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,full_calibrated,astropy__astropy-14182,1,1,1,1,0,0,0.0,0,0
+claude-sonnet-4-20250514,42,full_calibrated,astropy__astropy-14365,1,1,1,1,0,0,0.0,0,0

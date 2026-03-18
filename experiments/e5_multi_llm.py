@@ -39,7 +39,7 @@ DEFAULT_MODELS = [
         "max_tokens": 4096,
     },
     {
-        "name": "gpt-5-mini",
+        "name": "gpt-5.4-nano",
         "temperature": 0.7,
         "max_tokens": 4096,
     },

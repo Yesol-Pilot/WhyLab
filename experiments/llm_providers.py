@@ -96,12 +96,20 @@ class OpenAIProvider:
 
         seed = kwargs.get("seed", 0)
         start = time.time()
+
+        # GPT-5+ uses max_completion_tokens; older models use max_tokens
+        token_param = {}
+        if "gpt-5" in self.model or "gpt-4.1" in self.model:
+            token_param["max_completion_tokens"] = self.max_tokens
+        else:
+            token_param["max_tokens"] = self.max_tokens
+
         response = self._client.chat.completions.create(
             model=self.model,
             messages=messages,
             temperature=self.temperature,
-            max_tokens=self.max_tokens,
             seed=seed,
+            **token_param,
         )
         latency_ms = (time.time() - start) * 1000
 

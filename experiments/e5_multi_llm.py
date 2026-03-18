@@ -266,6 +266,12 @@ if __name__ == "__main__":
                 m for m in DEFAULT_MODELS
                 if any(a.lower() in m["name"].lower() for a in args.models)
             ]
+        if not selected_models:
+            # Ad-hoc: create model configs for unrecognized names
+            selected_models = [
+                {"name": name, "temperature": 0.7, "max_tokens": 4096}
+                for name in args.models
+            ]
 
     run_multi_llm(
         models=selected_models,

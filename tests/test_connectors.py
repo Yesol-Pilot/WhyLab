@@ -37,6 +37,7 @@ def sample_csv(tmp_path: Path) -> Path:
 @pytest.fixture
 def sample_parquet(tmp_path: Path) -> Path:
     """임시 Parquet 파일을 생성합니다."""
+    pytest.importorskip("pyarrow", reason="pyarrow not installed (optional)")
     df = pd.DataFrame({
         "treatment": np.random.randint(0, 2, 50),
         "outcome": np.random.randn(50),

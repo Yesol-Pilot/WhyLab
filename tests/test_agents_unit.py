@@ -55,7 +55,10 @@ class TestTheorist(unittest.TestCase):
         original_key = os.environ.pop("GEMINI_API_KEY", None)
         try:
             # gemini_client 모듈의 전역 변수를 직접 패치
-            import api.agents.gemini_client as gc
+            try:
+                import api.agents.gemini_client as gc
+            except (ImportError, ModuleNotFoundError):
+                self.skipTest("api.agents not available (API not deployed)")
             old_key = gc.GEMINI_API_KEY
             gc.GEMINI_API_KEY = ""
             

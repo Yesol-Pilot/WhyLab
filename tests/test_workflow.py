@@ -2,6 +2,11 @@
 """Test Cytoplasm Workflow."""
 
 import unittest
+import pytest
+
+# langgraph가 설치되지 않은 환경(CI)에서는 전체 모듈 skip
+pytest.importorskip("langgraph", reason="langgraph not installed (optional dependency)")
+
 from engine.workflow.graph import build_graph
 
 class TestCytoplasm(unittest.TestCase):

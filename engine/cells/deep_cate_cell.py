@@ -38,6 +38,13 @@ except ImportError:
     logger.warning("PyTorch 미설치. DeepCATECell은 fallback 모드로 동작합니다.")
 
 
+# nn.Module 기반 클래스들은 PyTorch가 있을 때만 정의
+if HAS_TORCH:
+    _nn_Module = nn.Module
+else:
+    # Stub: PyTorch 없이도 클래스 정의 자체는 가능하도록
+    _nn_Module = object
+
 # ──────────────────────────────────────────────
 # 설정
 # ──────────────────────────────────────────────
@@ -64,7 +71,7 @@ class DeepCATEConfig:
 # TARNet 아키텍처
 # ──────────────────────────────────────────────
 
-class TARNetModule(nn.Module):
+class TARNetModule(_nn_Module):
     """TARNet: Treatment-Agnostic Representation Network.
 
     구조:
@@ -134,7 +141,7 @@ class TARNetModule(nn.Module):
 # DragonNet 아키텍처
 # ──────────────────────────────────────────────
 
-class DragonNetModule(nn.Module):
+class DragonNetModule(_nn_Module):
     """DragonNet: TARNet + 성향점수 헤드.
 
     구조:

@@ -70,7 +70,10 @@ class DataCell(BaseCell):
         scenario = inputs.get("scenario", "A")
         
         # 0.1. CSV 파일 자동 감지 (engine/data/*.csv)
-        if not self.config.data.input_path:
+        # 주의: WHYLAB_AUTO_CSV=1 일 때만 활성화. CI/테스트 환경에서
+        # 의도하지 않은 CSV 로드로 시나리오 분기가 우회되는 것을 방지.
+        auto_csv_enabled = os.environ.get("WHYLAB_AUTO_CSV", "0") == "1"
+        if not self.config.data.input_path and auto_csv_enabled:
             local_csv = self._detect_local_csv()
             if local_csv:
                 self.config.data.input_path = local_csv

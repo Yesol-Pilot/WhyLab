@@ -47,6 +47,11 @@ jobs:
 
       - name: Auto-commit hash log
         run: |
+          # 파일이 없으면 no_data — 정상적으로 skip
+          if [ ! -f data/integrity_hashes.jsonl ]; then
+            echo "⏭️ No integrity hash generated (no rollup data). Skipping commit."
+            exit 0
+          fi
           git config user.name "whylab-integrity-bot"
           git config user.email "integrity-bot@whylab.noreply.github.com"
           git add data/integrity_hashes.jsonl

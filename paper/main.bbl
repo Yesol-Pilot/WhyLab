@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -66,13 +66,20 @@ Carlos~E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
   (ICLR)}, 2024.
 
 \bibitem[Saad-Falcon et~al.(2024)Saad-Falcon, Khattab, Potts, and
-  Zaharia]{saadfacon2024ares}
+  Zaharia]{saadfalcon2024ares}
 Jon Saad-Falcon, Omar Khattab, Christopher Potts, and Matei Zaharia.
 \newblock {ARES}: An automated evaluation framework for retrieval-augmented
   generation systems.
 \newblock In \emph{Proceedings of the 2024 Conference of the North American
   Chapter of the Association for Computational Linguistics: Human Language
   Technologies (NAACL-HLT)}, 2024.
+
+\bibitem[Sahoo et~al.(2026)]{sahoo2026sahoo}
+Subham Sahoo et~al.
+\newblock {SAHOO}: Safeguarded alignment for high-order optimization objectives
+  in recursive self-improvement.
+\newblock In \emph{International Conference on Learning Representations (ICLR)
+  Workshop}, 2026.
 
 \bibitem[Shao et~al.(2025)Shao, Ren, Qian, Wei, Guo, Yang, Song, Zhang, Zhang,
   Liu, and Shao]{misevolution2025}
@@ -83,10 +90,10 @@ Shuai Shao, Qihan Ren, Chen Qian, Boyi Wei, Dadi Guo, Jingyi Yang, Xinhao Song,
 \newblock \emph{arXiv preprint arXiv:2509.26354}, 2025.
 \newblock Accepted at ICLR 2026.
 
-\bibitem[Sharma and Kiciman(2022)]{dowhy2022}
+\bibitem[Sharma and Kiciman(2020)]{dowhy2020}
 Amit Sharma and Emre Kiciman.
 \newblock {DoWhy}: An end-to-end library for causal inference.
-\newblock \emph{arXiv preprint arXiv:2011.04216}, 2022.
+\newblock \emph{arXiv preprint arXiv:2011.04216}, 2020.
 
 \bibitem[Shinn et~al.(2023)Shinn, Cassano, Labash, Gopinath, Narasimhan, and
   Yao]{shinn2023reflexion}

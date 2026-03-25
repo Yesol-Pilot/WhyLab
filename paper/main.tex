@@ -62,8 +62,8 @@ transparently---as expected, since these benchmarks lack the
 non-stationarity and continuous parameter updates they target.
 On a non-stationary QA benchmark (E7) with GPT-5.4,
 the full audit layer prevents cognitive oscillation caused by
-environmental drift, demonstrating generalization to
-state-of-the-art flagship models.
+environmental drift, providing preliminary evidence of
+applicability to out-of-family flagship models.
 \end{abstract}
 
 
@@ -113,9 +113,9 @@ A non-stationary online learning experiment~(E6) shows all three
 components contributing independently: C3 reduces energy by 49\%,
 C2 reduces oscillation by 76\%, and C1 cuts drift detection delay
 by 16\%.
-Furthermore, E7 validates the framework on GPT-5.4 (a flagship
-model outside the training family) in a dynamic QA environment,
-confirming cross-model generalization.
+Furthermore, E7 explores the framework's applicability to GPT-5.4
+(a flagship model outside the training family) in a dynamic QA
+environment, showing promising out-of-family transferability.
 
 \begin{figure}[t]
   \centering
@@ -873,10 +873,10 @@ producing destabilizing prompt overwrites that degrade accuracy.
 Under WhyLab (full audit), C3 damping prevents large prompt
 rewrites from being applied, and C1 drift alarms trigger
 conservative update policies, preserving pre-drift accuracy.
-This demonstrates that even the most capable flagship models
-require causal safety monitoring in non-stationary deployments---
-and that the audit framework transfers across model families
-(Gemini $\to$ GPT) without recalibration.
+This suggests that highly capable flagship models may still
+benefit from causal safety monitoring in non-stationary
+deployments---and that the framework can potentially transfer
+across model families (Gemini $\to$ GPT) without recalibration.
 
 % -------- Cross-environment Analysis --------
 \subsection{Cross-Environment Analysis}
@@ -944,11 +944,13 @@ on non-stationary environments with aggressive updates (E6), all
 three components contribute independently (C3: $-49$\% energy,
 C2: $-76$\% oscillation, C1: $-16$\% detection delay);
 and on a dynamic QA benchmark with GPT-5.4 (E7), all three
-prevent prompt-level cognitive oscillation, confirming
-cross-model generalization.
+prevent prompt-level cognitive oscillation, suggesting
+broader applicability.
 The oscillation difference in E5 is not statistically significant
 (bootstrap $p{=}0.26$), so the primary validated contribution is
-the \textbf{zero-regression guarantee} across 10{,}500 episodes.
+the \textbf{zero-regression guarantee} across 10{,}500 episodes---
+a crucial property for deploying autonomous agents where preventing
+catastrophic failure is often more important than marginal upside.
 
 \textbf{Limitations.}
 The energy proxy assumes a known reward upper bound.

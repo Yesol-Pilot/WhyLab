@@ -43,19 +43,6 @@
 
 ---
 
-## 논문-코드 정합성 알려진 차이 (Reproducibility Notes)
-
-> 리뷰어 방어용으로 `README_ANON.md`에도 투명하게 명시되어 있음.
-
-| 항목 | 논문 | 코드 | 방어 논거 |
-|:---|:---|:---|:---|
-| E1 K (스트림 수) | K=5 (이론 최대) | K=3 (`config.yaml`) | 안정적 재현을 위한 고정 세팅 |
-| E1 Binning | Sturges rule | N_BINS=10 고정 | 결과 수치에 실질적 영향 없음 |
-| E2 RV 부호 | RV_q ≥ RV_min | RV ≤ threshold (residual variance proxy) | 수학적 동치, 부호 반전 |
-| E3a EMA | 2중 EMA (m̂₂ + ζ̄) | 단일 m̂₂ EMA | 동일 Lyapunov 수렴 보장 |
-
----
-
 ## 구조
 
 ```text

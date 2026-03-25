@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.2.22)  25 MAR 2026 13:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.2.22)  25 MAR 2026 14:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -930,24 +930,21 @@ Package pdftex.def Info: ../experiments/figures/e2_filtering.pdf  used on input
 Underfull \vbox (badness 2435) has occurred while \output is active []
 
  [7]
-[8] [9] (main.bbl [10]) [11]
-Underfull \vbox (badness 6608) has occurred while \output is active []
-
- [12]
+[8] [9] (main.bbl [10]) [11] [12]
 <../experiments/figures/e3a_stationary.pdf, id=219, 785.9392pt x 314.36633pt>
 File: ../experiments/figures/e3a_stationary.pdf Graphic file (type pdf)
 <use ../experiments/figures/e3a_stationary.pdf>
 Package pdftex.def Info: ../experiments/figures/e3a_stationary.pdf  used on inp
-ut line 1143.
+ut line 1145.
 (pdftex.def)             Requested size: 337.86465pt x 135.1461pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1179--1185
+Underfull \hbox (badness 10000) in paragraph at lines 1181--1187
 \OT1/ptm/m/n/10 The E2 thresh-old sweep eval-u-ates all com-bi-na-tions of $\OM
 L/cmm/m/it/10 E[] \OMS/cmsy/m/n/10 2
  []
 
 
-Overfull \hbox (4.1199pt too wide) in paragraph at lines 1179--1185
+Overfull \hbox (4.1199pt too wide) in paragraph at lines 1181--1187
 \OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0\OML/cmm/
 m/it/10 ; \OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 5\OML/cmm/m/it/10 
 ; \OT1/cmr/m/n/10 2\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/c
@@ -968,47 +965,47 @@ OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm
  []
 
 [13 <../experiments/figures/e3a_stationary.pdf>]
-Underfull \hbox (badness 3199) in paragraph at lines 1283--1284
+Underfull \hbox (badness 3199) in paragraph at lines 1285--1286
 []\OT1/ptm/m/n/9 Conditional ig-nor-a-bil-ity
  []
 
 
-Underfull \hbox (badness 6592) in paragraph at lines 1285--1286
+Underfull \hbox (badness 6592) in paragraph at lines 1287--1288
 []\OT1/ptm/m/n/9 E-value re-ports min. con-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1288--1289
+Underfull \hbox (badness 10000) in paragraph at lines 1290--1291
 []\OT1/ptm/m/n/9 OLS on bal-anced DGP;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1288--1289
+Underfull \hbox (badness 10000) in paragraph at lines 1290--1291
 \OT1/ptm/m/n/9 flagged when propen-sity
  []
 
 
-Underfull \hbox (badness 2875) in paragraph at lines 1289--1290
+Underfull \hbox (badness 2875) in paragraph at lines 1291--1292
 []\OT1/ptm/m/n/9 Robustness against un-
  []
 
 
-Underfull \hbox (badness 1005) in paragraph at lines 1290--1291
+Underfull \hbox (badness 1005) in paragraph at lines 1292--1293
 []\OT1/ptm/m/n/9 Weak con-founders by-pass
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 1297--1298
+Underfull \hbox (badness 1389) in paragraph at lines 1299--1300
 []\OT1/ptm/m/n/9 Non-convex land-scape $\OMS/cmsy/m/n/9 !$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1298--1299
+Underfull \hbox (badness 10000) in paragraph at lines 1300--1301
 []\OT1/ptm/m/n/9 Reward proxy $[]$; EMA
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1300--1301
+Underfull \hbox (badness 10000) in paragraph at lines 1302--1303
 []\OT1/ptm/m/n/9 Heavy-tail $\OMS/cmsy/m/n/9 !$ \OT1/ptm/m/n/9 learn-ing
  []
 
@@ -1062,7 +1059,7 @@ etic/uhvr8a.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
 imes/utmb8a.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
 imes/utmr8a.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
 imes/utmri8a.pfb>
-Output written on main.pdf (18 pages, 543871 bytes).
+Output written on main.pdf (18 pages, 544052 bytes).
 PDF statistics:
  417 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

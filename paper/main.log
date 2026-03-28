@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.2.22)  25 MAR 2026 17:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.2.22)  28 MAR 2026 17:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -906,54 +906,63 @@ ned chal-lenges: (1) \OT1/ptm/m/it/10 drift de-tec-tion\OT1/ptm/m/n/10 ---
 
 {C:/Users/yesol/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/yeso
 l/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}] [2] [3]
-[4]
-<../experiments/figures/e1_km.pdf, id=38, 787.73894pt x 316.4598pt>
-File: ../experiments/figures/e1_km.pdf Graphic file (type pdf)
-<use ../experiments/figures/e1_km.pdf>
-Package pdftex.def Info: ../experiments/figures/e1_km.pdf  used on input line 4
-99.
-(pdftex.def)             Requested size: 337.86465pt x 135.73221pt.
- [5 <../experiments/figures/e1_km.pdf>] (tables/tab2.tex)
-<../experiments/figures/e2_filtering.pdf, id=110, 787.6495pt x 316.4598pt>
-File: ../experiments/figures/e2_filtering.pdf Graphic file (type pdf)
-<use ../experiments/figures/e2_filtering.pdf>
-Package pdftex.def Info: ../experiments/figures/e2_filtering.pdf  used on input
- line 567.
-(pdftex.def)             Requested size: 337.86465pt x 135.74669pt.
 
-Underfull \vbox (badness 3229) has occurred while \output is active []
+LaTeX Warning: Reference `sec:e3a' on page 4 undefined on input line 392.
+
+
+LaTeX Warning: Reference `sec:e3a' on page 4 undefined on input line 410.
+
+
+LaTeX Warning: Reference `sec:e3a' on page 4 undefined on input line 437.
+
+[4]
+
+LaTeX Warning: Reference `sec:e1' on page 5 undefined on input line 469.
+
+
+LaTeX Warning: Reference `sec:e2' on page 5 undefined on input line 471.
+
+
+LaTeX Warning: Reference `sec:e3a' on page 5 undefined on input line 473.
+
+[5]
+
+LaTeX Warning: Reference `sec:sahoo-comparison' on page 6 undefined on input li
+ne 609.
+
+
+Underfull \vbox (badness 1789) has occurred while \output is active []
 
  [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[7]
 
- [7 <../experiments/figures/e2_filtering.pdf>]
-Underfull \vbox (badness 3219) has occurred while \output is active []
+Package natbib Warning: Citation `huang2024selfcorrect' on page 8 undefined on 
+input line 852.
 
- [8]
-[9] [10]
+[8]
 
-LaTeX Warning: Reference `sec:multi-llm-app' on page 11 undefined on input line
- 976.
+Package natbib Warning: Citation `page1954cusum' on page 9 undefined on input l
+ine 855.
 
-(main.bbl [11]) [12]
-<../experiments/figures/e3a_stationary.pdf, id=220, 785.9392pt x 314.36633pt>
+(main.bbl [9]) [10] [11] [12]
+<../experiments/figures/e3a_stationary.pdf, id=65, 785.9392pt x 314.36633pt>
 File: ../experiments/figures/e3a_stationary.pdf Graphic file (type pdf)
 <use ../experiments/figures/e3a_stationary.pdf>
 Package pdftex.def Info: ../experiments/figures/e3a_stationary.pdf  used on inp
-ut line 1155.
+ut line 1151.
 (pdftex.def)             Requested size: 337.86465pt x 135.1461pt.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Reference `fig:e1-km' on page 13 undefined on input line 1170.
 
-[13]
-Underfull \hbox (badness 10000) in paragraph at lines 1191--1197
+
+Underfull \hbox (badness 10000) in paragraph at lines 1187--1193
 \OT1/ptm/m/n/10 The E2 thresh-old sweep eval-u-ates all com-bi-na-tions of $\OM
 L/cmm/m/it/10 E[] \OMS/cmsy/m/n/10 2
  []
 
 
-Overfull \hbox (4.1199pt too wide) in paragraph at lines 1191--1197
+Overfull \hbox (4.1199pt too wide) in paragraph at lines 1187--1193
 \OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0\OML/cmm/
 m/it/10 ; \OT1/cmr/m/n/10 1\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 5\OML/cmm/m/it/10 
 ; \OT1/cmr/m/n/10 2\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 ; \OT1/c
@@ -974,57 +983,83 @@ OML/cmm/m/it/10 :\OT1/cmr/m/n/10 15\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm
  []
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Reference `tab:e2-filter' on page 13 undefined on input line 119
+5.
 
-[14 <../experiments/figures/e3a_stationary.pdf>]
-Underfull \hbox (badness 3199) in paragraph at lines 1295--1296
+
+LaTeX Warning: Reference `fig:e2-pareto' on page 13 undefined on input line 120
+2.
+
+[13 <../experiments/figures/e3a_stationary.pdf>]
+Underfull \hbox (badness 3199) in paragraph at lines 1291--1292
 []\OT1/ptm/m/n/9 Conditional ig-nor-a-bil-ity
  []
 
 
-Underfull \hbox (badness 6592) in paragraph at lines 1297--1298
+Underfull \hbox (badness 6592) in paragraph at lines 1293--1294
 []\OT1/ptm/m/n/9 E-value re-ports min. con-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1300--1301
+Underfull \hbox (badness 10000) in paragraph at lines 1296--1297
 []\OT1/ptm/m/n/9 OLS on bal-anced DGP;
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1300--1301
+Underfull \hbox (badness 10000) in paragraph at lines 1296--1297
 \OT1/ptm/m/n/9 flagged when propen-sity
  []
 
 
-Underfull \hbox (badness 2875) in paragraph at lines 1301--1302
+Underfull \hbox (badness 2875) in paragraph at lines 1297--1298
 []\OT1/ptm/m/n/9 Robustness against un-
  []
 
 
-Underfull \hbox (badness 1005) in paragraph at lines 1302--1303
+Underfull \hbox (badness 1005) in paragraph at lines 1298--1299
 []\OT1/ptm/m/n/9 Weak con-founders by-pass
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 1309--1310
+Underfull \hbox (badness 1389) in paragraph at lines 1305--1306
 []\OT1/ptm/m/n/9 Non-convex land-scape $\OMS/cmsy/m/n/9 !$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1310--1311
+Underfull \hbox (badness 10000) in paragraph at lines 1306--1307
 []\OT1/ptm/m/n/9 Reward proxy $[]$; EMA
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1312--1313
+Underfull \hbox (badness 10000) in paragraph at lines 1308--1309
 []\OT1/ptm/m/n/9 Heavy-tail $\OMS/cmsy/m/n/9 !$ \OT1/ptm/m/n/9 learn-ing
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[15] (tables/invariance.tex) [16] [17] [18] (main.aux)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[14] (tables/invariance.tex) [15]
+
+LaTeX Warning: Reference `sec:e3b' on page 16 undefined on input line 1469.
+
+[16]
+
+LaTeX Warning: Reference `tab:e1-detection' on page 17 undefined on input line 
+1487.
+
+
+LaTeX Warning: Reference `tab:e3a' on page 17 undefined on input line 1487.
+
+
+Package natbib Warning: There were undefined citations.
+
+[17] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1035,13 +1070,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 23399 strings out of 467871
- 439194 string characters out of 5418376
- 851262 words of memory out of 5000000
- 51859 multiletter control sequences out of 15000+600000
+ 23384 strings out of 467871
+ 438518 string characters out of 5418376
+ 854486 words of memory out of 5000000
+ 51847 multiletter control sequences out of 15000+600000
  656672 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,15n,94p,741b,981s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,15n,94p,635b,981s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmex10.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cmextra/cmex7.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/typ
@@ -1069,9 +1104,9 @@ imes/utmb8a.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/urw/t
 imes/utmbi8a.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmr8a.pfb><C:/Users/yesol/AppData/Local/Programs/MiKTeX/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on main.pdf (18 pages, 555142 bytes).
+Output written on main.pdf (17 pages, 498344 bytes).
 PDF statistics:
- 422 PDF objects out of 1000 (max. 8388607)
+ 265 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 18 words of extra memory for PDF output out of 10000 (max. 10000000)
 

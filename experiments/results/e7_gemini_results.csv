@@ -1,0 +1,11 @@
+seed,mode,mean_accuracy,final_accuracy,oscillations,regressions,rejections
+0,baseline,1.000,1.000,0,0,0
+1,baseline,1.000,1.000,0,0,0
+2,baseline,1.000,1.000,0,0,0
+3,baseline,1.000,1.000,0,0,0
+4,baseline,0.900,0.000,0,1,0
+0,audit,0.900,0.000,0,1,0
+1,audit,1.000,1.000,0,0,0
+2,audit,1.000,1.000,0,0,0
+3,audit,1.000,1.000,0,0,0
+4,audit,1.000,1.000,0,0,0

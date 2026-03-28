@@ -1,0 +1,7 @@
+Metric,Value
+Problem consistency (seeds agree),85.3%
+Osc episodes pass rate,1.000
+Non-osc episodes pass rate,0.667
+Spearman rho (osc none vs C2),0.904
+C2 rejections on osc problems (mean),18.9
+Total regressions across ALL ablations,0

@@ -280,7 +280,7 @@ class LLMAgent:
         return {}
 
     def _call_llm_text(self, prompt: str, temperature: float, max_tokens: int) -> str:
-        max_retries = 3
+        max_retries = 6
         for attempt in range(max_retries):
             try:
                 if self.provider == "gemini":
@@ -303,7 +303,7 @@ class LLMAgent:
             except Exception as e:
                 err_str = str(e)
                 if "429" in err_str or "Resource exhausted" in err_str:
-                    wait = 2 ** (attempt + 1)  # 2, 4, 8 seconds
+                    wait = min(10 * (2 ** attempt), 60)  # 10, 20, 40, 60, 60, 60
                     print(f"    [Rate limit] Retrying in {wait}s (attempt {attempt+1}/{max_retries})")
                     time.sleep(wait)
                     continue
@@ -332,15 +332,30 @@ def run_e7v2(
     n_epochs: int = 20,
     n_seeds: int = 10,
     use_audit: bool = True,
+    audit_mode: str = "fixed",
     provider: str = "gemini",
     model: str = "gemini-2.0-flash",
     stale_noise: float = 0.2,
+    warmup_epochs: int = 3,
+    sensitivity_scaling: float = 10.0,
 ) -> list[E7v2Result]:
-    """Run E7v2 adversarial benchmark."""
-    # Lazy import for audit layer
-    from experiments.audit_layer import AgentAuditLayer
+    """Run E7v2 adversarial benchmark.
 
-    label = "audit" if use_audit else "baseline"
+    Args:
+        audit_mode: 'fixed' (original), 'adaptive' (auto-calibrated), or ignored if use_audit=False
+        warmup_epochs: Number of warmup epochs for adaptive mode
+        sensitivity_scaling: How strongly variance affects threshold (adaptive mode)
+    """
+    # Lazy imports
+    from experiments.audit_layer import AgentAuditLayer
+    from experiments.adaptive_audit_layer import AdaptiveAuditLayer
+
+    if not use_audit:
+        label = "baseline"
+    elif audit_mode == "adaptive":
+        label = "audit_adaptive"
+    else:
+        label = "audit"
     results = []
 
     for seed in range(n_seeds):
@@ -350,9 +365,9 @@ def run_e7v2(
 
         # Audit config matching paper's E7 settings
         audit_cfg = {
-            "c1": use_audit,
-            "c2": use_audit,
-            "c3": use_audit,
+            "c1": True,
+            "c2": True,
+            "c3": True,
             "c1_window": 5,
             "c1_agreement_threshold": 0.4,
             "c2_e_thresh": 1.5,
@@ -360,7 +375,17 @@ def run_e7v2(
             "c3_epsilon_floor": 0.01,
             "c3_ceiling": 0.8,
         }
-        audit = AgentAuditLayer(audit_cfg) if use_audit else None
+
+        audit = None
+        if use_audit:
+            if audit_mode == "adaptive":
+                audit = AdaptiveAuditLayer(
+                    audit_cfg,
+                    warmup_epochs=warmup_epochs,
+                    sensitivity_scaling=sensitivity_scaling,
+                )
+            else:
+                audit = AgentAuditLayer(audit_cfg)
 
         accs = []
         score_history = []  # for audit layer's before/after windows
@@ -422,7 +447,7 @@ def run_e7v2(
                     agent.system_rules = proposed
 
             prev_acc = acc
-            time.sleep(1.5)  # Rate limiting
+            time.sleep(4)  # Rate limiting (4s for Gemini free tier: 15 RPM)
 
         result = E7v2Result(
             seed=seed, mode=label, provider=provider, model=model,
@@ -491,6 +516,12 @@ def main():
     parser.add_argument("--stale-noise", type=float, default=0.2)
     parser.add_argument("--pilot", action="store_true",
                         help="Quick test: 3 seeds, 5 epochs")
+    parser.add_argument("--adaptive", action="store_true",
+                        help="Also run adaptive threshold mode")
+    parser.add_argument("--warmup", type=int, default=3,
+                        help="Warmup epochs for adaptive mode")
+    parser.add_argument("--sensitivity-scaling", type=float, default=10.0,
+                        help="Sensitivity scaling factor for adaptive thresholds")
     args = parser.parse_args()
 
     if args.pilot:
@@ -518,19 +549,41 @@ def main():
         stale_noise=args.stale_noise,
     )
 
-    print("\n--- WhyLab (With Audit) ---")
+    print("\n--- WhyLab Fixed (With Audit) ---")
     audited = run_e7v2(
         n_epochs=args.epochs, n_seeds=args.seeds, use_audit=True,
+        audit_mode="fixed",
         provider=args.provider, model=args.model,
         stale_noise=args.stale_noise,
     )
 
+    all_results = baseline + audited
+
+    # Adaptive mode (optional)
+    if args.adaptive:
+        print("\n--- WhyLab Adaptive (Auto-calibrated) ---")
+        adaptive = run_e7v2(
+            n_epochs=args.epochs, n_seeds=args.seeds, use_audit=True,
+            audit_mode="adaptive",
+            provider=args.provider, model=args.model,
+            stale_noise=args.stale_noise,
+            warmup_epochs=args.warmup,
+            sensitivity_scaling=args.sensitivity_scaling,
+        )
+        all_results += adaptive
+        print("\n=== Fixed Audit Summary ===")
+
     save_results(
-        baseline + audited,
+        all_results,
         f"e7v2_{model_tag}_results.csv"
     )
     print_summary(baseline, audited)
 
+    if args.adaptive:
+        print("\n=== Adaptive Audit Summary ===")
+        print_summary(baseline, adaptive)
+
 
 if __name__ == "__main__":
     main()
+

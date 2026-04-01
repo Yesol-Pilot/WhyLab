@@ -1,0 +1,33 @@
+{
+  "experiment": "E9: Oscillation Phase Diagram",
+  "config": {
+    "h_rates": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6
+    ],
+    "lr_values": [
+      0.01,
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.5,
+      0.7,
+      1.0
+    ],
+    "drift_freqs": [
+      0,
+      1,
+      2
+    ],
+    "seeds": 10
+  },
+  "n_results": 384,
+  "time_seconds": 113.3
+}

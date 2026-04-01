@@ -1,0 +1,10 @@
+env,condition,baseline_instability,osc_reduction,reg_reduction,acc_cost,marker,energy_reduction,regret_reduction
+E5 (SWE-bench),"Gemini 2.0 Flash, static",0.0401,0.0040999999999999995,0.0,-0.013399999999999967,E5,,
+"E6 (η=0.1, h=0.0)","Non-stationary, lr=0.1, halluc=0.0",0.485982,0.3771,0.0,0.0,E6,-1.0967,-652.6699
+"E6 (η=0.1, h=0.3)","Non-stationary, lr=0.1, halluc=0.3",0.353385,0.2335,0.0,0.0,E6,-3.1906,-1681.7063999999998
+"E6 (η=0.1, h=0.5)","Non-stationary, lr=0.1, halluc=0.5",0.34450400000000003,0.18670000000000003,0.0,0.0,E6,-0.5202999999999989,-2385.8318000000004
+"E6 (η=0.5, h=0.0)","Non-stationary, lr=0.5, halluc=0.0",0.491066,0.3709,0.0,0.0,E6,0.11309999999999998,90.75549999999998
+"E6 (η=0.5, h=0.3)","Non-stationary, lr=0.5, halluc=0.3",0.49885,0.27030000000000004,0.0,0.0,E6,2.3818,5246.0691
+"E6 (η=0.5, h=0.5)","Non-stationary, lr=0.5, halluc=0.5",0.8604780000000001,0.27840000000000004,0.0,0.0,E6,28.7418,9760.664299999999
+E7v2 (Gemini 2.0 Flash),"Adversarial fact-tracking, Gemini 2.0 Flash",7.0,0.9000000000000004,1.6999999999999997,-0.04848999999999992,E7v2,,
+E7v2 (GPT-4o-mini),"Adversarial fact-tracking, GPT-4o-mini",2.8,-0.2999999999999998,-0.5,-0.00770000000000004,E7v2,,

@@ -1,0 +1,11 @@
+seed,mode,provider,model,mean_accuracy,final_accuracy,oscillations,regressions,rejections,recoveries
+0,baseline,gemini,gemini-2.5-flash,0.0,0.0,0,0,0,0
+1,baseline,gemini,gemini-2.5-flash,0.0,0.0,0,0,0,0
+2,baseline,gemini,gemini-2.5-flash,0.0,0.0,0,0,0,0
+3,baseline,gemini,gemini-2.5-flash,0.1,0.0,1,1,0,1
+4,baseline,gemini,gemini-2.5-flash,0.0,0.0,0,0,0,0
+0,audit,gemini,gemini-2.5-flash,0.0,0.0,0,0,10,0
+1,audit,gemini,gemini-2.5-flash,0.0,0.0,0,0,10,0
+2,audit,gemini,gemini-2.5-flash,0.0,0.0,0,0,10,0
+3,audit,gemini,gemini-2.5-flash,0.0,0.0,0,0,10,0
+4,audit,gemini,gemini-2.5-flash,0.0,0.0,0,0,10,0

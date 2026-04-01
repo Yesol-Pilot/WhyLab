@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -14,15 +14,6 @@ Maksym Andriushchenko, Alexandra Souly, Mateusz Dziemian, Derek Duenas, Maxwell
 \newblock Agentharm: A benchmark for measuring harmfulness of {LLM} agents.
 \newblock In \emph{International Conference on Learning Representations
   (ICLR)}, 2025.
-
-\bibitem[Battocchi et~al.(2019)Battocchi, Dillon, Hei, Lewis, Raz, Oprescu, and
-  Syrgkanis]{econml2019}
-Keith Battocchi, Eleanor Dillon, Maggie Hei, Greg Lewis, Paul Raz, Miruna
-  Oprescu, and Vasilis Syrgkanis.
-\newblock {EconML}: A {Python} package for {ML}-based heterogeneous treatment
-  effects estimation.
-\newblock 2019.
-\newblock \url{https://github.com/py-why/EconML}.
 
 \bibitem[Berkenkamp et~al.(2017)Berkenkamp, Turchetta, Schoellig, and
   Krause]{berkenkamp2017safe}
@@ -57,6 +48,14 @@ Jennifer~L. Hill.
 \newblock \emph{Journal of Computational and Graphical Statistics}, 20\penalty0
   (1):\penalty0 217--240, 2011.
 
+\bibitem[Huang et~al.(2024)Huang, Chen, Mishra, Zheng, Yu, Song, and
+  Zhou]{huang2024selfcorrect}
+Jie Huang, Xinyun Chen, Swaroop Mishra, Huaixiu~Steven Zheng, Adams~Wei Yu,
+  Xinying Song, and Denny Zhou.
+\newblock Large language models cannot self-correct reasoning yet.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2024.
+
 \bibitem[Jimenez et~al.(2024)Jimenez, Yang, Wettig, Yao, Pei, Press, and
   Narasimhan]{jimenez2024swebench}
 Carlos~E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
@@ -64,6 +63,11 @@ Carlos~E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir
 \newblock {SWE}-bench: Can language models resolve real-world {GitHub} issues?
 \newblock In \emph{International Conference on Learning Representations
   (ICLR)}, 2024.
+
+\bibitem[Page(1954)]{page1954cusum}
+E.~S. Page.
+\newblock Continuous inspection schemes.
+\newblock \emph{Biometrika}, 41\penalty0 (1/2):\penalty0 100--115, 1954.
 
 \bibitem[Saad-Falcon et~al.(2024)Saad-Falcon, Khattab, Potts, and
   Zaharia]{saadfalcon2024ares}

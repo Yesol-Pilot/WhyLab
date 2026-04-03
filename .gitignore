@@ -67,3 +67,9 @@ paper/full_audit.py
 paper/repo_audit.py
 paper/verify_paper.py
 paper/verify_result.txt
+# Admin scripts with author info (double-blind)
+scripts/package_submission.py
+scripts/zenodo_update_v2.py
+scripts/zenodo_upload.py
+check_keys.py
+remotes.txt

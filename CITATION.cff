@@ -5,7 +5,7 @@ type: software
 version: 2.0.0
 date-released: "2026-03-17"
 license: MIT
-repository-code: "https://github.com/Yesol-Pilot/WhyLab"
+# repository-code: removed for double-blind review
 keywords:
   - causal inference
   - agent self-improvement

@@ -769,20 +769,19 @@ aligned evaluation. Shao et al.~\cite{misevolution2025} show that
 unchecked self-improvement can cause misevolution across model,
 memory, and tool pathways. Complementary safety
 benchmarks~\cite{rjudge2024,agentharm2025} reveal that current models
-poorly detect their own unsafe behaviors. Huang et al.~\cite{huang2024selfcorrect} demonstrate that LLMs cannot reliably self-correct reasoning without external feedback, reinforcing the need for independent monitoring. WhyLab provides such \emph{runtime} monitoring to prevent degradation.
+poorly detect their own unsafe behaviors. Huang et al.~\cite{huang2024selfcorrect} demonstrate that LLMs cannot reliably self-correct reasoning without external feedback. Recent work analyzes stability of self-improving feedback loops~\cite{pan2025selfimprovement}, documents oscillation and collapse in multi-step refinement~\cite{guo2025oscillation}, and identifies instabilities in autonomous agent loops~\cite{kumar2025agentsafety}. WhyLab provides \emph{runtime} monitoring to prevent such degradation.
 
 \textbf{Online changepoint detection and causal inference.}
 Classical detectors (CUSUM~\cite{page1954cusum},
 ADWIN~\cite{bifet2007adwin}) monitor single streams;
 C1 extends to entropy-weighted multi-stream monitoring.
-Rosenbaum bounds and E-values~\cite{vanderweele2017} quantify
-robustness offline; C2 adapts these to \emph{online} agent auditing
-where each update is treated as an observational comparison.
+Online causal inference for streaming systems~\cite{zhang2025onlinecausal} and causal auditing under distribution shift~\cite{chen2026causalaudit} address related problems in non-agent settings.
+Rosenbaum bounds and E-values~\cite{vanderweele2017} quantify robustness offline; C2 adapts these to \emph{online} agent auditing.
 
 \textbf{Safe RL and failure attribution.}
 Lyapunov-based policy optimization~\cite{chow2018lyapunov} and
 safe exploration~\cite{berkenkamp2017safe} address continuous control;
-C3 adapts Lyapunov stability to discrete, text-based prompt updates.
+C3 adapts Lyapunov stability to discrete, text-based prompt updates~\cite{lee2025lyapunov_llm}. Phase diagrams for LLM training dynamics~\cite{tian2025phasediagram} motivate our oscillation phase diagram approach.
 DoWhy~\cite{dowhy2020}, Zhang et al.~\cite{zhang2025whowhen},
 and ARES~\cite{saadfalcon2024ares} provide offline evaluation;
 we add continuous \emph{online} auditing with bounded updates.

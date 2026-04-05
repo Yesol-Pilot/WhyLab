@@ -47,7 +47,7 @@ We then present \textbf{WhyLab}, a conditional causal audit framework that activ
 \textbf{(C2)}~a sensitivity filter combining E-values and partial~$R^2$ bounds; and
 \textbf{(C3)}~a Lyapunov-bounded adaptive damping controller.
 
-Three key findings emerge:
+Four key findings emerge:
 \textbf{(1)}~In the unstable regime, WhyLab reduces oscillation by 48\% across 56/64 tested conditions, with independent contributions from each component (C3: $-$49\% energy, C2: $-$76\% oscillation, C1: $-$16\% detection delay).
 \textbf{(2)}~On an adversarial LLM benchmark (E7v2), the audit reduces regressions by 45\% on Gemini~2.0~Flash ($p{=}0.014$); an adaptive threshold variant eliminates accuracy cost on near-ceiling models.
 \textbf{(3)}~The phase boundary transfers to real tasks: on 2{,}430 SWE-bench episodes, the audit reduces oscillation by 13--26\% at high retry counts; across three model families (960 episodes), it eliminates 100\% of regressions on unstable models while remaining inactive on stable ones.
@@ -292,8 +292,7 @@ We derive a sufficient condition for stable strategy updates.
 \textbf{Assumptions.}
 \begin{enumerate}
   \item[(A1)] \emph{Local gradient alignment:}
-    $\langle \theta_t - \theta^*, g_t \rangle > 0$. As the loss landscape of modern LLMs is highly non-convex, this assumption implies the true gradient points toward an optimum only within a local convex neighborhood.
-    points toward the optimum).
+    $\langle \theta_t - \theta^*, g_t \rangle > 0$. As the loss landscape of modern LLMs is highly non-convex, this assumption holds only within a local convex neighborhood.
   \item[(A2)] \emph{Zero-mean residual noise:}
     $\mathbb{E}[\omega_t] = 0$ after C2 filtering (see
     Appendix~\ref{sec:proof} for discussion of residual bias).
@@ -323,7 +322,7 @@ Full proof in Appendix~\ref{sec:proof}.
 
 \begin{remark}[Theory as design guidance]
 \label{rem:theory-practice}
-Theorem~\ref{thm:lyapunov} provides the \emph{design rationale} for the controller's ratio structure (alignment over second moment), but cannot serve as an operational plug-in rule due to three gaps: (a)~Assumption~(A1) may fail in non-convex LLM loss landscapes; (b)~the inner product $\langle \theta_t{-}\theta^*, g_t \rangle$ is unobservable; and (c)~instantaneous stochastic estimates of $\zeta_{\max}$ are brittle (the oracle ablation in Appendix~\ref{sec:ablation-app} diverges in all 20 seeds at $h{=}0.5$ without EMA smoothing). The practical controller (Eqs.~\ref{eq:zeta-raw}--\ref{eq:controller}) retains the architectural insight---larger noise should reduce step size---while replacing the exact bound with EMA smoothing and floor-ceiling guards that guarantee bounded per-step updates: $\|\theta_{t+1} - \theta_t\| \leq \mathcal{C} \cdot \|\hat{g}_t\|$, preventing catastrophic single-step divergence regardless of assumptions.
+Theorem~\ref{thm:lyapunov} provides the \emph{design rationale} for the controller's ratio structure (alignment over second moment), but cannot serve as an operational plug-in rule due to three gaps: (a)~Assumption~(A1) may fail in non-convex LLM loss landscapes; (b)~the inner product $\langle \theta_t{-}\theta^*, g_t \rangle$ is unobservable; and (c)~instantaneous stochastic estimates of $\zeta_{\max}$ are brittle (the oracle ablation in Appendix~\ref{sec:ablation-app} diverges in all 20 seeds at $h{=}0.5$ without EMA smoothing). The practical controller (Eqs.~\ref{eq:zeta-raw}--\ref{eq:controller}) retains the architectural insight---larger noise should reduce step size---while replacing the exact bound with EMA smoothing and floor-ceiling guards that guarantee bounded per-step updates: $\|\theta_{t+1} - \theta_t\| \leq \mathcal{C} \cdot \|\hat{g}_t\|$, preventing catastrophic single-step divergence regardless of assumptions. Proposition~\ref{prop:nonconvex} (Appendix~\ref{sec:nonconvex-ext}) formalizes this bounded-update property and shows that average energy decrease is maintained whenever the gradient-alignment violation remains moderate.
 \end{remark}
 
 \begin{corollary}[Convergence rate]
@@ -927,6 +926,51 @@ Summing from $t=0$ to $T{-}1$ and rearranging:
 \end{equation}
 Setting $\zeta = \sqrt{V(\theta_0) / (T(G^2 + \sigma^2))}$
 yields $O(1/\sqrt{T})$ convergence, following standard SGD analysis.
+\end{proof}
+
+
+\section{Non-Convex Lyapunov Extension}
+\label{sec:nonconvex-ext}
+
+\begin{proposition}[Relaxed energy decrease without A1]
+\label{prop:nonconvex}
+Drop Assumption~(A1). Retain~(A2)--(A3) and the floor-ceiling
+constraint $\zeta_t \in [\epsilon_{\mathrm{floor}}, \mathcal{C}]$.
+Define the \emph{alignment deficit}
+$\epsilon_{\mathrm{bias},t} \triangleq \max\!\bigl(0,\;
+-\langle \theta_t{-}\theta^*, g_t \rangle\bigr)$.
+Then the expected per-step energy change satisfies
+\begin{equation}
+  \mathbb{E}[\Delta V_t]
+  \;\leq\;
+  -\zeta_t\!\bigl(\|g_t\|^2 - \epsilon_{\mathrm{bias},t}\bigr)
+  + \tfrac{\zeta_t^2}{2}\bigl(\|g_t\|^2 + \sigma_{\mathrm{filt}}^2\bigr),
+  \label{eq:relaxed-lyap}
+\end{equation}
+where $\sigma_{\mathrm{filt}}^2$ is the residual variance after C2
+filtering. Consequently, whenever
+$\epsilon_{\mathrm{bias},t} < \|g_t\|^2 - \tfrac{\mathcal{C}}{2}(\|g_t\|^2 + \sigma_{\mathrm{filt}}^2)$,
+the expected energy strictly decreases:
+$\mathbb{E}[\Delta V_t] < 0$.
+\end{proposition}
+
+\begin{proof}[Proof sketch]
+From the Lyapunov expansion (Appendix~\ref{sec:proof}, Step~1--2),
+$\mathbb{E}[\Delta V_t] =
+-\zeta_t \langle \theta_t{-}\theta^*, g_t \rangle
++ \tfrac{\zeta_t^2}{2}\mathbb{E}[\|\hat{g}_t\|^2]$.
+Write $\langle \theta_t{-}\theta^*, g_t \rangle
+= \|g_t\|^2 - \epsilon_{\mathrm{bias},t} + r_t$ where $r_t \geq 0$
+captures any positive residual alignment beyond the gradient norm.
+Dropping $r_t$ (weakening the bound) and substituting
+$\mathbb{E}[\|\hat{g}_t\|^2] = \|g_t\|^2 + \sigma_{\mathrm{filt}}^2$
+gives~\eqref{eq:relaxed-lyap}. The ceiling $\zeta_t \leq \mathcal{C}$
+bounds the positive term; setting $\zeta_t = \mathcal{C}$ in the
+worst case yields the stated sufficient condition on
+$\epsilon_{\mathrm{bias},t}$. Since the floor-ceiling guard also
+ensures $\|\theta_{t+1}-\theta_t\| \leq \mathcal{C}\|\hat{g}_t\|$,
+catastrophic single-step divergence is excluded even when the
+condition fails.
 \end{proof}
 
 
